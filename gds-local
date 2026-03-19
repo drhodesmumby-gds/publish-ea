@@ -1,1 +1,11 @@
-
+<div style="
+  border-left: 5px solid #1d70b8;
+  background-color: #f3f2f1;
+  padding: 15px;
+  margin: 20px 0;
+">
+  <strong>Work in progress</strong>
+  <p style="margin: 5px 0 0 0;">
+    This content is under active development and is subject to change.
+  </p>
+</div>
