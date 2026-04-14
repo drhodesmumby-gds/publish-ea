@@ -370,6 +370,27 @@
       .cap-arch-bar { font-size: 18px; padding: 15px; }
       .lgam-grid { grid-template-columns: 1fr; }
     }
+    /* ==========================================================================
+       CDN ASSET PATH OVERRIDES & FOOTER LOGO RESTORATION
+       ========================================================================== */
+       
+    /* Override the hardcoded /assets/ root paths applied to the ::before pseudo-element */
+    .govuk-footer__copyright-logo::before {
+      background-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest.svg") !important;
+    }
+
+    @supports ((-webkit-mask-position:initial) or (mask-position:initial)) {
+      .govuk-footer__copyright-logo::before {
+        -webkit-mask-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest.svg") !important;
+        mask-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest.svg") !important;
+      }
+    }
+
+    @media (min-resolution: 2dppx) {
+      .govuk-footer__copyright-logo::before {
+        background-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest-2x.png") !important;
+      }
+    }
   </style>
 </head>
 
@@ -442,7 +463,7 @@
       <h2 class="app-navigation__heading">Layers</h2>
       <ul class="app-navigation">
         <li class="app-navigation__item"><a class="app-navigation__link" href="#public-channels">Public Channels</a></li>
-        <li class="app-navigation__item"><a class="app-navigation__link" href="#council-agents">Council Agents</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#council-interfaces">Council Interfaces</a></li>
         <li class="app-navigation__item"><a class="app-navigation__link" href="#capabilities">Capabilities</a></li>
         <li class="app-navigation__item"><a class="app-navigation__link" href="#business-areas">Business Areas</a></li>
         <li class="app-navigation__item"><a class="app-navigation__link" href="#corporate-areas">Corporate Areas</a></li>
@@ -465,7 +486,7 @@
         <ul class="govuk-list govuk-list--bullet">
           <li><a href="https://technology.blog.gov.uk/2025/11/07/sourcing-the-stack-for-local-government-technology/" class="govuk-link">sourcing the stack for local government technology</a></li>
           <li><a href="https://technology.blog.gov.uk/2026/02/05/understanding-technical-architecture-across-local-government/" class="govuk-link">an understanding of technical architecture in local government</a></li>
-          <li><a href="#" class="govuk-link">how we arrived at the first iteration of the model</a></li>
+          <li><a href="https://technology.blog.gov.uk/2026/04/14/publishing-a-common-architectural-model-for-local-government/" class="govuk-link">how we arrived at the first iteration of the model</a></li>
         </ul>
       </section>
 
@@ -475,13 +496,13 @@
         <h2 class="govuk-heading-l">Architecture layers</h2>
         <div class="lgam-container">
           <p class="govuk-body-l">The architecture model separates local government technology into 5 distinct layers.</p>
-          <p class="govuk-body">It maps the journey from how a user interacts with a service down to the back-office systems that run it. Use this guide alongside the GDS Capability Model to understand and plan your own technology stack.</p>
+          <p class="govuk-body">It maps the journey from how a user interacts with a service down to the back-office systems that run it. Use this guide alongside a wider capability model that covers areas such as hosting and infrastructure to build a complete understanding of your technology stack and how its components fit together.</p>
             
           <!-- CAPABILITY ARCHITECTURE NAVIGATION BLOCK -->
           <section class="capability-architecture" aria-labelledby="cap-arch-title">
             <ul class="cap-arch-grid">
               <li><a href="#public-channels" class="cap-arch-bar bg-blue">Public Channels</a></li>
-              <li><a href="#council-agents" class="cap-arch-bar bg-purple">Council Agents</a></li>
+              <li><a href="#council-interfaces" class="cap-arch-bar bg-purple">Council Interfaces</a></li>
               <li><a href="#capabilities" class="cap-arch-bar bg-teal">Capabilities</a></li>
               <li><a href="#business-areas" class="cap-arch-bar bg-burnt-orange">Business Areas</a></li>
               <li><a href="#corporate-areas" class="cap-arch-bar
@@ -527,7 +548,7 @@
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Online</span></summary>
-                  <div class="govuk-details__text">Websites, web portals, and online forms enabling users to self-serve and access information digitally.</div>
+                  <div class="govuk-details__text">Websites, web portals, apps, and online forms enabling users to self-serve and access information digitally.</div>
                 </details>
               </li>
               <li class="lgam-item">
@@ -563,13 +584,13 @@
             </ul>
           </section>
 
-          <!-- LAYER 2: COUNCIL AGENTS -->
-          <section class="lgam-layer lgam-layer--agents" id="council-agents"> 
-            <strong class="lgam-badge badge--green">Council Agents</strong>
-            <p class="govuk-body govuk-!-font-weight-bold">Agents are interfaces which allow service users to contact and use a council’s services.</p>
+          <!-- LAYER 2: COUNCIL INTERFACES -->
+          <section class="lgam-layer lgam-layer--agents" id="council-interfaces"> 
+            <strong class="lgam-badge badge--green">Council Interfaces</strong>
+            <p class="govuk-body govuk-!-font-weight-bold">Interfaces which allow service users to contact and use a council’s services.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
-              Open all <span class="govuk-visually-hidden">sections in Council Agents</span>
+              Open all <span class="govuk-visually-hidden">sections in Council Interfaces</span>
             </button>
 
             <ul class="lgam-grid">
@@ -606,7 +627,7 @@
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Websites</span></summary>
-                  <div class="govuk-details__text">Primary council web portals, forms, and digital content interfaces.</div>
+                  <div class="govuk-details__text">Primary council web portals, forms, webchat, and other digital content interfaces.</div>
                 </details>
               </li>
             </ul>
@@ -615,7 +636,7 @@
           <!-- LAYER 3: CAPABILITIES -->
           <section class="lgam-layer lgam-layer--capabilities" id="capabilities"> 
             <strong class="lgam-badge badge--teal">Capabilities</strong>
-            <p class="govuk-body govuk-!-font-weight-bold">Capabilities are tools that council agents use to meet the needs of their service users.</p>
+            <p class="govuk-body govuk-!-font-weight-bold">Councils use capabilities to meet the needs of their service users.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
               Open all <span class="govuk-visually-hidden">sections in Capabilities</span>
@@ -683,6 +704,7 @@
           <section class="lgam-layer lgam-layer--business" id="business-areas"> 
             <strong class="lgam-badge badge--orange">Business Areas</strong>
             <p class="govuk-body govuk-!-font-weight-bold">Business areas cover the specific functions each council must provide. Each area features individual technology components designed for a specific need.</p>
+            <p>Councils may choose to categorise or group these services in different ways.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
               Open all <span class="govuk-visually-hidden">sections in Business Areas</span>
@@ -767,7 +789,8 @@
           <!-- LAYER 5: CORPORATE AREAS -->
           <section class="lgam-layer lgam-layer--corporate" id="corporate-areas"> 
             <strong class="lgam-badge badge--grey">Corporate Areas</strong>
-            <p class="govuk-body govuk-!-font-weight-bold">Corporate areas are business areas that are not specific to councils, each with their own individual technology components.</p>
+            <p class="govuk-body govuk-!-font-weight-bold">Corporate areas are required functions not specific to councils, each with their own individual technology components.</p>
+            <p>Councils may choose to categorise or group these services in different ways.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
               Open all <span class="govuk-visually-hidden">sections in Corporate Areas</span>
@@ -860,11 +883,11 @@
         <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
           <h2 class="govuk-visually-hidden">Support links</h2>
           <ul class="govuk-footer__inline-list">
-            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Help</a></li>
-            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Cookies</a></li>
-            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Contact</a></li>
-            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Terms and conditions</a></li>
-            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Accessibility statement</a></li>
+            <!--<li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Help</a></li>
+            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Cookies</a></li>-->
+            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="mailto:gdslocal-info@dsit.gov.uk">Contact</a></li>
+            <!--<li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Terms and conditions</a></li>-->
+            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://www.gov.uk/help/accessibility-statement">Accessibility statement</a></li>
           </ul> 
           <svg aria-hidden="true" focusable="false" class="govuk-footer__licence-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 483.2 195.7" height="17" width="41">
             <path fill="currentColor" d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145" />
