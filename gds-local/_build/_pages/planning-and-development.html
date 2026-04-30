@@ -1,0 +1,947 @@
+---
+title: Planning and development
+caption: LGAM Business Areas
+status: published
+---
+<style>
+    /* Multi-column list styling for dense data */
+    .app-multi-column-list {
+      column-count: 2;
+      column-gap: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .app-multi-column-list {
+        column-count: 1;
+      }
+    }
+
+    /* ==========================================================================
+       LGAM - SINGLE-COLUMN ACCORDION
+       ========================================================================== */
+    .lgam-accordion {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      border-top: 1px solid #b1b4b6;
+    }
+
+    .lgam-item {
+      border-bottom: 1px solid #b1b4b6;
+      padding: 0;
+    }
+
+    .lgam-item .govuk-details {
+      margin-bottom: 0;
+      border: none;
+      border-left: none;
+    }
+
+    .lgam-item .govuk-details__summary {
+      padding: 10px 0 10px 25px;
+    }
+
+    .lgam-item .govuk-details__summary-text {
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .lgam-item .govuk-details__text {
+      padding: 0 0 10px 25px;
+      border-left: none;
+      cursor: text;
+    }
+
+    .lgam-service-count {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 14px;
+      font-weight: normal;
+      color: #505a5f;
+    }
+
+    .lgam-item .service-list {
+      column-count: 2;
+      column-gap: 30px;
+    }
+
+    @media (max-width: 640px) {
+      .lgam-item .service-list {
+        column-count: 1;
+      }
+    }
+
+    /* ==========================================================================
+       LGAM - BUTTONS
+       ========================================================================== */
+    .lgam-show-all-button {
+      background-color: #ffffff !important;
+      margin-bottom: 15px;
+    }
+
+    .lgam-show-all-button:hover {
+      background-color: #f8f8f8 !important;
+    }
+
+    .lgam-show-all-button::before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 6px 0 6px 10.4px;
+      border-color: transparent transparent transparent currentColor;
+      margin-right: 10px;
+      transform-origin: 25% 50%;
+      transition: transform 0.1s ease-out;
+    }
+
+    .lgam-show-all-button[aria-expanded="true"]::before {
+      transform: rotate(90deg);
+    }
+
+    .lgam-loading .service-list {
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    #datasetGroups {
+      transition: opacity 0.3s;
+    }
+
+    #datasetGroups.lgam-loading {
+      opacity: 0.5;
+    }
+
+    /* Functions section container */
+    .lgam-functions-panel {
+      background: #f3f2f1;
+      padding: 20px;
+      border-left: 10px solid #cf611c;
+    }
+
+    /* Dataset accordion sections */
+    .lgam-dataset-group {
+      margin-bottom: 0;
+      border: none;
+      border-top: 1px solid #b1b4b6;
+      padding: 0;
+    }
+
+    .lgam-dataset-group:last-child {
+      border-bottom: 1px solid #b1b4b6;
+    }
+
+    .lgam-dataset-group .govuk-details__summary {
+      padding: 10px 0 10px 70px;
+      position: relative;
+    }
+
+    .lgam-dataset-group .govuk-details__summary-text {
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .lgam-dataset-group .govuk-tag {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      min-width: 32px;
+      text-align: center;
+    }
+
+    .lgam-dataset-group .govuk-details__text {
+      padding: 0 0 10px 25px;
+      border-left: none;
+    }
+</style>
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this area</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#function-areas">Functions and services</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#capabilities">Capabilities</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#planning-datasets">Planning datasets</a></li>
+</nav-contents>
+<main-content>
+          <span class="govuk-caption-xl">LGAM Business Areas</span>
+          <h1 class="govuk-heading-xl">Planning and development</h1>
+
+          <p class="govuk-body-l">The processing of planning applications, building control, and local spatial planning.</p>
+
+          <!-- 1. About this area -->
+          <h2 class="govuk-heading-l" id="about">About this area</h2>
+          <p class="govuk-body">Planning and development sits in the <a href="index.html#business-areas" class="govuk-link">Business Areas layer</a> of the Local Government Architecture Model. It covers the statutory functions that councils perform around land use, building safety, and spatial planning — from processing individual planning applications through to maintaining the local plan.</p>
+          <p class="govuk-body">The functions within this area are defined by the <a href="https://standards.esd.org.uk/?uri=function%2F99" class="govuk-link">LGA taxonomy</a> under "Planning and building control" (function 99). Each function contains a set of granular services that councils deliver. This page also links to the open planning datasets published by MHCLG and the LGAM capabilities that support planning services.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 2. Functions and Services (Merged Hierarchical View) -->
+          <h2 class="govuk-heading-l" id="function-areas">Functions and services</h2>
+          <p class="govuk-body">Function areas as defined by <a href="https://standards.esd.org.uk/?uri=function%2F99" class="govuk-link">LG Inform</a>, with their corresponding local government services.</p>
+
+          <div class="lgam-functions-panel">
+
+          <!-- Search Filter integrated directly above the hierarchical grid -->
+          <div class="govuk-form-group govuk-!-margin-bottom-4" id="serviceFilterGroup" style="display: none;">
+            <label class="govuk-label govuk-!-font-weight-bold" for="serviceFilter">
+              Filter services
+            </label>
+            <div style="display: flex; align-items: baseline; gap: 15px; flex-wrap: wrap;">
+              <input class="govuk-input govuk-!-width-one-half" id="serviceFilter" name="serviceFilter" type="text" placeholder="e.g. Planning applications" oninput="filterServices()">
+              <span id="serviceCount" class="govuk-hint govuk-!-margin-bottom-0"></span>
+            </div>
+          </div>
+
+          <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false" id="functionAreasOpenAll">
+            Open all <span class="govuk-visually-hidden">sections in Function areas</span>
+          </button>
+
+          <ul class="lgam-accordion" id="functionAreasGrid">
+
+            <li class="lgam-item" data-function-id="100">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Building Control <span class="lgam-service-count">(3 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Regulation of building works to ensure safety, energy efficiency, and accessibility standards are met. Includes processing of building regulations applications, inspections, and enforcement action against non-compliant works.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Building control</li>
+                    <li>Building control enforcement</li>
+                    <li>Domestic heating oil tanks</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+            <li class="lgam-item" data-function-id="101">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Development Control <span class="lgam-service-count">(27 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Assessment and determination of planning applications, including full planning, outline, reserved matters, prior notifications, and lawful development certificates. Includes pre-application advice, public consultation, and planning enforcement.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Advertisement control</li>
+                    <li>Brownfield land register</li>
+                    <li>Community infrastructure levy (CIL)</li>
+                    <li>Conservation area tree works notification</li>
+                    <li>Development control</li>
+                    <li>Development control enforcement</li>
+                    <li>Discharge of planning conditions</li>
+                    <li>Environmental Impact Assessment screening</li>
+                    <li>Full planning applications</li>
+                    <li>Land charges search</li>
+                    <li>Lawful Development Certificate existing use</li>
+                    <li>Lawful Development Certificate proposed use</li>
+                    <li>Local development order</li>
+                    <li>Neighbourhood development order</li>
+                    <li>Outline planning consent</li>
+                    <li>Planning consultation</li>
+                    <li>Planning decision notices</li>
+                    <li>Planning minor material amendments</li>
+                    <li>Planning non-material amendments</li>
+                    <li>Planning obligations</li>
+                    <li>Planning pre-application advice</li>
+                    <li>Planning reserved matters</li>
+                    <li>Prior notification of development</li>
+                    <li>Removal/variation of planning conditions</li>
+                    <li>Residential planning applications</li>
+                    <li>Self-build and custom build register</li>
+                    <li>Street vote development orders</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+            <li class="lgam-item" data-function-id="102">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Heritage and Landscape</span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Protection and management of the historic and natural environment. Includes listed building consent, conservation area designations, tree preservation orders, landscape character assessments, and ecology and geology.</p>
+                  <p class="govuk-body govuk-!-margin-bottom-2">This function has no services in the <a href="https://standards.esd.org.uk/?uri=function%2F102" class="govuk-link">LGA taxonomy</a>. Related services are found under:</p>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16" id="relatedFunctions102">
+                    <li><a href="https://standards.esd.org.uk/?uri=function%2F32" class="govuk-link">Conservation and sustainability</a> (Environmental protection)</li>
+                    <li><a href="https://standards.esd.org.uk/?uri=function%2F33" class="govuk-link">Countryside and farming</a> (Environmental protection)</li>
+                    <li><a href="https://standards.esd.org.uk/?uri=function%2F36" class="govuk-link">Parks and open spaces</a> (Environmental protection)</li>
+                    <li><a href="https://standards.esd.org.uk/?uri=function%2F77" class="govuk-link">Local history and heritage</a> (Leisure and culture)</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+            <li class="lgam-item" data-function-id="103">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Planning Policy <span class="lgam-service-count">(14 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Development and maintenance of the statutory development plan framework. Includes local plans, minerals and waste local plans, neighbourhood planning, community infrastructure levy, spatial development strategies, and land use proposals.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Building and landscape design</li>
+                    <li>Conservation areas</li>
+                    <li>Environmental delivery plan</li>
+                    <li>Land use proposals</li>
+                    <li>Local Development Framework</li>
+                    <li>Local plans</li>
+                    <li>Minerals local plan</li>
+                    <li>Neighbourhood planning</li>
+                    <li>Planning Governance</li>
+                    <li>Spatial development strategy</li>
+                    <li>Statutory development plans</li>
+                    <li>Transport policy</li>
+                    <li>Waste local plan</li>
+                    <li>Zoning</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+            <li class="lgam-item" data-function-id="170">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Planning Services <span class="lgam-service-count">(17 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Support functions for planning including land charges searches, property enquiries, brownfield land registers, self-build and custom build registers, street naming and numbering, and land and property availability information.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Allotments</li>
+                    <li>Conservation area planning</li>
+                    <li>Dangerous structures</li>
+                    <li>Demolished properties - property assessment</li>
+                    <li>Demolition control</li>
+                    <li>Demolition enforcement</li>
+                    <li>Derelict properties</li>
+                    <li>Dropped kerbs</li>
+                    <li>High hedges</li>
+                    <li>Land and property availability</li>
+                    <li>Listed building consent</li>
+                    <li>Property enquiries certificates</li>
+                    <li>Property register</li>
+                    <li>Register of land</li>
+                    <li>Street names and numbering</li>
+                    <li>Tree management</li>
+                    <li>Tree preservation orders</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+          </ul>
+
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 2. Capabilities -->
+          <h2 class="govuk-heading-l" id="capabilities">Capabilities</h2>
+          <p class="govuk-body">Capabilities from the <a href="index.html#capabilities" class="govuk-link">LGAM Capabilities layer</a> that support planning and development services.</p>
+
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="payments.html" class="govuk-link govuk-!-font-weight-bold">Payments</a> — application fees, community infrastructure levy, land charges</li>
+            <li><strong>Forms</strong> — planning applications, building control submissions, prior notifications</li>
+            <li><strong>Workflow</strong> — case management through validation, consultation, and determination stages</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 3. Planning Datasets -->
+          <h2 class="govuk-heading-l" id="planning-datasets">Planning datasets</h2>
+          <p class="govuk-body govuk-!-width-two-thirds">Planning datasets published and maintained by the Ministry of Housing, Communities and Local Government on <a href="https://www.planning.data.gov.uk/dataset/" class="govuk-link">planning.data.gov.uk</a>.</p>
+
+          <div class="govuk-warning-text govuk-!-width-two-thirds">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+              <span class="govuk-warning-text__assistive">Warning</span>
+              Data may be incomplete and not yet cover all of England. MHCLG are working to improve availability and quality.
+            </strong>
+          </div>
+
+          <div class="govuk-form-group govuk-!-margin-bottom-4" id="datasetFilterGroup" style="display: none;">
+            <label class="govuk-label govuk-!-font-weight-bold" for="datasetFilter">
+              Filter datasets
+            </label>
+            <div style="display: flex; align-items: baseline; gap: 15px; flex-wrap: wrap;">
+              <input class="govuk-input govuk-!-width-one-half" id="datasetFilter" name="datasetFilter" type="text" placeholder="e.g. Conservation area" oninput="filterDatasets()">
+              <span id="datasetCount" class="govuk-hint govuk-!-margin-bottom-0"></span>
+            </div>
+          </div>
+
+          <div id="datasetGroups">
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--blue govuk-!-margin-right-2">55</strong> Geography</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="#">Agricultural land classification</a></li>
+            <li><a class="govuk-link" href="#">Air quality management area</a></li>
+            <li><a class="govuk-link" href="#">Ancient woodland</a></li>
+            <li><a class="govuk-link" href="#">Archaeological priority area</a></li>
+            <li><a class="govuk-link" href="#">Area of outstanding natural beauty</a></li>
+            <li><a class="govuk-link" href="#">Article 4 direction area</a></li>
+            <li><a class="govuk-link" href="#">Asset of community value</a></li>
+            <li><a class="govuk-link" href="#">Battlefield</a></li>
+            <li><a class="govuk-link" href="#">Border</a></li>
+            <li><a class="govuk-link" href="#">Brownfield land</a></li>
+            <li><a class="govuk-link" href="#">Brownfield site</a></li>
+            <li><a class="govuk-link" href="#">Building preservation notice</a></li>
+            <li><a class="govuk-link" href="#">Built up area</a></li>
+            <li><a class="govuk-link" href="#">Central activities zone</a></li>
+            <li><a class="govuk-link" href="#">Certificate of immunity</a></li>
+            <li><a class="govuk-link" href="#">Civil parish</a></li>
+            <li><a class="govuk-link" href="#">Conservation area</a></li>
+            <li><a class="govuk-link" href="#">Design code area</a></li>
+            <li><a class="govuk-link" href="#">Development corporation boundary</a></li>
+            <li><a class="govuk-link" href="#">Educational establishment</a></li>
+            <li><a class="govuk-link" href="#">Flood risk zone</a></li>
+            <li><a class="govuk-link" href="#">Flood storage area</a></li>
+            <li><a class="govuk-link" href="#">Green belt</a></li>
+            <li><a class="govuk-link" href="#">Heritage at risk</a></li>
+            <li><a class="govuk-link" href="#">Heritage coast</a></li>
+            <li><a class="govuk-link" href="#">Historic parks and gardens</a></li>
+            <li><a class="govuk-link" href="#">Infrastructure project</a></li>
+            <li><a class="govuk-link" href="#">Listed building</a></li>
+            <li><a class="govuk-link" href="#">Listed building outline</a></li>
+            <li><a class="govuk-link" href="#">Local authority district</a></li>
+            <li><a class="govuk-link" href="#">Local nature reserve</a></li>
+            <li><a class="govuk-link" href="#">Local plan boundary</a></li>
+            <li><a class="govuk-link" href="#">Local Planning Authority</a></li>
+            <li><a class="govuk-link" href="#">Local resilience forum boundary</a></li>
+            <li><a class="govuk-link" href="#">Locally listed building</a></li>
+            <li><a class="govuk-link" href="#">Minerals plan boundary</a></li>
+            <li><a class="govuk-link" href="#">National nature reserve</a></li>
+            <li><a class="govuk-link" href="#">National park</a></li>
+            <li><a class="govuk-link" href="#">Nature improvement area</a></li>
+            <li><a class="govuk-link" href="#">Planning application</a></li>
+            <li><a class="govuk-link" href="#">Protected wreck site</a></li>
+            <li><a class="govuk-link" href="#">Public transport access node</a></li>
+            <li><a class="govuk-link" href="#">Ramsar site</a></li>
+            <li><a class="govuk-link" href="#">Region</a></li>
+            <li><a class="govuk-link" href="#">Scheduled monument</a></li>
+            <li><a class="govuk-link" href="#">Site of special scientific interest</a></li>
+            <li><a class="govuk-link" href="#">Special area of conservation</a></li>
+            <li><a class="govuk-link" href="#">Special protection area</a></li>
+            <li><a class="govuk-link" href="#">Title boundary</a></li>
+            <li><a class="govuk-link" href="#">Tree</a></li>
+            <li><a class="govuk-link" href="#">Tree preservation zone</a></li>
+            <li><a class="govuk-link" href="#">Ward</a></li>
+            <li><a class="govuk-link" href="#">Waste plan boundary</a></li>
+            <li><a class="govuk-link" href="#">World heritage site</a></li>
+            <li><a class="govuk-link" href="#">World heritage site buffer zone</a></li>
+          </ul>
+
+            </div>
+          </details>
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--green govuk-!-margin-right-2">30</strong> Category</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="#">Ancient woodland status</a></li>
+            <li><a class="govuk-link" href="#">Conservation area document type</a></li>
+            <li><a class="govuk-link" href="#">Contribution funding status</a></li>
+            <li><a class="govuk-link" href="#">Contribution purpose</a></li>
+            <li><a class="govuk-link" href="#">Design code area type</a></li>
+            <li><a class="govuk-link" href="#">Design code characteristic</a></li>
+            <li><a class="govuk-link" href="#">Design code rule category</a></li>
+            <li><a class="govuk-link" href="#">Design code status</a></li>
+            <li><a class="govuk-link" href="#">Developer agreement type</a></li>
+            <li><a class="govuk-link" href="#">Development plan document type</a></li>
+            <li><a class="govuk-link" href="#">Development plan event</a></li>
+            <li><a class="govuk-link" href="#">Document type</a></li>
+            <li><a class="govuk-link" href="#">Flood risk level</a></li>
+            <li><a class="govuk-link" href="#">Flood risk type</a></li>
+            <li><a class="govuk-link" href="#">Green belt core</a></li>
+            <li><a class="govuk-link" href="#">Infrastructure project decision</a></li>
+            <li><a class="govuk-link" href="#">Infrastructure project document type</a></li>
+            <li><a class="govuk-link" href="#">Infrastructure project event</a></li>
+            <li><a class="govuk-link" href="#">Infrastructure project type</a></li>
+            <li><a class="govuk-link" href="#">Listed building grade</a></li>
+            <li><a class="govuk-link" href="#">Local authority type</a></li>
+            <li><a class="govuk-link" href="#">Ownership status</a></li>
+            <li><a class="govuk-link" href="#">Park and garden grade</a></li>
+            <li><a class="govuk-link" href="#">Permitted development right</a></li>
+            <li><a class="govuk-link" href="#">Permitted development right part</a></li>
+            <li><a class="govuk-link" href="#">Planning application type</a></li>
+            <li><a class="govuk-link" href="#">Planning permission status</a></li>
+            <li><a class="govuk-link" href="#">Planning permission type</a></li>
+            <li><a class="govuk-link" href="#">Site category</a></li>
+            <li><a class="govuk-link" href="#">Tree preservation zone type</a></li>
+          </ul>
+
+            </div>
+          </details>
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--purple govuk-!-margin-right-2">6</strong> Legal instrument</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/article-4-direction">Article 4 direction</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/local-plan">Local plan</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/minerals-plan">Minerals plan</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/supplementary-plan">Supplementary plan</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/tree-preservation-order">Tree preservation order</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/waste-plan">Waste plan</a></li>
+          </ul>
+
+            </div>
+          </details>
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--orange govuk-!-margin-right-2">6</strong> Document</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/community-infrastructure-levy-schedule">Community infrastructure levy schedule</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/conservation-area-document">Conservation area document</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/developer-agreement">Developer agreement</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/development-plan-document">Development plan document</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/infrastructure-funding-statement">Infrastructure funding statement</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/local-area-requirements">Local area requirements</a></li>
+          </ul>
+
+            </div>
+          </details>
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--red govuk-!-margin-right-2">4</strong> Policy</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/design-code">Design code</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/design-code-rule">Design code rule</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/planning-application-condition">Planning application condition</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/planning-condition">Planning condition</a></li>
+          </ul>
+
+            </div>
+          </details>
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--turquoise govuk-!-margin-right-2">10</strong> Organisation</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/development-corporation">Development corporation</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/government-organisation">Government organisation</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/local-authority">Local authority</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/local-planning-group">Local planning group</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/national-park-authority">National park authority</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/nonprofit">Nonprofit organisation</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/passenger-transport-executive">Passenger transport executive</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/public-authority">Public authority</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/regional-park-authority">Regional park authority</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/waste-authority">Waste disposal authority</a></li>
+          </ul>
+
+            </div>
+          </details>
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--yellow govuk-!-margin-right-2">2</strong> Metric</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/developer-agreement-contribution">Developer agreement contribution</a></li>
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/developer-agreement-transaction">Developer agreement transaction</a></li>
+          </ul>
+
+            </div>
+          </details>
+
+          <details class="govuk-details lgam-dataset-group" data-module="govuk-details">
+            <summary class="govuk-details__summary"><span class="govuk-details__summary-text"><strong class="govuk-tag govuk-tag--grey govuk-!-margin-right-2">1</strong> Timetable</span></summary>
+            <div class="govuk-details__text">
+          <ul class="govuk-list govuk-!-font-size-16 app-multi-column-list">
+            <li><a class="govuk-link" href="https://www.planning.data.gov.uk/dataset/plan-timetable">Plan timetable</a></li>
+          </ul>
+            </div>
+          </details>
+
+          </div>
+
+          <div class="govuk-inset-text govuk-!-margin-top-8">
+            <a href="https://www.planning.data.gov.uk/dataset/" class="govuk-link govuk-!-font-weight-bold">Browse all planning datasets on planning.data.gov.uk</a>
+          </div>
+</main-content>
+<page-script>
+    // --- FILTER LOGIC FOR INTEGRATED FUNCTION/SERVICE GRID ---
+    function filterServices() {
+      const query = document.getElementById('serviceFilter').value.toLowerCase();
+      const functionCards = document.querySelectorAll('#functionAreasGrid .lgam-item');
+      let totalMatches = 0;
+
+      functionCards.forEach(card => {
+        const serviceItems = card.querySelectorAll('.service-list li');
+        const detailsPanel = card.querySelector('details');
+        let cardHasMatch = false;
+
+        // Loop through services inside this specific function card
+        serviceItems.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(query)) {
+            item.style.display = ''; // Show matching service
+            cardHasMatch = true;
+            totalMatches++;
+          } else {
+            item.style.display = 'none'; // Hide non-matching service
+          }
+        });
+
+        // Determine Card Visibility and Expansion
+        if (query === '') {
+          // Reset view if filter is cleared
+          card.style.display = '';
+          serviceItems.forEach(item => item.style.display = '');
+        } else if (cardHasMatch) {
+          // Show card and auto-expand to reveal matches
+          card.style.display = '';
+          if (detailsPanel) detailsPanel.open = true;
+        } else {
+          // Completely hide the function card if no services inside it match
+          card.style.display = 'none';
+        }
+      });
+
+      // Update the visual counter
+      const countEl = document.getElementById('serviceCount');
+      if (query === '') {
+        countEl.textContent = '';
+      } else {
+        countEl.textContent = totalMatches + ' service' + (totalMatches !== 1 ? 's' : '') + ' found';
+      }
+    }
+
+    // --- FILTER LOGIC FOR PLANNING DATASETS ---
+    function filterDatasets() {
+      const query = document.getElementById('datasetFilter').value.toLowerCase();
+      const container = document.getElementById('datasetGroups');
+      if (!container) return;
+
+      // Dataset groups are <details> elements containing a <ul>
+      const groups = container.querySelectorAll('details.lgam-dataset-group');
+      let totalMatches = 0;
+
+      groups.forEach(details => {
+        const items = details.querySelectorAll('li');
+        let groupMatches = 0;
+
+        items.forEach(li => {
+          const text = li.textContent.toLowerCase();
+          if (query === '' || text.includes(query)) {
+            li.style.display = '';
+            groupMatches++;
+            totalMatches++;
+          } else {
+            li.style.display = 'none';
+          }
+        });
+
+        if (query === '') {
+          // Reset: close all groups, show all items
+          details.style.display = '';
+          details.removeAttribute('open');
+          items.forEach(li => li.style.display = '');
+        } else if (groupMatches > 0) {
+          // Show and open groups with matches
+          details.style.display = '';
+          details.setAttribute('open', '');
+        } else {
+          // Hide groups with no matches
+          details.style.display = 'none';
+          details.removeAttribute('open');
+        }
+      });
+
+      const countEl = document.getElementById('datasetCount');
+      if (query === '') {
+        countEl.textContent = '';
+      } else {
+        countEl.textContent = totalMatches + ' dataset' + (totalMatches !== 1 ? 's' : '') + ' found';
+      }
+    }
+
+    // --- LIVE API FETCH LOGIC ---
+    // Fetches the ESD function hierarchy for Planning and Building Control (ID 99):
+    //   1. GET /lists/functions/99 → item.children (6 sub-functions)
+    //   2. GET /lists/functions/{id} for each → item.mappings.contains.items (services)
+    // Total: 7 fetches, run in parallel where possible.
+    async function fetchLiveServices() {
+      const baseApiUrl = "https://webservices.esd.org.uk/lists";
+      const parentFunctionId = 99;
+
+      // Discontinued or irrelevant functions to skip
+      const excludedFunctionIds = ["104"]; // 104: Town centre management (discontinued)
+
+      try {
+        // Step 1: Fetch parent function to get sub-function IDs
+        const functionResponse = await fetch(`${baseApiUrl}/functions/${parentFunctionId}`, {
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (!functionResponse.ok) {
+          throw new Error(`Parent function fetch failed: ${functionResponse.status}`);
+        }
+
+        const functionData = await functionResponse.json();
+
+        // API wraps everything in {item: {...}} — unwrap it
+        const parentItem = functionData.item;
+        if (!parentItem || !Array.isArray(parentItem.children) || parentItem.children.length === 0) {
+          console.warn("ESD API: No children found for function 99.", functionData);
+          return;
+        }
+
+        // Step 2: Fetch all sub-functions in parallel (excluding discontinued)
+        const activeFunctions = parentItem.children.filter(
+          sub => !excludedFunctionIds.includes(sub.identifier)
+        );
+        const fetchPromises = activeFunctions.map(sub => {
+          const subId = sub.identifier;
+          if (!subId) return Promise.resolve(null);
+
+          return fetch(`${baseApiUrl}/functions/${subId}`, {
+            headers: { 'Accept': 'application/json' }
+          })
+            .then(res => {
+              if (!res.ok) throw new Error(`${res.status}`);
+              return res.json();
+            })
+            .then(json => ({ id: subId, data: json }))
+            .catch(err => {
+              console.warn(`ESD API: Failed to fetch function ${subId}:`, err);
+              return null;
+            });
+        });
+
+        const results = await Promise.allSettled(fetchPromises);
+
+        // Step 3: Extract services and inject into DOM
+        for (const result of results) {
+          if (result.status !== 'fulfilled' || !result.value) continue;
+
+          const { id, data } = result.value;
+
+          // Services are at data.item.mappings.contains.items
+          // Not all functions have a "contains" mapping (e.g. Heritage and landscape, Town centre management)
+          const serviceItems = data?.item?.mappings?.contains?.items;
+
+          if (!Array.isArray(serviceItems) || serviceItems.length === 0) {
+            console.log(`ESD API: No services for function ${id} — keeping static list.`);
+            continue;
+          }
+
+          const services = serviceItems
+            .map(s => ({ label: s.label, uri: s.uri }))
+            .filter(s => s.label)
+            .sort((a, b) => a.label.localeCompare(b.label));
+
+          // Match cards by numeric ESD function ID
+          const targetCard = document.querySelector(`.lgam-item[data-function-id="${id}"]`);
+          if (!targetCard) {
+            console.warn(`ESD API: No card found for function ID ${id}.`);
+            continue;
+          }
+
+          const targetList = targetCard.querySelector('.service-list');
+          if (targetList) {
+            targetList.innerHTML = '';
+            services.forEach(service => {
+              const li = document.createElement('li');
+              if (service.uri) {
+                const a = document.createElement('a');
+                a.href = service.uri;
+                a.className = 'govuk-link';
+                a.textContent = service.label;
+                li.appendChild(a);
+              } else {
+                li.textContent = service.label;
+              }
+              targetList.appendChild(li);
+            });
+          }
+
+          // Update the service count in the accordion header
+          const countSpan = targetCard.querySelector('.lgam-service-count');
+          if (countSpan) {
+            countSpan.textContent = `(${services.length} service${services.length !== 1 ? 's' : ''})`;
+          }
+
+          console.log(`ESD API: Injected ${services.length} services for function ${id}.`);
+        }
+
+      } catch (error) {
+        console.warn("ESD API: Hierarchy fetch failed. Falling back to static lists.", error);
+      }
+    }
+
+    // --- LIVE API FETCH: PLANNING DATASETS ---
+    // Fetches datasets from planning.data.gov.uk/dataset.json
+    // Groups by typology field and renders into #datasetGroups container
+    async function fetchPlanningDatasets() {
+      const apiUrl = "https://www.planning.data.gov.uk/dataset.json";
+      const baseDatasetUrl = "https://www.planning.data.gov.uk/dataset/";
+
+      // Internal/meta typologies to exclude from display
+      const excludedTypologies = new Set(["entity", "pipeline", "value"]);
+
+      // Display order and GOV.UK tag colours
+      const typologyConfig = {
+        'geography':        { label: 'Geography',        color: 'blue' },
+        'category':         { label: 'Category',         color: 'green' },
+        'legal-instrument': { label: 'Legal instrument', color: 'purple' },
+        'document':         { label: 'Document',         color: 'orange' },
+        'policy':           { label: 'Policy',           color: 'red' },
+        'organisation':     { label: 'Organisation',     color: 'turquoise' },
+        'metric':           { label: 'Metric',           color: 'yellow' },
+        'timetable':        { label: 'Timetable',        color: 'grey' },
+      };
+      const typologyOrder = Object.keys(typologyConfig);
+
+      try {
+        const response = await fetch(apiUrl, {
+          headers: { 'Accept': 'application/json' }
+        });
+        if (!response.ok) throw new Error(`Dataset fetch failed: ${response.status}`);
+
+        const data = await response.json();
+        const datasets = data.datasets;
+        if (!Array.isArray(datasets) || datasets.length === 0) {
+          console.warn("Planning Data API: No datasets found.", data);
+          return;
+        }
+
+        // Group datasets by typology — only include datasets with a collection
+        // (datasets without a collection are not yet published on the website)
+        const groups = {};
+        for (const d of datasets) {
+          const t = d.typology;
+          if (!t || excludedTypologies.has(t)) continue;
+          if (!d.collection) continue;
+          if (!groups[t]) groups[t] = [];
+          groups[t].push({ name: d.name, slug: d.dataset });
+        }
+
+        const container = document.getElementById('datasetGroups');
+        if (!container) return;
+
+        // Build DOM using document fragment (safe against XSS in dataset names)
+        const fragment = document.createDocumentFragment();
+
+        // Render known typologies in defined order
+        for (const typology of typologyOrder) {
+          const items = groups[typology];
+          if (!items || items.length === 0) continue;
+          items.sort((a, b) => a.name.localeCompare(b.name));
+          delete groups[typology]; // mark as rendered
+
+          const config = typologyConfig[typology];
+          appendDatasetGroup(fragment, config.label, config.color, items, baseDatasetUrl);
+        }
+
+        // Render any remaining typologies not in our config (future-proofing)
+        for (const [typology, items] of Object.entries(groups)) {
+          items.sort((a, b) => a.name.localeCompare(b.name));
+          const label = typology.charAt(0).toUpperCase() + typology.slice(1).replace(/-/g, ' ');
+          appendDatasetGroup(fragment, label, 'grey', items, baseDatasetUrl);
+        }
+
+        container.innerHTML = '';
+        container.appendChild(fragment);
+
+        const totalRendered = datasets.filter(d => d.collection && !excludedTypologies.has(d.typology)).length;
+        console.log(`Planning Data API: Rendered ${totalRendered} datasets.`);
+
+      } catch (error) {
+        console.warn("Planning Data API: Fetch failed. Falling back to static lists.", error);
+      }
+    }
+
+    // Helper: append a typology group as a collapsible <details> element
+    function appendDatasetGroup(parent, label, tagColor, items, baseUrl) {
+      const details = document.createElement('details');
+      details.className = 'govuk-details lgam-dataset-group';
+      details.setAttribute('data-module', 'govuk-details');
+
+      const summary = document.createElement('summary');
+      summary.className = 'govuk-details__summary';
+      const summaryText = document.createElement('span');
+      summaryText.className = 'govuk-details__summary-text';
+      const tag = document.createElement('strong');
+      tag.className = 'govuk-tag govuk-tag--' + tagColor + ' govuk-!-margin-right-2';
+      tag.textContent = items.length;
+      summaryText.appendChild(tag);
+      summaryText.appendChild(document.createTextNode(' ' + label));
+      summary.appendChild(summaryText);
+      details.appendChild(summary);
+
+      const content = document.createElement('div');
+      content.className = 'govuk-details__text';
+      const ul = document.createElement('ul');
+      ul.className = 'govuk-list govuk-!-font-size-16 app-multi-column-list';
+      for (const item of items) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.className = 'govuk-link';
+        a.href = baseUrl + item.slug;
+        a.textContent = item.name;
+        li.appendChild(a);
+        ul.appendChild(li);
+      }
+      content.appendChild(ul);
+      details.appendChild(content);
+      parent.appendChild(details);
+    }
+
+    // --- UI INITIALISATION ---
+    document.addEventListener("DOMContentLoaded", function() {
+      // 1. Unhide filter inputs now that JS has safely loaded
+      const filterGroup = document.getElementById('serviceFilterGroup');
+      if (filterGroup) filterGroup.style.display = 'block';
+      const datasetFilterGroup = document.getElementById('datasetFilterGroup');
+      if (datasetFilterGroup) datasetFilterGroup.style.display = 'block';
+
+      // 2. Execute the async live fetches with loading indicators
+      const grid = document.getElementById('functionAreasGrid');
+      if (grid) grid.classList.add('lgam-loading');
+      fetchLiveServices().finally(() => {
+        if (grid) grid.classList.remove('lgam-loading');
+      });
+
+      const datasetGroups = document.getElementById('datasetGroups');
+      if (datasetGroups) datasetGroups.classList.add('lgam-loading');
+      fetchPlanningDatasets().finally(() => {
+        if (datasetGroups) datasetGroups.classList.remove('lgam-loading');
+      });
+
+      // 3. Set up the "Open all" UI toggle for the Grid cards
+      const showAllBtn = document.getElementById('functionAreasOpenAll');
+
+      if (showAllBtn && grid) {
+        const detailsElements = grid.querySelectorAll('details');
+        const hiddenSpan = showAllBtn.querySelector('.govuk-visually-hidden');
+        const hiddenTextHtml = hiddenSpan ? ' ' + hiddenSpan.outerHTML : '';
+
+        const updateButtonState = () => {
+          const allOpen = Array.from(detailsElements).every(d => d.hasAttribute('open'));
+          showAllBtn.setAttribute('aria-expanded', allOpen);
+          showAllBtn.innerHTML = (allOpen ? 'Close all' : 'Open all') + hiddenTextHtml;
+        };
+
+        showAllBtn.addEventListener('click', () => {
+          const isOpening = showAllBtn.getAttribute('aria-expanded') !== 'true';
+
+          detailsElements.forEach(details => {
+            if (isOpening) {
+              details.setAttribute('open', '');
+            } else {
+              details.removeAttribute('open');
+            }
+          });
+          updateButtonState();
+        });
+
+        // Keep Open All button text synced if items are clicked individually
+        grid.addEventListener('click', (e) => {
+          if (e.target.closest('summary')) {
+            setTimeout(updateButtonState, 10);
+          }
+        });
+      }
+    });
+</page-script>

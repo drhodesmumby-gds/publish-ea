@@ -1,0 +1,153 @@
+---
+title: Payments
+caption: LGAM Capabilities
+status: draft
+---
+<style>
+    .feature-box {
+      border-top: 4px solid #1d70b8;
+      background: #f3f2f1;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+</style>
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this capability</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#considerations">What to consider</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#platforms">Available platforms</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#standards">Standards and interoperability</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#technical-patterns">Technical patterns</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#business-areas">Connected business areas</a></li>
+</nav-contents>
+<main-content>
+          <span class="govuk-caption-xl">LGAM Capabilities</span>
+          <h1 class="govuk-heading-xl">Payments</h1>
+
+          <p class="govuk-body-l">Capabilities used to take and track payments made by users for council services such as council tax, planning application fees, parking permits, and licence fees.</p>
+
+          <!-- 1. About this capability -->
+          <h2 class="govuk-heading-l" id="about">About this capability</h2>
+          <p class="govuk-body">Payment capabilities sit in the <a href="index.html#capabilities" class="govuk-link">Capabilities layer</a> of the Local Government Architecture Model. They enable council interfaces (websites, apps, automated phone systems) to collect money from citizens and businesses for a wide range of services.</p>
+          <p class="govuk-body">Most councils use payment platforms that integrate with their existing income management and finance systems. The choice of platform affects citizen experience, staff workflows, PCI compliance burden, and ongoing costs.</p>
+          <p class="govuk-body govuk-!-margin-bottom-2">This page provides guidance on sourcing payment capabilities, the platforms available, and relevant standards.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 2. What to consider -->
+          <div class="feature-box" id="considerations">
+            <h2 class="govuk-heading-m">What to consider</h2>
+            <p class="govuk-body">Key questions when sourcing or evaluating payment capabilities:</p>
+            <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-0">
+              <li><strong>PCI-DSS compliance:</strong> Does the platform handle payment card data securely, keeping it off your servers?</li>
+              <li><strong>Payment types:</strong> Do you need one-off payments, recurring payments, or both? Does it support refunds and partial payments?</li>
+              <li><strong>Reconciliation:</strong> Can payment data flow automatically into your income management or finance systems?</li>
+              <li><strong>Channel support:</strong> Can citizens pay online, by phone (IVR), and in person from a single platform?</li>
+              <li><strong>Accessibility:</strong> Does the payment journey meet WCAG 2.2 AA standards and work with assistive technologies?</li>
+              <li><strong>Procurement:</strong> Is the platform available without a formal procurement process, or does it require competitive tendering?</li>
+            </ul>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 3. Available platforms -->
+          <h2 class="govuk-heading-l" id="platforms">Available platforms</h2>
+
+          <h3 class="govuk-heading-m">GDS</h3>
+
+          <p class="govuk-body"><strong><a href="https://www.payments.service.gov.uk/" class="govuk-link">GOV.UK Pay</a></strong> is a free, PCI-DSS compliant payment platform for all public sector organisations. No procurement process is needed. It supports Stripe, Worldpay, and the Government Banking Barclaycard contract as payment service providers.</p>
+          <p class="govuk-body">You can use it in two ways:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+            <li><strong>Without code:</strong> Create a payment link in minutes and add it to an email, letter, or webpage.</li>
+            <li><strong>With code:</strong> Integrate the REST API directly into your digital services for a seamless user journey.</li>
+          </ul>
+
+          <a href="https://www.payments.service.gov.uk/getstarted/" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
+            Start using GOV.UK Pay
+            <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+            </svg>
+          </a>
+
+          <p class="govuk-body govuk-!-margin-top-2 govuk-!-margin-bottom-8">
+            <a href="https://docs.payments.service.gov.uk/" class="govuk-link">Read the GOV.UK Pay technical documentation</a>
+          </p>
+
+          <h3 class="govuk-heading-m">Commercial</h3>
+
+          <p class="govuk-body"><strong><a href="https://www.capita.com/expertise/pay360" class="govuk-link">Capita Pay360</a></strong> — payment processing and income management platform widely used across UK local government. Supports online, telephone, and in-person payments with back-office reconciliation.</p>
+
+          <p class="govuk-body govuk-!-margin-bottom-8"><strong><a href="https://www.heycentric.com/" class="govuk-link">Heycentric</a></strong> — digital payment and customer engagement platform for local government, combining payment processing with citizen self-service.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 4. Standards and interoperability -->
+          <h2 class="govuk-heading-l" id="standards">Standards and interoperability</h2>
+          <p class="govuk-body">Payment capabilities in local government should align with the following standards:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-8">
+            <li><strong>PCI-DSS</strong> (Payment Card Industry Data Security Standard) — mandatory for any system handling card payment data</li>
+            <li><strong>SCA / 3DS2</strong> (Strong Customer Authentication) — required under UK payment regulations for online card transactions</li>
+            <li><strong>Open Banking APIs</strong> — emerging standard for bank-to-bank payments, potentially reducing card processing fees</li>
+            <li><strong>GOV.UK Design System</strong> — <a href="https://design-system.service.gov.uk/" class="govuk-link">payment journey patterns</a> for consistent, accessible citizen-facing interfaces</li>
+            <li><strong>WCAG 2.2 AA</strong> — accessibility standard that all public sector digital services must meet</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 5. Technical patterns -->
+          <h2 class="govuk-heading-l" id="technical-patterns">Technical patterns</h2>
+          <p class="govuk-body">Common integration and architecture patterns for payment capabilities in council systems.</p>
+
+          <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-technical">
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-technical-heading-1">
+                    API integration patterns
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-technical-content-1" class="govuk-accordion__section-content">
+                <p class="govuk-body">Most payment platforms offer RESTful JSON APIs for programmatic integration. Common patterns include redirect flows (where the citizen is sent to a hosted payment page and returned on completion) and embedded flows (where payment fields are rendered within your own service). Webhooks provide real-time notifications of payment events (such as <code>payment_captured</code> or <code>payment_failed</code>) for automated reconciliation with back-office systems.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-technical-heading-2">
+                    Security and compliance
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-technical-content-2" class="govuk-accordion__section-content">
+                <p class="govuk-body">A PCI-DSS compliant platform keeps card data entirely off your own servers, significantly reducing your compliance burden. Look for platforms that handle Strong Customer Authentication (SCA) and 3D Secure 2 (3DS2) natively, as these are regulatory requirements for online card payments. Support for digital wallets (Apple Pay, Google Pay) can improve completion rates on mobile devices.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-technical-heading-3">
+                    Testing and sandbox environments
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-technical-content-3" class="govuk-accordion__section-content">
+                <p class="govuk-body">When evaluating platforms, look for sandbox or test environments that allow your developers to build and verify integrations using mock card numbers without processing real transactions. This reduces risk during development and enables continuous integration testing.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. Connected business areas -->
+          <h2 class="govuk-heading-l" id="business-areas">Connected business areas</h2>
+          <p class="govuk-body">Business areas from the <a href="index.html#business-areas" class="govuk-link">LGAM</a> where payment capabilities are typically used.</p>
+
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="planning-and-development.html" class="govuk-link govuk-!-font-weight-bold">Planning and development</a> — application fees, community infrastructure levy, land charges</li>
+            <li><strong>Revenues and benefits</strong> — council tax, business rates, overpayment recovery</li>
+            <li><strong>Housing</strong> — rent payments, service charges, right-to-buy deposits</li>
+            <li><strong>Licensing and regulation</strong> — licence fees, permit charges, fixed penalty notices</li>
+            <li><strong>Highways and transport</strong> — parking permits, penalty charge notices, skip licences</li>
+            <li><strong>Leisure and culture</strong> — facility bookings, event tickets, library fees</li>
+            <li><strong>Education</strong> — school meals, trip contributions, music tuition</li>
+            <li><strong>Waste management</strong> — bulky waste collections, garden waste subscriptions</li>
+          </ul>
+</main-content>

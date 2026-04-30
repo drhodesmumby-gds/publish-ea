@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" class="govuk-template govuk-template--rebranded">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{ title }} - Local Government Architecture Model - GOV.UK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d70b8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.css">
+
+  <style>
+    /* Fixes 404 errors for fonts/images by pointing the CSS to the unpkg CDN */
+    :root {
+      --govuk-assets-path: "https://unpkg.com/govuk-frontend@5.13.0/dist/govuk/assets/";
+    }
+
+    /* Footer logo override to use the CDN */
+    .govuk-footer__copyright-logo::before {
+      background-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest.svg") !important;
+    }
+
+    @supports ((-webkit-mask-position:initial) or (mask-position:initial)) {
+      .govuk-footer__copyright-logo::before {
+        -webkit-mask-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest.svg") !important;
+        mask-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest.svg") !important;
+      }
+    }
+
+    @media (min-resolution: 2dppx) {
+      .govuk-footer__copyright-logo::before {
+        background-image: url("https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/assets/images/govuk-crest-2x.png") !important;
+      }
+    }

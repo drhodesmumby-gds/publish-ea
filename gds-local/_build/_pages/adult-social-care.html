@@ -1,0 +1,494 @@
+---
+title: Adult social care
+caption: LGAM Business Areas
+status: published
+---
+<style>
+    /* ==========================================================================
+       LGAM - SINGLE-COLUMN ACCORDION
+       ========================================================================== */
+    .lgam-accordion {
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      border-top: 1px solid #b1b4b6;
+    }
+
+    .lgam-item {
+      border-bottom: 1px solid #b1b4b6;
+      padding: 0;
+    }
+
+    .lgam-item .govuk-details {
+      margin-bottom: 0;
+      border: none;
+      border-left: none;
+    }
+
+    .lgam-item .govuk-details__summary {
+      padding: 10px 0 10px 25px;
+    }
+
+    .lgam-item .govuk-details__summary-text {
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .lgam-item .govuk-details__text {
+      padding: 0 0 10px 25px;
+      border-left: none;
+      cursor: text;
+    }
+
+    .lgam-service-count {
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 14px;
+      font-weight: normal;
+      color: #505a5f;
+    }
+
+    .lgam-item .service-list {
+      column-count: 2;
+      column-gap: 30px;
+    }
+
+    @media (max-width: 640px) {
+      .lgam-item .service-list {
+        column-count: 1;
+      }
+    }
+
+    /* ==========================================================================
+       LGAM - BUTTONS
+       ========================================================================== */
+    .lgam-show-all-button {
+      background-color: #ffffff !important;
+      margin-bottom: 15px;
+    }
+
+    .lgam-show-all-button:hover {
+      background-color: #f8f8f8 !important;
+    }
+
+    .lgam-show-all-button::before {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      top: -1px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 6px 0 6px 10.4px;
+      border-color: transparent transparent transparent currentColor;
+      margin-right: 10px;
+      transform-origin: 25% 50%;
+      transition: transform 0.1s ease-out;
+    }
+
+    .lgam-show-all-button[aria-expanded="true"]::before {
+      transform: rotate(90deg);
+    }
+
+    .lgam-loading .service-list {
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+
+    /* Functions section container */
+    .lgam-functions-panel {
+      background: #f3f2f1;
+      padding: 20px;
+      border-left: 10px solid #cf611c;
+    }
+</style>
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this area</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#function-areas">Functions and services</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#capabilities">Capabilities</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#data-sources">Key data sources</a></li>
+</nav-contents>
+<main-content>
+          <span class="govuk-caption-xl">LGAM Business Areas</span>
+          <h1 class="govuk-heading-xl">Adult social care</h1>
+
+          <p class="govuk-body-l">The provision of support services for adults with physical or mental health needs, and their carers.</p>
+
+          <!-- 1. About this area -->
+          <h2 class="govuk-heading-l" id="about">About this area</h2>
+          <p class="govuk-body">Adult social care sits in the <a href="index.html#business-areas" class="govuk-link">Business Areas layer</a> of the Local Government Architecture Model. It covers the statutory duties that councils perform under the <strong>Care Act 2014</strong> — from assessing need and determining eligibility through to arranging care, managing safeguarding, and shaping the local care market.</p>
+          <p class="govuk-body">The functions within this area are defined by the <a href="https://standards.esd.org.uk/?uri=function%2F59" class="govuk-link">LGA taxonomy</a> under "Adult services" (function 59). Each function contains a set of granular services that councils deliver.</p>
+          <p class="govuk-body">Related residential and hospice care services are covered under <a href="https://standards.esd.org.uk/?uri=function%2F60" class="govuk-link">Care homes, supported and sheltered housing</a> (function 60), which spans both adult and children's domains.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 2. Functions and Services -->
+          <h2 class="govuk-heading-l" id="function-areas">Functions and services</h2>
+          <p class="govuk-body">Function areas as defined by <a href="https://standards.esd.org.uk/?uri=function%2F59" class="govuk-link">LG Inform</a>, with their corresponding local government services.</p>
+
+          <div class="lgam-functions-panel">
+
+          <!-- Search Filter -->
+          <div class="govuk-form-group govuk-!-margin-bottom-4" id="serviceFilterGroup" style="display: none;">
+            <label class="govuk-label govuk-!-font-weight-bold" for="serviceFilter">
+              Filter services
+            </label>
+            <div style="display: flex; align-items: baseline; gap: 15px; flex-wrap: wrap;">
+              <input class="govuk-input govuk-!-width-one-half" id="serviceFilter" name="serviceFilter" type="text" placeholder="e.g. Safeguarding" oninput="filterServices()">
+              <span id="serviceCount" class="govuk-hint govuk-!-margin-bottom-0"></span>
+            </div>
+          </div>
+
+          <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false" id="functionAreasOpenAll">
+            Open all <span class="govuk-visually-hidden">sections in Function areas</span>
+          </button>
+
+          <ul class="lgam-accordion" id="functionAreasGrid">
+
+            <li class="lgam-item" data-function-id="148">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Adult social care <span class="lgam-service-count">(16 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Assessment of need, care planning, safeguarding, and arrangement of care services for adults. Includes statutory duties under the Care Act 2014.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Adult care plan</li>
+                    <li>Adult placement</li>
+                    <li>Care Act 2014 implementation</li>
+                    <li>Care ambassadors</li>
+                    <li>Care at home</li>
+                    <li>Care needs assessment</li>
+                    <li>Client contact problems</li>
+                    <li>Leaving hospital</li>
+                    <li>Mental health support</li>
+                    <li>Out of hours social care</li>
+                    <li>Power of attorney</li>
+                    <li>Register of sight impaired and disabled adults</li>
+                    <li>Safeguarding Adults Board</li>
+                    <li>Safeguarding vulnerable adults</li>
+                    <li>Shared care for adults</li>
+                    <li>Social care financial assessment</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+            <li class="lgam-item" data-function-id="61">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Carers <span class="lgam-service-count">(9 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Support for unpaid carers including assessment of carer needs, respite provision, information and advice, and young carers services.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Adult carers advice and support</li>
+                    <li>Advocacy for carers</li>
+                    <li>Alternative care providers</li>
+                    <li>Carers allowance</li>
+                    <li>Carers assessment</li>
+                    <li>Carers support groups</li>
+                    <li>Respite care for adults</li>
+                    <li>Short breaks</li>
+                    <li>Young carers support</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+            <li class="lgam-item" data-function-id="149">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Equipment and supporting services <span class="lgam-service-count">(11 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Provision of aids, adaptations, assistive technology, and practical support to help adults live independently at home.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Assisted garden maintenance</li>
+                    <li>Community alarms and Telecare</li>
+                    <li>Direct payments</li>
+                    <li>Home adaptations and aids</li>
+                    <li>Incontinence laundry service</li>
+                    <li>Independence support for disabled people</li>
+                    <li>Mobile meals</li>
+                    <li>Needle exchange</li>
+                    <li>Occupational therapy</li>
+                    <li>Personal care</li>
+                    <li>Specialist equipment and support for disabled people</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+            <li class="lgam-item" data-function-id="150">
+              <details class="govuk-details" data-module="govuk-details">
+                <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Help and advice for adults <span class="lgam-service-count">(10 services)</span></span></summary>
+                <div class="govuk-details__text">
+                  <p class="govuk-body govuk-!-margin-bottom-4">Information, advice, and preventative support including counselling, substance misuse services, and advocacy.</p>
+                  <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Services</h4>
+                  <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 service-list">
+                    <li>Advocacy for social care clients</li>
+                    <li>Alcohol advice and support</li>
+                    <li>Counselling</li>
+                    <li>Disabled people - employment and training schemes</li>
+                    <li>Drugs advice and support</li>
+                    <li>Gambling addiction advice and support</li>
+                    <li>Management of personal financial affairs</li>
+                    <li>Pet care when hospitalised</li>
+                    <li>Skills for living</li>
+                    <li>Translation and interpreting</li>
+                  </ul>
+                </div>
+              </details>
+            </li>
+
+
+          </ul>
+
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 3. Capabilities -->
+          <h2 class="govuk-heading-l" id="capabilities">Capabilities</h2>
+          <p class="govuk-body">Capabilities from the <a href="index.html#capabilities" class="govuk-link">LGAM Capabilities layer</a> that support adult social care services.</p>
+
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><strong>Workflow</strong> — case management through referral, assessment, care planning, and review stages</li>
+            <li><strong>Forms</strong> — online referrals, self-assessments, financial assessment forms</li>
+            <li><a href="payments.html" class="govuk-link govuk-!-font-weight-bold">Payments</a> — direct payments, client contributions, provider payments</li>
+            <li><strong>Identity</strong> — person verification for safeguarding and shared records</li>
+            <li><strong>Booking</strong> — day care sessions, respite slots, occupational therapy appointments</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 4. Key data sources -->
+          <h2 class="govuk-heading-l" id="data-sources">Key data sources</h2>
+          <p class="govuk-body">National data collections, registers, and surveys relevant to adult social care technology. Sources are drawn from the <a href="https://cataloguesocialcare.uk/datasets/" class="govuk-link">Catalogue of Social Care Data</a>, filtered to official UK public sector publications.</p>
+
+          <h3 class="govuk-heading-m">Registers and APIs</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="https://www.cqc.org.uk/about-us/transparency/using-cqc-data" class="govuk-link govuk-!-font-weight-bold">CQC Provider Register</a> — national register of all regulated care providers (care homes, home care agencies, supported living). Includes inspection ratings, location data, and registration categories. Available via REST API.</li>
+            <li><a href="https://lginform.local.gov.uk/" class="govuk-link govuk-!-font-weight-bold">LG Inform</a> — benchmarking metrics for adult social care performance, drawn from ASC-CLD and ASCOF data.</li>
+          </ul>
+
+          <h3 class="govuk-heading-m">Statutory collections</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-collections/adult-social-care-client-level-data-asc-cld" class="govuk-link govuk-!-font-weight-bold">ASC-CLD</a> (Adult Social Care Client Level Data) — individual-level data collection that replaced SALT. Submitted by all councils covering referrals, assessments, services provided, and outcomes. Defines the core data items that case management systems must capture.</li>
+            <li><a href="https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-collections/adult-social-care-finance-return" class="govuk-link govuk-!-font-weight-bold">ASC-FR</a> (Adult Social Care Finance Return) — annual expenditure data by service type, client group, and care setting.</li>
+            <li><a href="https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-collections/safeguarding-adults" class="govuk-link govuk-!-font-weight-bold">SAE</a> (Safeguarding Adults, England) — local authority data on safeguarding enquiries, types of abuse, risk sources, and outcomes.</li>
+            <li><a href="https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-collections/dols" class="govuk-link govuk-!-font-weight-bold">DoLS</a> (Deprivation of Liberty Safeguards) — data on applications, authorisations, and outcomes under the Mental Capacity Act 2005.</li>
+            <li><strong>Deferred Payment Agreements</strong> — data on local authority DPA loans for people whose care costs are secured against their property.</li>
+          </ul>
+
+          <h3 class="govuk-heading-m">Surveys</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-collections/social-care-user-surveys" class="govuk-link govuk-!-font-weight-bold">ASCS</a> (Adult Social Care Survey) — annual survey of service users on quality of life, satisfaction with services, and control over daily life.</li>
+            <li><a href="https://digital.nhs.uk/data-and-information/data-collections-and-data-sets/data-collections/social-care-user-surveys" class="govuk-link govuk-!-font-weight-bold">SACE</a> (Survey of Adult Carers in England) — biennial survey of unpaid carers on quality of life, work-life balance, and support received.</li>
+          </ul>
+
+          <h3 class="govuk-heading-m">Workforce data</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="https://www.skillsforcare.org.uk/adult-social-care-workforce-data/Workforce-intelligence/publications/national-information/The-state-of-the-adult-social-care-sector-and-workforce-in-England.aspx" class="govuk-link govuk-!-font-weight-bold">ASC-WDS</a> (Adult Social Care Workforce Data Set) — the leading source of workforce intelligence, covering recruitment, retention, pay, qualifications, and vacancy rates. Maintained by Skills for Care.</li>
+          </ul>
+
+          <h3 class="govuk-heading-m">Regulator</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="https://www.cqc.org.uk/" class="govuk-link govuk-!-font-weight-bold">CQC</a> (Care Quality Commission) — the independent regulator of health and adult social care in England. Inspects and rates providers, publishes enforcement action, and maintains the provider register used for commissioning.</li>
+          </ul>
+
+          <h3 class="govuk-heading-m">Standards</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="https://theprsb.org/" class="govuk-link govuk-!-font-weight-bold">PRSB</a> (Professional Record Standards Body) — develops information standards for health and social care records, including the social care core content standard that defines what should be in a shared care record.</li>
+          </ul>
+
+          <h3 class="govuk-heading-m">Sector bodies</h3>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><a href="https://www.adass.org.uk/" class="govuk-link govuk-!-font-weight-bold">ADASS</a> (Association of Directors of Adult Social Services) — the professional leadership body for directors of adult social services in English local authorities.</li>
+            <li><a href="https://www.thinklocalactpersonal.org.uk/" class="govuk-link govuk-!-font-weight-bold">Think Local Act Personal</a> — a national partnership promoting personalisation, community-based support, and outcomes-focused practice.</li>
+          </ul>
+
+          <div class="govuk-inset-text govuk-!-margin-top-8">
+            Unlike the planning domain, there is no single national open data platform for adult social care. Data about individuals is sensitive and not openly published. The key integration points for council systems are the CQC provider register (for commissioning) and the ASC-CLD data specification (which defines what case management systems must record).
+          </div>
+</main-content>
+<page-script>
+    // --- FILTER LOGIC ---
+    function filterServices() {
+      const query = document.getElementById('serviceFilter').value.toLowerCase();
+      const functionCards = document.querySelectorAll('#functionAreasGrid .lgam-item');
+      let totalMatches = 0;
+
+      functionCards.forEach(card => {
+        const serviceItems = card.querySelectorAll('.service-list li');
+        const detailsPanel = card.querySelector('details');
+        let cardHasMatch = false;
+
+        serviceItems.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(query)) {
+            item.style.display = '';
+            cardHasMatch = true;
+            totalMatches++;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        if (query === '') {
+          card.style.display = '';
+          serviceItems.forEach(item => item.style.display = '');
+        } else if (cardHasMatch) {
+          card.style.display = '';
+          if (detailsPanel) detailsPanel.open = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      const countEl = document.getElementById('serviceCount');
+      if (query === '') {
+        countEl.textContent = '';
+      } else {
+        countEl.textContent = totalMatches + ' service' + (totalMatches !== 1 ? 's' : '') + ' found';
+      }
+    }
+
+    // --- LIVE API FETCH LOGIC ---
+    async function fetchLiveServices() {
+      const baseApiUrl = "https://webservices.esd.org.uk/lists";
+      const parentFunctionId = 59;
+      const excludedFunctionIds = ["151"]; // 151: Residential care and housing (discontinued)
+
+      try {
+        const functionResponse = await fetch(`${baseApiUrl}/functions/${parentFunctionId}`, {
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (!functionResponse.ok) {
+          throw new Error(`Parent function fetch failed: ${functionResponse.status}`);
+        }
+
+        const functionData = await functionResponse.json();
+        const parentItem = functionData.item;
+        if (!parentItem || !Array.isArray(parentItem.children) || parentItem.children.length === 0) {
+          console.warn("ESD API: No children found for function 59.", functionData);
+          return;
+        }
+
+        const activeFunctions = parentItem.children.filter(
+          sub => !excludedFunctionIds.includes(sub.identifier)
+        );
+        const fetchPromises = activeFunctions.map(sub => {
+          const subId = sub.identifier;
+          if (!subId) return Promise.resolve(null);
+
+          return fetch(`${baseApiUrl}/functions/${subId}`, {
+            headers: { 'Accept': 'application/json' }
+          })
+            .then(res => {
+              if (!res.ok) throw new Error(`${res.status}`);
+              return res.json();
+            })
+            .then(json => ({ id: subId, data: json }))
+            .catch(err => {
+              console.warn(`ESD API: Failed to fetch function ${subId}:`, err);
+              return null;
+            });
+        });
+
+        const results = await Promise.allSettled(fetchPromises);
+
+        for (const result of results) {
+          if (result.status !== 'fulfilled' || !result.value) continue;
+
+          const { id, data } = result.value;
+          const serviceItems = data?.item?.mappings?.contains?.items;
+
+          if (!Array.isArray(serviceItems) || serviceItems.length === 0) {
+            console.log(`ESD API: No services for function ${id} — keeping static list.`);
+            continue;
+          }
+
+          const services = serviceItems
+            .map(s => ({ label: s.label, uri: s.uri }))
+            .filter(s => s.label)
+            .sort((a, b) => a.label.localeCompare(b.label));
+
+          const targetCard = document.querySelector(`.lgam-item[data-function-id="${id}"]`);
+          if (!targetCard) {
+            console.warn(`ESD API: No card found for function ID ${id}.`);
+            continue;
+          }
+
+          const targetList = targetCard.querySelector('.service-list');
+          if (targetList) {
+            targetList.innerHTML = '';
+            services.forEach(service => {
+              const li = document.createElement('li');
+              if (service.uri) {
+                const a = document.createElement('a');
+                a.href = service.uri;
+                a.className = 'govuk-link';
+                a.textContent = service.label;
+                li.appendChild(a);
+              } else {
+                li.textContent = service.label;
+              }
+              targetList.appendChild(li);
+            });
+          }
+
+          const countSpan = targetCard.querySelector('.lgam-service-count');
+          if (countSpan) {
+            countSpan.textContent = `(${services.length} service${services.length !== 1 ? 's' : ''})`;
+          }
+        }
+
+      } catch (error) {
+        console.warn("ESD API: Hierarchy fetch failed. Falling back to static lists.", error);
+      }
+    }
+
+    // --- UI INITIALISATION ---
+    document.addEventListener("DOMContentLoaded", function() {
+      const filterGroup = document.getElementById('serviceFilterGroup');
+      if (filterGroup) filterGroup.style.display = 'block';
+
+      const grid = document.getElementById('functionAreasGrid');
+      if (grid) grid.classList.add('lgam-loading');
+      fetchLiveServices().finally(() => {
+        if (grid) grid.classList.remove('lgam-loading');
+      });
+
+      const showAllBtn = document.getElementById('functionAreasOpenAll');
+      if (showAllBtn && grid) {
+        const detailsElements = grid.querySelectorAll('details');
+        const hiddenSpan = showAllBtn.querySelector('.govuk-visually-hidden');
+        const hiddenTextHtml = hiddenSpan ? ' ' + hiddenSpan.outerHTML : '';
+
+        const updateButtonState = () => {
+          const allOpen = Array.from(detailsElements).every(d => d.hasAttribute('open'));
+          showAllBtn.setAttribute('aria-expanded', allOpen);
+          showAllBtn.innerHTML = (allOpen ? 'Close all' : 'Open all') + hiddenTextHtml;
+        };
+
+        showAllBtn.addEventListener('click', () => {
+          const isOpening = showAllBtn.getAttribute('aria-expanded') !== 'true';
+          detailsElements.forEach(details => {
+            if (isOpening) {
+              details.setAttribute('open', '');
+            } else {
+              details.removeAttribute('open');
+            }
+          });
+          updateButtonState();
+        });
+
+        grid.addEventListener('click', (e) => {
+          if (e.target.closest('summary')) {
+            setTimeout(updateButtonState, 10);
+          }
+        });
+      }
+    });
+</page-script>
