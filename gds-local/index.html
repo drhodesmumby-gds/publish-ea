@@ -347,6 +347,52 @@
     .badge--grey { background: #505a5f; }
 
     /* ==========================================================================
+       LGAM - CONTEXT MAP (Architecture Overview)
+       ========================================================================== */
+    .lgam-context-map {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      max-width: 960px;
+      margin: 40px auto;
+    }
+
+    .lgam-context-map__block {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 14px 15px;
+      text-align: center;
+      color: #fff;
+      font-family: "GDS Transport", arial, sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .lgam-context-map__block:hover {
+      opacity: 0.85;
+      text-decoration: underline;
+    }
+
+    .lgam-context-map__block:focus {
+      outline: 3px solid #ffdd00;
+      outline-offset: 0;
+      box-shadow: inset 0 0 0 2px #0b0c0c;
+    }
+
+    .lgam-context-map__block--full { grid-column: 1 / -1; }
+
+    .lgam-context-map__block--channels     { background: #1d70b8; }
+    .lgam-context-map__block--interfaces   { background: #4c2d92; }
+    .lgam-context-map__block--capabilities { background: #28a197; }
+    .lgam-context-map__block--enabling     { background: #9f1239; }
+    .lgam-context-map__block--business     { background: #cf611c; }
+    .lgam-context-map__block--corporate    { background: #505a5f; }
+
+    /* ==========================================================================
        RESPONSIVE (MOBILE VIEW)
        ========================================================================== */
     @media (max-width: 768px) {
@@ -369,6 +415,9 @@
       .capability-row .capability-block { font-size: 16px; }
       .cap-arch-bar { font-size: 18px; padding: 15px; }
       .lgam-grid { grid-template-columns: 1fr; }
+      .lgam-context-map { grid-template-columns: 1fr; }
+      .lgam-context-map__block--full { grid-column: 1; }
+      .lgam-context-map__block { font-size: 18px; }
     }
     /* ==========================================================================
        CDN ASSET PATH OVERRIDES & FOOTER LOGO RESTORATION
@@ -458,7 +507,7 @@
       <h2 class="app-navigation__heading">Contents</h2>
       <ul class="app-navigation">
         <li class="app-navigation__item"> <a class="app-navigation__link" href="#overview">Introduction</a> </li>
-        <li class="app-navigation__item"> <a class="app-navigation__link" href="#architecture-model">Architecture layers</a> </li>
+        <li class="app-navigation__item"> <a class="app-navigation__link" href="#architecture-model">Architecture overview</a> </li>
       </ul>
       <h2 class="app-navigation__heading">Layers</h2>
       <ul class="app-navigation">
@@ -468,6 +517,14 @@
         <li class="app-navigation__item"><a class="app-navigation__link" href="#business-areas">Business Areas</a></li>
         <li class="app-navigation__item"><a class="app-navigation__link" href="#corporate-areas">Corporate Areas</a></li>
       </ul>
+      <!--<h2 class="app-navigation__heading">Corporate</h2>
+      <ul class="app-navigation">
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#corporate-areas">Corporate Areas</a></li>
+      </ul>-->
+      <!--<h2 class="app-navigation__heading">Enabling Technology</h2>
+      <ul class="app-navigation">
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#enabling-technology">Overview</a></li>
+      </ul>-->
     </nav>
 
     <main class="app-main-content" id="main-content" role="main">
@@ -493,22 +550,34 @@
       <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
       <section id="architecture-model">
-        <h2 class="govuk-heading-l">Architecture layers</h2>
+        <h2 class="govuk-heading-l">Architecture overview</h2>
         <div class="lgam-container">
-          <p class="govuk-body-l">The architecture model separates public facing local government technology into 5 distinct layers.</p>
+          <p class="govuk-body-l">The Local Government Architecture Model separates public facing local government technology into 5 distinct layers.</p>
           <p class="govuk-body">It maps the journey from how a user interacts with a service down to the back-office systems that run it.</p>
            <p class="govuk-body">We will shortly be publishing a wider public sector capability model that covers areas such as integration, hosting, security and foundational technology, to help councils build a complete understanding of their technology stack and how its components fit together.</p>
-            
-          <!-- CAPABILITY ARCHITECTURE NAVIGATION BLOCK -->
-          <section class="capability-architecture" aria-labelledby="cap-arch-title">
-            <ul class="cap-arch-grid">
-              <li><a href="#public-channels" class="cap-arch-bar bg-blue">Public Channels</a></li>
-              <li><a href="#council-interfaces" class="cap-arch-bar bg-purple">Council Interfaces</a></li>
-              <li><a href="#capabilities" class="cap-arch-bar bg-teal">Capabilities</a></li>
-              <li><a href="#business-areas" class="cap-arch-bar bg-burnt-orange">Business Areas</a></li>
-              <li><a href="#corporate-areas" class="cap-arch-bar
-                bg-grey">Corporate Areas</a></li>
-            </ul>
+
+          <!-- CONTEXT MAP -->
+          <section class="capability-architecture" aria-label="Architecture model overview">
+            <div class="lgam-context-map" role="list" aria-label="Architecture domains">
+              <a href="#public-channels" role="listitem" class="lgam-context-map__block lgam-context-map__block--channels lgam-context-map__block--full">
+                Public Channels
+              </a>
+              <a href="#council-interfaces" role="listitem" class="lgam-context-map__block lgam-context-map__block--interfaces lgam-context-map__block--full">
+                Council Interfaces
+              </a>
+              <a href="#capabilities" role="listitem" class="lgam-context-map__block lgam-context-map__block--capabilities lgam-context-map__block--full">
+                Capabilities
+              </a>
+              <a href="#business-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--business">
+                Business Areas
+              </a>
+              <a href="#corporate-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--corporate">
+                Corporate Areas
+              </a>
+              <!--<a href="#enabling-technology" role="listitem" class="lgam-context-map__block lgam-context-map__block--enabling lgam-context-map__block--full">
+                Enabling Technology
+              </a>-->
+            </div>
           </section>
             
           <!-- LAYER 1: PUBLIC CHANNELS -->
@@ -661,13 +730,13 @@
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Email</span></summary>
                   <div class="govuk-details__text">
                     <p class="govuk-body govuk-!-margin-bottom-2">Capabilities used to send and receive messages when dealing with users and both internal and external stakeholders.</p>
-                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    <!--<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                     <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Example platforms</h4>
                     <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 govuk-!-margin-bottom-0">
                       <li><a href="https://www.notifications.service.gov.uk/" class="govuk-link">GOV.UK Notify</a></li>
                       <li><a href="https://granicus.com/solution/govdelivery/" class="govuk-link">GovDelivery (Granicus)</a></li>
                       <li><a href="https://mailchimp.com/" class="govuk-link">Mailchimp</a></li>
-                    </ul>
+                    </ul>-->
                   </div>
                 </details>
               </li>
@@ -682,12 +751,12 @@
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Identity</span></summary>
                   <div class="govuk-details__text">
                     <p class="govuk-body govuk-!-margin-bottom-2">Capabilities used to check and verify a user's identity.</p>
-                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    <!--<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                     <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Example platforms</h4>
                     <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 govuk-!-margin-bottom-0">
                       <li><a href="https://www.sign-in.service.gov.uk/" class="govuk-link">GOV.UK One Login</a></li>
                       <li><a href="https://www.microsoft.com/en-gb/security/business/identity-access/microsoft-entra-id" class="govuk-link">Microsoft Entra ID</a></li>
-                    </ul>
+                    </ul>-->
                   </div>
                 </details>
               </li>
@@ -696,13 +765,13 @@
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Payments</span></summary>
                   <div class="govuk-details__text">
                     <p class="govuk-body govuk-!-margin-bottom-2">Tools used to take and track payments made by users for services such as paying council taxes, and getting licences and permits.</p>
-                                        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    <!--<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                     <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Example platforms</h4>
                     <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 govuk-!-margin-bottom-0">
                       <li><a href="https://www.payments.service.gov.uk/" class="govuk-link">GOV.UK Pay</a></li>
                       <li><a href="https://www.capita.com/expertise/pay360" class="govuk-link">Capita Pay360</a></li>
                       <li><a href="https://www.heycentric.com/" class="govuk-link">Heycentric</a></li>
-                    </ul>
+                    </ul>-->
                   </div>
                 </details>
               </li>
@@ -711,12 +780,12 @@
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">SMS</span></summary>
                   <div class="govuk-details__text">
                     <p class="govuk-body govuk-!-margin-bottom-2">Tools used to send and receive text messages for updates, reminders, and quick communications with users.</p>
-                    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+                    <!--<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                     <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Example platforms</h4>
                     <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 govuk-!-margin-bottom-0">
                       <li><a href="https://www.notifications.service.gov.uk/" class="govuk-link">GOV.UK Notify</a></li>
                       <li><a href="https://www.twilio.com/" class="govuk-link">Twilio</a></li>
-                    </ul>
+                    </ul>-->
                   </div>
                 </details>
               </li>
@@ -751,7 +820,7 @@
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Adult social care</span></summary>
                   <div class="govuk-details__text">
                     <p class="govuk-body govuk-!-margin-bottom-0">The provision of support services for adults with physical or mental health needs, and their carers.</p>
-                    <p class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-0"><a href="adult-social-care.html" class="govuk-link">View Adult social care detail &rarr;</a></p>
+                    <!--<p class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-0"><a href="adult-social-care.html" class="govuk-link">View Adult social care detail &rarr;</a></p>-->
                   </div>
                 </details>
               </li>
@@ -802,7 +871,7 @@
                   <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Planning and development</span></summary>
                   <div class="govuk-details__text">
                     <p class="govuk-body govuk-!-margin-bottom-0">The processing of planning applications, building control, and local spatial planning.</p>
-                    <p class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-0"><a href="planning-and-development.html" class="govuk-link">View Planning and development detail &rarr;</a></p>
+                    <!--<p class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-0"><a href="planning-and-development.html" class="govuk-link">View Planning and development detail &rarr;</a></p>-->
                   </div>
                 </details>
               </li>
@@ -900,6 +969,50 @@
               </li>
             </ul>
           </section>
+          <!-- ENABLING TECHNOLOGY -->
+          <!--<section class="lgam-layer" id="enabling-technology" style="border-color: #9f1239;">
+            <strong class="lgam-badge" style="background: #9f1239;">Enabling Technology</strong>
+            <p class="govuk-body govuk-!-font-weight-bold">Technology platforms and capabilities that underpin and connect council service delivery systems.</p>
+            <p class="govuk-body">Enabling technology covers the integration, data, AI, platform, and security capabilities that councils need to run their technology estate effectively.</p>
+
+            <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
+              Open all <span class="govuk-visually-hidden">sections in Enabling Technology</span>
+            </button>
+
+            <ul class="lgam-grid">
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Platform & Infrastructure</span></summary>
+                  <div class="govuk-details__text">Cloud hosting, networking, end-user computing, identity and access management, service management, monitoring, and disaster recovery.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Cyber Security</span></summary>
+                  <div class="govuk-details__text">Network security, endpoint protection, security operations, information governance and compliance, vulnerability management, and supply chain security.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Integration & Interoperability</span></summary>
+                  <div class="govuk-details__text">API management, integration platforms, data pipelines, national service connectivity, inter-authority data sharing, and standards compliance.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Data & Analytics</span></summary>
+                  <div class="govuk-details__text">Master data management, business intelligence and reporting, data warehousing, data quality and governance, open data publishing, and geospatial platforms.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">AI & Automation</span></summary>
+                  <div class="govuk-details__text">Robotic process automation, machine learning and predictive analytics, intelligent document processing, process mining, AI governance, and conversational AI platforms.</div>
+                </details>
+              </li>
+            </ul>
+          </section>-->
+
         </div>
       </section>
     </main>

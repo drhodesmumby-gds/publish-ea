@@ -1,0 +1,203 @@
+---
+title: Integration & Interoperability
+caption: Enabling Technology
+status: draft
+---
+<style>
+    .feature-box {
+      border-top: 4px solid #1d70b8;
+      background: #f3f2f1;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+</style>
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this domain</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#why-it-matters">Why this matters for councils</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#capabilities">Key capabilities</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#considerations">What to consider</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#platforms">Available platforms & tools</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#standards">Standards & guidance</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#frameworks">Commercial frameworks</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#connections">Connections to service delivery</a></li>
+</nav-contents>
+<main-content>
+          <span class="govuk-caption-xl">LGAM Enabling Technology</span>
+          <h1 class="govuk-heading-xl">Integration & Interoperability</h1>
+
+          <!-- 1. About this domain -->
+          <h2 class="govuk-heading-l" id="about">About this domain</h2>
+          <p class="govuk-body">Connecting council systems to each other, to partners, and to central government — enabling data and services to flow. Covers Application Programming Interface (<abbr title="Application Programming Interface">API</abbr>) management, integration platforms, data pipelines, national service connectivity, inter-authority data sharing, and standards compliance.</p>
+          <p class="govuk-body">Integration & Interoperability sits in the Enabling Technology layer of the Local Government Architecture Model. It provides the connective tissue that allows council systems, partner organisations, and central government platforms to exchange data and orchestrate processes. Without deliberate investment in integration capabilities, councils accumulate point-to-point connections that become increasingly fragile and expensive to maintain.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 2. Why this matters for councils -->
+          <h2 class="govuk-heading-l" id="why-it-matters">Why this matters for councils</h2>
+          <p class="govuk-body">Understanding the local government context for integration and interoperability decisions:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><strong>Vendor lock-in and poor APIs</strong> — the local gov tech market is dominated by a small number of vendors (Civica, Capita, NEC/Northgate, TechnologyOne, Liquidlogic), many of whose legacy systems have poor <abbr title="Application Programming Interface">API</abbr> support.</li>
+            <li><strong>RPA as a workaround</strong> — RPA exists specifically because proper integration is not available. Councils automate around the gaps rather than solving the underlying connectivity problem.</li>
+            <li><strong>Two-tier data sharing</strong> — in two-tier areas, county and district councils need to share data between their respective systems (e.g., social care data at county linking to housing data at district).</li>
+            <li><strong>Central government expectations</strong> — central government increasingly expects councils to integrate with national platforms (Tell Us Once, One Login, Planning Portal, Department for Work and Pensions (<abbr title="Department for Work and Pensions">DWP</abbr>)/His Majesty's Revenue and Customs (<abbr title="His Majesty's Revenue and Customs">HMRC</abbr>) data feeds).</li>
+            <li><strong>Data silos</strong> — data silos are the single biggest technology pain point. Citizens repeat information across council services because systems do not talk to each other.</li>
+            <li><strong>Integration debt</strong> — integration debt accumulates faster than technical debt in councils. Every new system adds point-to-point connections that increase fragility.</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 3. Key capabilities -->
+          <h2 class="govuk-heading-l" id="capabilities">Key capabilities</h2>
+          <p class="govuk-body">The core integration and interoperability capabilities that councils need to connect their technology estate.</p>
+
+          <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-capabilities">
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-1">
+                    API Management
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-1" class="govuk-accordion__section-content">
+                <p class="govuk-body">Publishing, securing, versioning, and governing <abbr title="Application Programming Interface">API</abbr>s for internal and external consumers. Councils increasingly need to expose their data and accept inbound submissions via <abbr title="Application Programming Interface">API</abbr>s (e.g., planning submission <abbr title="Application Programming Interface">API</abbr>, waste collection <abbr title="Application Programming Interface">API</abbr>).</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-2">
+                    Integration Platform
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-2" class="govuk-accordion__section-content">
+                <p class="govuk-body">Middleware or Integration Platform as a Service (<abbr title="Integration Platform as a Service">iPaaS</abbr>) for connecting disparate council systems. Handles transformation, orchestration, and routing. Examples: MuleSoft, Azure Integration Services, Boomi. Reduces point-to-point spaghetti.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-3">
+                    Data Pipelines
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-3" class="govuk-accordion__section-content">
+                <p class="govuk-body">Moving and transforming data between systems. Extract, Transform, Load (<abbr title="Extract, Transform, Load">ETL</abbr>)/Extract, Load, Transform (<abbr title="Extract, Load, Transform">ELT</abbr>) for batch and near-real-time data flows. Critical for feeding data warehouses, statutory returns, and cross-service analytics.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-4">
+                    National Service Connectivity
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-4" class="govuk-accordion__section-content">
+                <p class="govuk-body">Integrating with central government platforms: <abbr title="Department for Work and Pensions">DWP</abbr> (benefits verification), <abbr title="His Majesty's Revenue and Customs">HMRC</abbr> (council tax), Tell Us Once (life events), Planning Portal (applications). Each has its own <abbr title="Application Programming Interface">API</abbr> patterns and onboarding requirements.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-5">
+                    Inter-Authority Data Sharing
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-5" class="govuk-accordion__section-content">
+                <p class="govuk-body">Secure, governed exchange of data with partner organisations: other councils, NHS, police, housing associations, voluntary sector. Particularly critical in two-tier areas and for safeguarding.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-6">
+                    Standards & Protocols
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-6" class="govuk-accordion__section-content">
+                <p class="govuk-body">Compliance with interchange standards: Open311, <abbr title="Unique Property Reference Number">UPRN</abbr> (Unique Property Reference Number), LocalGov Drupal schemas, <abbr title="Government Digital Service">GDS</abbr> <abbr title="Application Programming Interface">API</abbr> design patterns, Open Referral UK (community services), and emerging local gov data standards.</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 4. What to consider -->
+          <div class="feature-box" id="considerations">
+            <h2 class="govuk-heading-m">What to consider</h2>
+            <p class="govuk-body">Key questions when assessing integration and interoperability capabilities:</p>
+            <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-0">
+              <li>How many point-to-point integrations do you have, and do you have visibility of them all?</li>
+              <li>Do your core vendors offer modern <abbr title="Application Programming Interface">API</abbr>s, or are you relying on file-based transfers and RPA?</li>
+              <li>Can you integrate with central government services today?</li>
+              <li>Do you have an integration platform, or does each system team build their own connections?</li>
+              <li>How do you share data with partner organisations securely — and is it governed?</li>
+              <li>Are you using <abbr title="Unique Property Reference Number">UPRN</abbr> as a common key across your property-related systems?</li>
+            </ul>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 5. Available platforms & tools -->
+          <h2 class="govuk-heading-l" id="platforms">Available platforms & tools</h2>
+
+          <h3 class="govuk-heading-m">GDS / Public Sector</h3>
+
+          <p class="govuk-body"><strong><a href="https://www.api.gov.uk/#uk-public-sector-apis" class="govuk-link">API Catalogue</a></strong> — directory of public sector <abbr title="Application Programming Interface">API</abbr>s, helping councils discover available government data feeds and services.</p>
+
+          <p class="govuk-body"><strong><a href="https://www.gov.uk/government/collections/api-design-guidance" class="govuk-link">GDS API Design Guidance</a></strong> — patterns for building government <abbr title="Application Programming Interface">API</abbr>s, applicable to councils publishing their own <abbr title="Application Programming Interface">API</abbr>s.</p>
+
+          <p class="govuk-body govuk-!-margin-bottom-8"><strong><a href="https://openreferraluk.org/" class="govuk-link">Open Referral UK</a></strong> — standard for community services data, enabling consistent directory publishing across councils.</p>
+
+          <h3 class="govuk-heading-m">Commercial (commonly used by councils)</h3>
+
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-8">
+            <li><strong>Microsoft Azure Integration Services</strong> — Logic Apps, Service Bus, <abbr title="Application Programming Interface">API</abbr> Management. The natural choice for Microsoft-ecosystem councils.</li>
+            <li><strong>MuleSoft Anypoint Platform</strong> — enterprise <abbr title="Integration Platform as a Service">iPaaS</abbr> for <abbr title="Application Programming Interface">API</abbr>-led connectivity and system integration.</li>
+            <li><strong>Dell Boomi</strong> — cloud-native integration platform for connecting Software as a Service (<abbr title="Software as a Service">SaaS</abbr>) and on-premises systems.</li>
+            <li><strong>Jitterbit</strong> — integration platform common in Salesforce-based councils.</li>
+            <li><strong>Apache NiFi</strong> — open source data pipeline automation for batch and streaming data flows.</li>
+            <li><strong>Local authority vendor APIs</strong> — Civica Open <abbr title="Application Programming Interface">API</abbr>, NEC Connect, Capita <abbr title="Application Programming Interface">API</abbr>s (varying quality and completeness).</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 6. Standards & guidance -->
+          <h2 class="govuk-heading-l" id="standards">Standards & guidance</h2>
+          <p class="govuk-body">Relevant standards and guidance for integration and interoperability decisions:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-8">
+            <li><a href="https://www.gov.uk/guidance/gds-api-technical-and-data-standards" class="govuk-link"><strong>GDS API technical and data standards</strong></a> — how to design, build and operate <abbr title="Application Programming Interface">API</abbr>s consistently</li>
+            <li><a href="https://www.gov.uk/government/collections/api-design-guidance" class="govuk-link"><strong>GDS API Design Guidance</strong></a> — detailed patterns for RESTful <abbr title="Application Programming Interface">API</abbr> design</li>
+            <li><a href="http://www.open311.org/" class="govuk-link"><strong>Open311</strong></a> — standard for civic issue reporting (used by FixMyStreet etc.)</li>
+            <li><a href="https://www.geoplace.co.uk/addresses-streets/uprn" class="govuk-link"><strong>UPRN standard</strong></a> — unique property reference number for address matching across systems</li>
+            <li><a href="https://www.localdigital.gov.uk/declaration/" class="govuk-link"><strong>Local Digital Declaration</strong></a> — commitment to open standards and interoperability</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 7. Commercial frameworks -->
+          <h2 class="govuk-heading-l" id="frameworks">Commercial frameworks</h2>
+          <p class="govuk-body">Crown Commercial Service (<abbr title="Crown Commercial Service">CCS</abbr>) agreements relevant to integration and interoperability procurement:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-8">
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/RM6335" class="govuk-link"><strong>Digital and Legacy Application Services</strong></a> — middleware management, integration, <abbr title="Application Programming Interface">API</abbr>s, <abbr title="Application Programming Interface">API</abbr> platforms and Enterprise Service Bus (<abbr title="Enterprise Service Bus">ESB</abbr>)s</li>
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/RM6190" class="govuk-link"><strong>Technology Services</strong></a> — technology service agreements including integration consultancy</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 8. Connections to service delivery -->
+          <h2 class="govuk-heading-l" id="connections">Connections to service delivery</h2>
+          <p class="govuk-body">Integration & Interoperability enables the entire LGAM service delivery stack:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><strong>Workflow</strong> — case management relies on integration to pull and push data across systems (e.g., referrals flowing from web form to social care system)</li>
+            <li><strong>Forms</strong> — online forms need to write submissions to multiple back-end systems</li>
+            <li><strong>Payments</strong> — payment reconciliation flows between payment platform and income management</li>
+            <li><strong>All IT Systems</strong> — every system needs to connect; the integration platform is the connective tissue</li>
+            <li><strong>Business Areas</strong> — cross-service processes (e.g., housing + benefits + council tax) depend on system integration</li>
+          </ul>
+</main-content>

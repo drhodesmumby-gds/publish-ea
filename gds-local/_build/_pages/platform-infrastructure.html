@@ -1,0 +1,213 @@
+---
+title: Platform & Infrastructure
+caption: Enabling Technology
+status: draft
+---
+<style>
+    .feature-box {
+      border-top: 4px solid #1d70b8;
+      background: #f3f2f1;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+</style>
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this domain</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#why-it-matters">Why this matters for councils</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#capabilities">Key capabilities</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#considerations">What to consider</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#platforms">Available platforms & tools</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#standards">Standards & guidance</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#frameworks">Commercial frameworks</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#connections">Connections to service delivery</a></li>
+</nav-contents>
+<main-content>
+          <span class="govuk-caption-xl">LGAM Enabling Technology</span>
+          <h1 class="govuk-heading-xl">Platform & Infrastructure</h1>
+
+          <!-- 1. About this domain -->
+          <h2 class="govuk-heading-l" id="about">About this domain</h2>
+          <p class="govuk-body">Core technology services, platforms, and operations that provide the essential foundations for all council digital systems. Covers cloud hosting, networking, end-user computing, identity and access management, service management, monitoring, and disaster recovery.</p>
+          <p class="govuk-body">Platform and infrastructure capabilities sit in the Enabling Technology layer of the Local Government Architecture Model. They underpin every other layer — without reliable hosting, connectivity, and operational tooling, no digital service can function.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 2. Why this matters for councils -->
+          <h2 class="govuk-heading-l" id="why-it-matters">Why this matters for councils</h2>
+          <p class="govuk-body">Understanding the local government context for platform and infrastructure decisions:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><strong>Small organisations with big responsibilities</strong> — most of England's 300+ councils are small organisations. They typically outsource or share infrastructure rather than running dedicated platform teams.</li>
+            <li><strong>PSN wind-down</strong> — the Public Services Network (<abbr title="Public Services Network">PSN</abbr>) is being decommissioned. Councils are transitioning to internet-first connectivity with zero-trust security models and Software-Defined Wide Area Network (<abbr title="Software-Defined Wide Area Network">SD-WAN</abbr>).</li>
+            <li><strong>Two-tier complexity</strong> — in two-tier areas, county councils often provide shared infrastructure (Wide Area Network (<abbr title="Wide Area Network">WAN</abbr>), hosting, directory services) that district councils consume. Disaggregation creates risk when relationships change.</li>
+            <li><strong>End-user computing costs</strong> — device refresh cycles, hybrid working support, and mobile device management represent a major ongoing expenditure for all councils.</li>
+            <li><strong>Disaster recovery gaps</strong> — Disaster Recovery (<abbr title="Disaster Recovery">DR</abbr>) is often neglected until an incident occurs. High-profile cyber attacks on councils (Hackney, Redcar & Cleveland, Gloucester) have highlighted the critical importance of tested recovery capabilities.</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 3. Key capabilities -->
+          <h2 class="govuk-heading-l" id="capabilities">Key capabilities</h2>
+          <p class="govuk-body">The core platform and infrastructure capabilities that councils need to operate their technology estate.</p>
+
+          <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-capabilities">
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-1">
+                    Cloud Hosting
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-1" class="govuk-accordion__section-content">
+                <p class="govuk-body">Infrastructure as a Service (<abbr title="Infrastructure as a Service">IaaS</abbr>) and Platform as a Service (<abbr title="Platform as a Service">PaaS</abbr>) for running council applications. Public cloud, private cloud, hybrid, and community cloud arrangements. Most councils use Azure or AWS, with some legacy on-premises hosting for specialist systems.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-2">
+                    Network & Connectivity
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-2" class="govuk-accordion__section-content">
+                <p class="govuk-body"><abbr title="Wide Area Network">WAN</abbr>, Local Area Network (<abbr title="Local Area Network">LAN</abbr>), <abbr title="Software-Defined Wide Area Network">SD-WAN</abbr>, internet breakout, Wi-Fi, and inter-site links. Councils with multiple offices, libraries, and depots need reliable, secure connectivity. Transitioning from <abbr title="Public Services Network">PSN</abbr> to internet-first with zero-trust.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-3">
+                    End-User Computing
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-3" class="govuk-accordion__section-content">
+                <p class="govuk-body">Desktops, laptops, mobile devices, thin clients, and Virtual Desktop Infrastructure (<abbr title="Virtual Desktop Infrastructure">VDI</abbr>). The tools officers and social workers use daily. Includes device management (Intune/SCCM), patching, and hybrid working support.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-4">
+                    Identity & Access Management
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-4" class="govuk-accordion__section-content">
+                <p class="govuk-body">Staff Single Sign-On (<abbr title="Single Sign-On">SSO</abbr>), Multi-Factor Authentication (<abbr title="Multi-Factor Authentication">MFA</abbr>), directory services (Entra ID/Active Directory), privileged access management, role-based access control. Distinct from citizen-facing identity (which is in the Capabilities layer).</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-5">
+                    Service Management (ITSM)
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-5" class="govuk-accordion__section-content">
+                <p class="govuk-body">Incident, problem, change, configuration, and service request management. How the council operates its technology estate. Often delivered via ServiceNow, Freshservice, or Hornbill.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-6">
+                    Monitoring & Observability
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-6" class="govuk-accordion__section-content">
+                <p class="govuk-body">Infrastructure and application monitoring, alerting, log aggregation, performance baselining. Essential for proactive management and meeting SLAs.</p>
+              </div>
+            </div>
+            <div class="govuk-accordion__section">
+              <div class="govuk-accordion__section-header">
+                <h3 class="govuk-accordion__section-heading">
+                  <span class="govuk-accordion__section-button" id="accordion-capabilities-heading-7">
+                    Disaster Recovery & Business Continuity
+                  </span>
+                </h3>
+              </div>
+              <div id="accordion-capabilities-content-7" class="govuk-accordion__section-content">
+                <p class="govuk-body">Backup, replication, failover, <abbr title="Disaster Recovery">DR</abbr> testing, and Recovery Time Objective (<abbr title="Recovery Time Objective">RTO</abbr>)/Recovery Point Objective (<abbr title="Recovery Point Objective">RPO</abbr>) targets for critical systems. Councils must maintain service continuity for statutory functions.</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 4. What to consider -->
+          <div class="feature-box" id="considerations">
+            <h2 class="govuk-heading-m">What to consider</h2>
+            <p class="govuk-body">Key questions when assessing platform and infrastructure capabilities:</p>
+            <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-0">
+              <li>Do you have a clear cloud strategy (cloud-first, hybrid, or specific workload placement)?</li>
+              <li>How do you manage the lifecycle of end-user devices, and does your refresh cycle keep pace with security requirements?</li>
+              <li>Is your network architecture ready for internet-first (post-<abbr title="Public Services Network">PSN</abbr>) connectivity?</li>
+              <li>Can you recover critical systems within your stated <abbr title="Recovery Time Objective">RTO</abbr>/<abbr title="Recovery Point Objective">RPO</abbr> in the event of ransomware or data centre failure?</li>
+              <li>How is privileged access managed — do you have separation between admin and standard accounts?</li>
+              <li>What is your approach to multi-site connectivity — <abbr title="Software-Defined Wide Area Network">SD-WAN</abbr>, MPLS, or internet VPN?</li>
+            </ul>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 5. Available platforms & tools -->
+          <h2 class="govuk-heading-l" id="platforms">Available platforms & tools</h2>
+
+          <h3 class="govuk-heading-m">GDS / Public Sector</h3>
+
+          <p class="govuk-body"><strong><a href="https://www.wifi.service.gov.uk/" class="govuk-link">GovWifi</a></strong> — shared wifi authentication service for public sector buildings. Allows staff and visitors to connect to a trusted network across government offices, council buildings, and libraries.</p>
+
+          <p class="govuk-body govuk-!-margin-bottom-8"><strong><a href="https://www.cloud.service.gov.uk/" class="govuk-link">GOV.UK PaaS</a></strong> — note: decommissioned in 2023. Councils should use commercial cloud platforms directly (Azure, AWS) rather than expecting a central government hosting service.</p>
+
+          <h3 class="govuk-heading-m">Commercial (commonly used by councils)</h3>
+
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-8">
+            <li><strong>Microsoft Azure / Microsoft 365</strong> — dominant cloud and productivity platform across local government. Most councils standardise on the Microsoft ecosystem for infrastructure, identity, and collaboration.</li>
+            <li><strong>Amazon Web Services (AWS)</strong> — used by some councils, particularly for specific workloads or where vendor diversity is preferred.</li>
+            <li><strong>VMware (Broadcom)</strong> — virtualisation platform for councils retaining on-premises infrastructure or running private cloud environments.</li>
+            <li><strong>ServiceNow / Freshservice / Hornbill</strong> — IT Service Management (<abbr title="IT Service Management">ITSM</abbr>) platforms for managing incidents, service requests, changes, and the configuration management database.</li>
+            <li><strong>Microsoft Intune / SCCM</strong> — device management platforms for deploying, configuring, and securing end-user computing devices.</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 6. Standards & guidance -->
+          <h2 class="govuk-heading-l" id="standards">Standards & guidance</h2>
+          <p class="govuk-body">Relevant standards and guidance for platform and infrastructure decisions:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-8">
+            <li><a href="https://www.gov.uk/guidance/the-technology-code-of-practice" class="govuk-link"><strong>Technology Code of Practice</strong></a> — criteria to help government design, build and buy technology</li>
+            <li><a href="https://www.gov.uk/government/collections/cloud-technology-and-the-public-sector" class="govuk-link"><strong>Cloud guidance for the public sector</strong></a> — resources for using cloud platforms in public sector organisations</li>
+            <li><a href="https://www.gov.uk/guidance/microsoft-365-guidance-for-uk-government" class="govuk-link"><strong>Microsoft 365 guidance for UK government</strong></a> — recommended configurations for M365</li>
+            <li><a href="https://www.gov.uk/government/publications/the-minimum-cyber-security-standard" class="govuk-link"><strong>Minimum Cyber Security Standard</strong></a> — baseline security expectations for public sector organisations</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 7. Commercial frameworks -->
+          <h2 class="govuk-heading-l" id="frameworks">Commercial frameworks</h2>
+          <p class="govuk-body">Crown Commercial Service (<abbr title="Crown Commercial Service">CCS</abbr>) agreements relevant to platform and infrastructure procurement:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-8">
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/?&status=Live&category=Cloud+and+Hosting&page=1" class="govuk-link"><strong>Cloud and Hosting</strong></a> — cloud hosting and managed services</li>
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/RM6116" class="govuk-link"><strong>Network Services</strong></a> — WAN, LAN, and connectivity services</li>
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/RM6261" class="govuk-link"><strong>Mobile Voice and Data</strong></a> — mobile devices and data contracts</li>
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/RM6098" class="govuk-link"><strong>Technology Products</strong></a> — end-user devices, servers, storage, accessories</li>
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/RM6100" class="govuk-link"><strong>Technology Services</strong></a> — IT service support and managed services</li>
+            <li><a href="https://www.crowncommercial.gov.uk/agreements/RM6361" class="govuk-link"><strong>MFD Services</strong></a> — print, hardware, and digital workflow</li>
+          </ul>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- 8. Connections to service delivery -->
+          <h2 class="govuk-heading-l" id="connections">Connections to service delivery</h2>
+          <p class="govuk-body">Platform & Infrastructure enables the entire LGAM service delivery stack:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li><strong>All IT Systems</strong> (CRM, Social Care, Planning, etc.) run on cloud hosting or on-premises infrastructure</li>
+            <li><strong>Council Interfaces</strong> (Website, Apps, <abbr title="Application Programming Interface">API</abbr> Gateway) depend on network connectivity and hosting</li>
+            <li><strong>Service Management</strong> underpins the operational reliability of all capabilities</li>
+            <li><strong>Identity & Access Management</strong> secures staff access to back-office systems</li>
+          </ul>
+</main-content>
