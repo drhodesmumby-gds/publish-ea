@@ -248,11 +248,11 @@ def generate_preview_index(pages_meta):
     lines.append("</tbody></table>")
     lines.append("</div></body></html>")
 
-    index_path = os.path.join(PREVIEW_DIR, "_index.html")
+    index_path = os.path.join(PREVIEW_DIR, "directory.html")
     with open(index_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
-    print(f"\n  Preview index: preview/_index.html")
+    print(f"\n  Preview index: preview/directory.html")
 
 
 def main():
