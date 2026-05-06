@@ -199,6 +199,62 @@ def update_index_links(pages):
         print("  [unchanged] index.html")
 
 
+def generate_preview_index(pages_meta):
+    """Generate a simple link index page listing all preview pages."""
+    lines = []
+    lines.append("<!DOCTYPE html>")
+    lines.append('<html lang="en"><head>')
+    lines.append('<meta charset="utf-8">')
+    lines.append('<title>LGAM Preview Index</title>')
+    lines.append('<meta name="viewport" content="width=device-width, initial-scale=1">')
+    lines.append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.css">')
+    lines.append("</head><body class=\"govuk-template__body\">")
+    lines.append('<div class="govuk-width-container" style="padding: 30px 0;">')
+    lines.append('<h1 class="govuk-heading-l">LGAM Preview Pages</h1>')
+    lines.append('<p class="govuk-body">These pages are drafts or have unapproved modifications. They are not linked from the live site.</p>')
+
+    # Hand-authored pages
+    lines.append('<h2 class="govuk-heading-m">Hand-authored pages</h2>')
+    lines.append('<ul class="govuk-list govuk-list--bullet">')
+    for filename in HAND_AUTHORED_FILES:
+        preview_path = os.path.join(PREVIEW_DIR, filename)
+        if os.path.exists(preview_path):
+            hand_path = os.path.join(HAND_DIR, filename)
+            state = "modified" if os.path.exists(hand_path) else "published"
+            lines.append(f'<li><a class="govuk-link" href="{filename}">{filename}</a> <strong class="govuk-tag govuk-tag--{("yellow" if state == "modified" else "green")}">{state}</strong></li>')
+    lines.append("</ul>")
+
+    # Built pages
+    lines.append('<h2 class="govuk-heading-m">Built pages</h2>')
+    lines.append('<table class="govuk-table">')
+    lines.append('<thead class="govuk-table__header"><tr>')
+    lines.append('<th class="govuk-table__header">Page</th>')
+    lines.append('<th class="govuk-table__header">Title</th>')
+    lines.append('<th class="govuk-table__header">Status</th>')
+    lines.append("</tr></thead>")
+    lines.append('<tbody class="govuk-table__body">')
+
+    tag_colours = {"published": "green", "draft": "grey", "modified": "yellow"}
+    for filename, fm in pages_meta:
+        title = fm.get("title", filename)
+        status = fm.get("status", "draft")
+        colour = tag_colours.get(status, "grey")
+        lines.append("<tr class=\"govuk-table__row\">")
+        lines.append(f'<td class="govuk-table__cell"><a class="govuk-link" href="{filename}">{filename}</a></td>')
+        lines.append(f'<td class="govuk-table__cell">{title}</td>')
+        lines.append(f'<td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--{colour}">{status}</strong></td>')
+        lines.append("</tr>")
+
+    lines.append("</tbody></table>")
+    lines.append("</div></body></html>")
+
+    index_path = os.path.join(PREVIEW_DIR, "directory.html")
+    with open(index_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+    print(f"\n  Preview index: preview/directory.html")
+
+
 def main():
     if not os.path.isdir(PAGES_DIR):
         print(f"Error: pages directory not found: {PAGES_DIR}", file=sys.stderr)
@@ -266,6 +322,9 @@ def main():
             print(f"  [published]  {filename} (copied to preview)")
         else:
             print(f"  [skip]       {filename} (not found)")
+
+    # Generate preview link index
+    generate_preview_index(pages_meta)
 
     print(f"\nPreview: {PREVIEW_DIR}/")
     print("Done.")
