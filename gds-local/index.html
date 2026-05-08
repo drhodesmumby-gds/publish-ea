@@ -74,6 +74,10 @@
       padding: 0;
     }
 
+    .app-navigation__sublist {
+      padding-left: 10px;
+    }
+
     .app-navigation__item {
       margin-bottom: 2px;
     }
@@ -246,11 +250,11 @@
     }
 
     /* Layer Border Colors */
-    .lgam-layer--channels { border-color: #1d70b8; }
-    .lgam-layer--agents { border-color: #4c2d92; }
-    .lgam-layer--capabilities { border-color: #28a197; }
-    .lgam-layer--business { border-color: #cf611c; }
-    .lgam-layer--corporate { border-color: #505a5f; }
+    .lgam-layer--channels { border-color: #FF00FF; }
+    .lgam-layer--agents { border-color: #800080; }
+    .lgam-layer--capabilities { border-color: #000080; }
+    .lgam-layer--business { border-color: #0000FF; }
+    .lgam-layer--corporate { border-color: #808080; }
 
     .lgam-grid {
       display: grid;
@@ -340,18 +344,19 @@
       color: #ffffff;
     }
 
-    .badge--blue { background: #1d70b8; }
-    .badge--green { background: #4c2d92; }
-    .badge--teal { background: #28a197; } 
-    .badge--orange { background: #cf611c; } 
-    .badge--grey { background: #505a5f; }
+    .badge--blue { background: #FF00FF; }
+    .badge--green { background: #800080; }
+    .badge--teal { background: #008080; }
+    .badge--orange { background: #0000FF; }
+    .badge--grey { background: #808080; }
 
     /* ==========================================================================
        LGAM - CONTEXT MAP (Architecture Overview)
        ========================================================================== */
     .lgam-context-map {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 3fr 1fr;
+      grid-template-rows: repeat(7, auto);
       gap: 4px;
       max-width: 960px;
       margin: 40px auto;
@@ -361,7 +366,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
       padding: 14px 15px;
       text-align: center;
       color: #fff;
@@ -383,14 +387,125 @@
       box-shadow: inset 0 0 0 2px #0b0c0c;
     }
 
-    .lgam-context-map__block--full { grid-column: 1 / -1; }
+    /* Foundational Technology spans the full right column */
+    .lgam-context-map__block--enabling {
+      grid-column: 2;
+      grid-row: 1 / -1;
+    }
 
-    .lgam-context-map__block--channels     { background: #1d70b8; }
-    .lgam-context-map__block--interfaces   { background: #4c2d92; }
-    .lgam-context-map__block--capabilities { background: #28a197; }
-    .lgam-context-map__block--enabling     { background: #9f1239; }
-    .lgam-context-map__block--business     { background: #cf611c; }
-    .lgam-context-map__block--corporate    { background: #505a5f; }
+    /* All left-column items explicitly in column 1 */
+    .lgam-context-map__block--channels,
+    .lgam-context-map__block--interfaces,
+    .lgam-context-map__block--capabilities,
+    .lgam-context-map__block--integration,
+    .lgam-context-map__block--security,
+    .lgam-context-map__block--data {
+      grid-column: 1;
+    }
+
+
+    /* Bottom row: Business + Corporate share the left column */
+    .lgam-context-map__bottom {
+      grid-column: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+    }
+
+    .lgam-context-map__block--channels     { background: #FF00FF; }
+    .lgam-context-map__block--interfaces   { background: #800080; }
+    .lgam-context-map__block--capabilities { background: #000080; }
+    .lgam-context-map__block--enabling     { background: #008080; }
+    .lgam-context-map__block--business     { background: #0000FF; }
+    .lgam-context-map__block--corporate    { background: #808080; }
+    .lgam-context-map__block--integration  { background: #808000; }
+    .lgam-context-map__block--security     { background: #FF0000; }
+    .lgam-context-map__block--data         { background: #800000; }
+
+    /* ==========================================================================
+       LGAM - FOUNDATIONAL TECHNOLOGY SUB-DOMAIN SECTIONS
+       ========================================================================== */
+    .lgam-subdomain {
+      background: #ffffff;
+      border: 1px solid #b1b4b6;
+      border-left: 4px solid #b1b4b6;
+      padding: 0;
+      margin-top: 15px;
+    }
+
+    .lgam-subdomain__summary {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      cursor: pointer;
+      list-style: none;
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1d70b8;
+      text-decoration: underline;
+    }
+
+    .lgam-subdomain__summary::-webkit-details-marker { display: none; }
+    .lgam-subdomain__summary::marker { display: none; content: ""; }
+
+    .lgam-subdomain__summary:hover { background: #f8f8f8; }
+
+    .lgam-subdomain__summary .lgam-badge { display: none; }
+
+    .lgam-subdomain__title {
+      /* Visible when collapsed — the clickable label */
+    }
+
+    .lgam-subdomain__arrow {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 5px 0 5px 8px;
+      border-color: transparent transparent transparent #1d70b8;
+      margin-right: 10px;
+      flex-shrink: 0;
+      transition: transform 0.15s ease-out;
+    }
+
+    .lgam-subdomain[open] > .lgam-subdomain__summary .lgam-subdomain__arrow {
+      transform: rotate(90deg);
+    }
+
+    .lgam-subdomain__content {
+      padding: 0 15px 15px 15px;
+      background: #f3f2f1;
+    }
+
+    .lgam-subdomain__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .lgam-subdomain__card {
+      background: #ffffff;
+      border: 1px solid #b1b4b6;
+      padding: 10px;
+      position: relative;
+      transition: background-color 0.2s;
+    }
+
+    .lgam-subdomain__card:hover {
+      background-color: #f8f8f8;
+      cursor: pointer;
+    }
+
+    /* Sub-domain accent colours (matching manager's green shades) */
+    #artificial-intelligence { border-color: #006400; }
+    #devops { border-color: #008000; }
+    #enduser { border-color: #228B22; }
+    #servicemanagement { border-color: #2E8B57; }
+    #infra-hosting { border-color: #556B2F; }
 
     /* ==========================================================================
        RESPONSIVE (MOBILE VIEW)
@@ -415,9 +530,12 @@
       .capability-row .capability-block { font-size: 16px; }
       .cap-arch-bar { font-size: 18px; padding: 15px; }
       .lgam-grid { grid-template-columns: 1fr; }
-      .lgam-context-map { grid-template-columns: 1fr; }
-      .lgam-context-map__block--full { grid-column: 1; }
+      .lgam-context-map { grid-template-columns: 1fr; grid-template-rows: auto; }
+      .lgam-context-map__block--enabling { grid-column: 1; grid-row: auto; }
+      .lgam-context-map__bottom { grid-template-columns: 1fr; }
       .lgam-context-map__block { font-size: 18px; }
+      .lgam-subdomain__grid { grid-template-columns: 1fr; }
+      .app-navigation__link { padding: 10px 8px; font-size: 14px; min-height: 24px; }
     }
     /* ==========================================================================
        CDN ASSET PATH OVERRIDES & FOOTER LOGO RESTORATION
@@ -481,19 +599,11 @@
     <div class="govuk-width-container">
       <ul class="app-service-nav__list">
         <li><a class="app-service-nav__link app-service-nav__link--active" href="index.html">Documentation</a></li>
-        <li><a class="app-service-nav__link" href="mailto:gdslocal-info@dsit.gov.uk">Contact</a></li>
+        <li><a class="app-service-nav__link" href="mailto:gdslocal-info@dsit.gov.uk">Contact and feedback</a></li>
       </ul>
     </div>
   </nav>
 
-  <div class="govuk-width-container">
-    <div class="govuk-phase-banner">
-      <p class="govuk-phase-banner__content"> 
-        <strong class="govuk-tag govuk-phase-banner__content__tag"> Beta </strong> 
-        <span class="govuk-phase-banner__text"> This page is a Beta version and may change. Your <a class="govuk-link" href="mailto:gdslocal-info@dsit.gov.uk">feedback</a> will help us improve the content for future publication. </span> 
-      </p>
-    </div>
-  </div>
 
   <div class="app-product-header">
     <div class="govuk-width-container">
@@ -516,21 +626,25 @@
         <li class="app-navigation__item"><a class="app-navigation__link" href="#capabilities">Capabilities</a></li>
         <li class="app-navigation__item"><a class="app-navigation__link" href="#business-areas">Business Areas</a></li>
         <li class="app-navigation__item"><a class="app-navigation__link" href="#corporate-areas">Corporate Areas</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#foundational-technology">Foundational Technology</a>
+          <ul class="app-navigation app-navigation__sublist">
+            <li class="app-navigation__item"><a class="app-navigation__link" href="#artificial-intelligence">Artificial Intelligence</a></li>
+            <li class="app-navigation__item"><a class="app-navigation__link" href="#devops">Developer and Operations</a></li>
+            <li class="app-navigation__item"><a class="app-navigation__link" href="#enduser">End User and Productivity</a></li>
+            <li class="app-navigation__item"><a class="app-navigation__link" href="#servicemanagement">Service Management</a></li>
+            <li class="app-navigation__item"><a class="app-navigation__link" href="#infra-hosting">Infrastructure and Hosting</a></li>
+          </ul>
+        </li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#integration">Integration</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#security">Security</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#data-information">Data and Information</a></li>
       </ul>
-      <!--<h2 class="app-navigation__heading">Corporate</h2>
-      <ul class="app-navigation">
-        <li class="app-navigation__item"><a class="app-navigation__link" href="#corporate-areas">Corporate Areas</a></li>
-      </ul>-->
-      <!--<h2 class="app-navigation__heading">Enabling Technology</h2>
-      <ul class="app-navigation">
-        <li class="app-navigation__item"><a class="app-navigation__link" href="#enabling-technology">Overview</a></li>
-      </ul>-->
     </nav>
 
     <main class="app-main-content" id="main-content" role="main">
       <section id="overview">
         <h2 class="govuk-heading-l">Introduction</h2>
-        <p class="govuk-body"> The Local Government Architecture Model (LGAM) is designed to be a guide to the public technology layers that are used to deliver local public services. </p>
+        <p class="govuk-body">The Local Government Architecture Model (LGAM) is a shared framework that provides a consistent way to understand, describe, and align how local government technology supports service delivery and the overall operation of a council.</p>
         <p class="govuk-body">The LGAM is part of a wider vision for local government technology. It guides:</p>
         <ul class="govuk-list govuk-list--bullet">
           <li>the Government Digital Service (GDS) in building common products, including those for local government</li>
@@ -552,33 +666,42 @@
       <section id="architecture-model">
         <h2 class="govuk-heading-l">Architecture overview</h2>
         <div class="lgam-container">
-          <p class="govuk-body-l">The Local Government Architecture Model separates public facing local government technology into 5 distinct layers.</p>
-          <p class="govuk-body">It maps the journey from how a user interacts with a service down to the back-office systems that run it.</p>
-           <p class="govuk-body">We will shortly be publishing a wider public sector capability model that covers areas such as integration, hosting, security and foundational technology, to help councils build a complete understanding of their technology stack and how its components fit together.</p>
+          <p class="govuk-body-l">The Local Government Architecture Model (LGAM) describes the technology that councils use to deliver public services and the platforms that support them, across 9 layers.</p>
 
           <!-- CONTEXT MAP -->
-          <section class="capability-architecture" aria-label="Architecture model overview">
-            <div class="lgam-context-map" role="list" aria-label="Architecture domains">
-              <a href="#public-channels" role="listitem" class="lgam-context-map__block lgam-context-map__block--channels lgam-context-map__block--full">
+          <nav class="capability-architecture" aria-label="Architecture model layers">
+            <div class="lgam-context-map">
+              <a href="#public-channels" class="lgam-context-map__block lgam-context-map__block--channels" aria-label="Public Channels layer">
                 Public Channels
               </a>
-              <a href="#council-interfaces" role="listitem" class="lgam-context-map__block lgam-context-map__block--interfaces lgam-context-map__block--full">
+              <a href="#foundational-technology" class="lgam-context-map__block lgam-context-map__block--enabling" aria-label="Foundational Technology layer">
+                Foundational Technology
+              </a>
+              <a href="#council-interfaces" class="lgam-context-map__block lgam-context-map__block--interfaces" aria-label="Council Interfaces layer">
                 Council Interfaces
               </a>
-              <a href="#capabilities" role="listitem" class="lgam-context-map__block lgam-context-map__block--capabilities lgam-context-map__block--full">
+              <a href="#capabilities" class="lgam-context-map__block lgam-context-map__block--capabilities" aria-label="Capabilities layer">
                 Capabilities
               </a>
-              <a href="#business-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--business">
-                Business Areas
+              <div class="lgam-context-map__bottom">
+                <a href="#business-areas" class="lgam-context-map__block lgam-context-map__block--business" aria-label="Business Areas layer">
+                  Business Areas
+                </a>
+                <a href="#corporate-areas" class="lgam-context-map__block lgam-context-map__block--corporate" aria-label="Corporate Areas layer">
+                  Corporate Areas
+                </a>
+              </div>
+              <a href="#integration" class="lgam-context-map__block lgam-context-map__block--integration" aria-label="Integration layer">
+                Integration
               </a>
-              <a href="#corporate-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--corporate">
-                Corporate Areas
+              <a href="#security" class="lgam-context-map__block lgam-context-map__block--security" aria-label="Security layer">
+                Security
               </a>
-              <!--<a href="#enabling-technology" role="listitem" class="lgam-context-map__block lgam-context-map__block--enabling lgam-context-map__block--full">
-                Enabling Technology
-              </a>-->
+              <a href="#data-information" class="lgam-context-map__block lgam-context-map__block--data" aria-label="Data and Information Technology layer">
+                Data and Information Technology
+              </a>
             </div>
-          </section>
+          </nav>
             
           <!-- LAYER 1: PUBLIC CHANNELS -->
           <section class="lgam-layer lgam-layer--channels" id="public-channels"> 
@@ -623,8 +746,8 @@
               </li>
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">SMS or text messaging</span></summary>
-                  <div class="govuk-details__text">Text-based messages used to provide quick updates, alerts, or appointment reminders.</div>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Messaging</span></summary>
+                  <div class="govuk-details__text">Text-based messages including SMS, used to provide quick updates, alerts, or appointment reminders.</div>
                 </details>
               </li>
               <li class="lgam-item">
@@ -705,7 +828,7 @@
 
           <!-- LAYER 3: CAPABILITIES -->
           <section class="lgam-layer lgam-layer--capabilities" id="capabilities"> 
-            <strong class="lgam-badge badge--teal">Capabilities</strong>
+            <strong class="lgam-badge" style="background: #000080;">Capabilities</strong>
             <p class="govuk-body govuk-!-font-weight-bold">Capabilities used by council's interfaces to help them meet the needs of their service users.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
@@ -721,7 +844,7 @@
               </li>
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Booking systems</span></summary>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Booking</span></summary>
                   <div class="govuk-details__text">Capabilities used to arrange and manage appointments or service slots, such as inspections and interviews with users.</div>
                 </details>
               </li>
@@ -777,9 +900,9 @@
               </li>
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">SMS</span></summary>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Messaging</span></summary>
                   <div class="govuk-details__text">
-                    <p class="govuk-body govuk-!-margin-bottom-2">Tools used to send and receive text messages for updates, reminders, and quick communications with users.</p>
+                    <p class="govuk-body govuk-!-margin-bottom-2">Tools used to send and receive text messages including SMS, for updates, reminders, and quick communications with users.</p>
                     <!--<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
                     <h4 class="govuk-heading-s govuk-!-margin-bottom-2">Example platforms</h4>
                     <ul class="govuk-list govuk-list--bullet govuk-!-font-size-16 govuk-!-margin-bottom-0">
@@ -806,9 +929,8 @@
 
           <!-- LAYER 4: BUSINESS AREAS -->
           <section class="lgam-layer lgam-layer--business" id="business-areas"> 
-            <strong class="lgam-badge badge--orange">Business Areas</strong>
+            <strong class="lgam-badge" style="background: #0000FF;">Business Areas</strong>
             <p class="govuk-body govuk-!-font-weight-bold">Business areas cover the specific functions each council must provide. Each area features individual technology components designed for a specific need.</p>
-            <p>Councils may choose to categorise or group these services in different ways.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
               Open all <span class="govuk-visually-hidden">sections in Business Areas</span>
@@ -900,7 +1022,6 @@
           <section class="lgam-layer lgam-layer--corporate" id="corporate-areas"> 
             <strong class="lgam-badge badge--grey">Corporate Areas</strong>
             <p class="govuk-body govuk-!-font-weight-bold">Corporate areas are required functions not specific to councils, each with their own individual technology components.</p>
-            <p>Councils may choose to categorise or group these services in different ways.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
               Open all <span class="govuk-visually-hidden">sections in Corporate Areas</span>
@@ -969,49 +1090,363 @@
               </li>
             </ul>
           </section>
-          <!-- ENABLING TECHNOLOGY -->
-          <!--<section class="lgam-layer" id="enabling-technology" style="border-color: #9f1239;">
-            <strong class="lgam-badge" style="background: #9f1239;">Enabling Technology</strong>
-            <p class="govuk-body govuk-!-font-weight-bold">Technology platforms and capabilities that underpin and connect council service delivery systems.</p>
-            <p class="govuk-body">Enabling technology covers the integration, data, AI, platform, and security capabilities that councils need to run their technology estate effectively.</p>
+          <!-- FOUNDATIONAL TECHNOLOGY -->
+          <section class="lgam-layer" id="foundational-technology" style="border-color: #008080;">
+            <strong class="lgam-badge" style="background: #008080;">Foundational Technology</strong>
+            <p class="govuk-body govuk-!-font-weight-bold">Technology platforms and capabilities that underpin council service delivery.</p>
+
+            <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" id="ftOpenAllSubdomains" data-module="govuk-button" aria-expanded="false">
+              Open all <span class="govuk-visually-hidden">sub-domains in Foundational Technology</span>
+            </button>
+
+            <!-- SUB-DOMAIN: Artificial Intelligence -->
+            <details class="lgam-subdomain" id="artificial-intelligence" data-module="govuk-details">
+              <summary class="lgam-subdomain__summary"><span class="lgam-subdomain__arrow"></span><strong class="lgam-badge badge--teal">Artificial Intelligence</strong><span class="lgam-subdomain__title">Artificial Intelligence</span></summary>
+              <div class="lgam-subdomain__content">
+                <p class="govuk-body">Artificial intelligence enables advanced automation and insight generation through machine learning, data preparation, language processing, intelligent automation, and generative AI tools.</p>
+
+                <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button lgam-subdomain__open-all" data-module="govuk-button" aria-expanded="false">
+                  Open all <span class="govuk-visually-hidden">sections in Artificial Intelligence</span>
+                </button>
+
+                <ul class="lgam-subdomain__grid">
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">AI enablement</span></summary>
+                      <div class="govuk-details__text">Tools for collecting, cleansing, and enriching data to train AI/ML models. This covers building feature pipelines, managing feature stores, labelling training data, and ensuring high-quality, well-structured datasets.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Conversational AI</span></summary>
+                      <div class="govuk-details__text">Capabilities that enable systems to process and understand human language, powering applications like chatbots, virtual assistants, and language translation.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Generative AI</span></summary>
+                      <div class="govuk-details__text">Code-generation assistants, content or image generation services, and AI copilots integrated into productivity suites to help draft documents, analyse data, or provide creative suggestions.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Intelligent automation</span></summary>
+                      <div class="govuk-details__text">Software bots and AI-driven automation to mimic human tasks in systems, streamline workflows, and handle repetitive processes.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Machine learning</span></summary>
+                      <div class="govuk-details__text">Tools and frameworks to build, train, and deploy machine learning models, along with processes for ML Operations (MLOps) to manage model lifecycle and integration.</div>
+                    </details>
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            <!-- SUB-DOMAIN: Developer and Operations Tooling -->
+            <details class="lgam-subdomain" id="devops" data-module="govuk-details">
+              <summary class="lgam-subdomain__summary"><span class="lgam-subdomain__arrow"></span><strong class="lgam-badge badge--teal">Developer and Operations Tooling</strong><span class="lgam-subdomain__title">Developer and Operations Tooling</span></summary>
+              <div class="lgam-subdomain__content">
+                <p class="govuk-body">Developer and operations tooling enables reliable and rapid software delivery through automated pipelines, release management and end-to-end monitoring and observability.</p>
+
+                <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button lgam-subdomain__open-all" data-module="govuk-button" aria-expanded="false">
+                  Open all <span class="govuk-visually-hidden">sections in Developer and Operations Tooling</span>
+                </button>
+
+                <ul class="lgam-subdomain__grid">
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Release management</span></summary>
+                      <div class="govuk-details__text">DevOps toolchains enabling continuous integration, continuous delivery (CI/CD), and automated infrastructure provisioning as code.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Monitoring and observability</span></summary>
+                      <div class="govuk-details__text">IT monitoring and observability tooling to track system health, performance, and logs across applications and infrastructure. This includes centralised logging platforms, metrics and tracing systems, and Application Performance Monitoring tools.</div>
+                    </details>
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            <!-- SUB-DOMAIN: End User and Productivity -->
+            <details class="lgam-subdomain" id="enduser" data-module="govuk-details">
+              <summary class="lgam-subdomain__summary"><span class="lgam-subdomain__arrow"></span><strong class="lgam-badge badge--teal">End User and Productivity</strong><span class="lgam-subdomain__title">End User and Productivity</span></summary>
+              <div class="lgam-subdomain__content">
+                <p class="govuk-body">End user and productivity enables staff to work effectively through managed devices, communication tools, collaboration platforms and knowledge sharing capabilities.</p>
+
+                <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button lgam-subdomain__open-all" data-module="govuk-button" aria-expanded="false">
+                  Open all <span class="govuk-visually-hidden">sections in End User and Productivity</span>
+                </button>
+
+                <ul class="lgam-subdomain__grid">
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Unified communications</span></summary>
+                      <div class="govuk-details__text">Collaboration and communication tools that support day-to-day work, including enterprise email and calendaring systems, video conferencing, voice (telephony/VoIP), and unified communication platforms.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">End-user devices</span></summary>
+                      <div class="govuk-details__text">Management of end-user computing devices and their supporting infrastructure.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Knowledge management</span></summary>
+                      <div class="govuk-details__text">Capabilities to manage and share organisational knowledge and leverage internal professional networks or communities of practice.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Productivity</span></summary>
+                      <div class="govuk-details__text">Team collaboration workspaces and productivity suites for content creation and sharing. This includes cloud file storage and office productivity applications.</div>
+                    </details>
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            <!-- SUB-DOMAIN: Service Management -->
+            <details class="lgam-subdomain" id="servicemanagement" data-module="govuk-details">
+              <summary class="lgam-subdomain__summary"><span class="lgam-subdomain__arrow"></span><strong class="lgam-badge badge--teal">Service Management</strong><span class="lgam-subdomain__title">Service Management</span></summary>
+              <div class="lgam-subdomain__content">
+                <p class="govuk-body">Service management ensures reliable and efficient IT operations by managing support services, applications and software assets across their lifecycle.</p>
+
+                <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button lgam-subdomain__open-all" data-module="govuk-button" aria-expanded="false">
+                  Open all <span class="govuk-visually-hidden">sections in Service Management</span>
+                </button>
+
+                <ul class="lgam-subdomain__grid">
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Application portfolio</span></summary>
+                      <div class="govuk-details__text">Processes and tools to catalogue and manage the organisation's application estatetracking each application's purpose, lifecycle stage, and fit to needs.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">IT operations and service desk</span></summary>
+                      <div class="govuk-details__text">Capabilities to run day-to-day IT operations and support services, including a central IT service desk for incident and request handling. This includes monitoring IT systems, managing incidents and changes, and utilising ITSM tools.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Software asset and licence</span></summary>
+                      <div class="govuk-details__text">Systems to track software assets and licences, ensuring compliance and optimal usage of software across the organisation.This includes monitoring software installations and usage, managing licence entitlements and renewals.</div>
+                    </details>
+                  </li>
+                </ul>
+              </div>
+            </details>
+
+            <!-- SUB-DOMAIN: Infrastructure & Hosting -->
+            <details class="lgam-subdomain" id="infra-hosting" data-module="govuk-details">
+              <summary class="lgam-subdomain__summary"><span class="lgam-subdomain__arrow"></span><strong class="lgam-badge badge--teal">Infrastructure &amp; Hosting</strong><span class="lgam-subdomain__title">Infrastructure &amp; Hosting</span></summary>
+              <div class="lgam-subdomain__content">
+                <p class="govuk-body">Infrastructure and hosting provides the foundational compute, storage and networking capabilities.</p>
+
+                <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button lgam-subdomain__open-all" data-module="govuk-button" aria-expanded="false">
+                  Open all <span class="govuk-visually-hidden">sections in Infrastructure &amp; Hosting</span>
+                </button>
+
+                <ul class="lgam-subdomain__grid">
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Compute, storage, and network services</span></summary>
+                      <div class="govuk-details__text">Core IT infrastructure providing computing power, data storage, and network connectivity for all systems. This includes on-premises data centre and cloud hosting, and network services (LAN/WAN) that connect environments.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Connectivity and network hardware</span></summary>
+                      <div class="govuk-details__text">Networking infrastructure to provide reliable connectivity across offices, data centres, and cloud environments. This includes network hardware and telecoms services ensuring secure data communication, as well as internet connectivity and remote access solutions.</div>
+                    </details>
+                  </li>
+                  <li class="lgam-subdomain__card">
+                    <details class="govuk-details" data-module="govuk-details">
+                      <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Virtualisation and platform enablement</span></summary>
+                      <div class="govuk-details__text">Tools and platforms for virtualisation and adopting cloud services, enabling flexible and efficient infrastructure provisioning.</div>
+                    </details>
+                  </li>
+                </ul>
+              </div>
+            </details>
+          </section>
+
+          <!-- LAYER: INTEGRATION -->
+          <section class="lgam-layer" id="integration" style="border-color: #808000;">
+            <strong class="lgam-badge" style="background: #808000;">Integration</strong>
+            <p class="govuk-body govuk-!-font-weight-bold">Integrations ensure systems, applications, and data sources can seamlessly connect and share information to provide consistent data and unified digital experiences across the organisation.</p>
 
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
-              Open all <span class="govuk-visually-hidden">sections in Enabling Technology</span>
+              Open all <span class="govuk-visually-hidden">sections in Integration</span>
             </button>
 
             <ul class="lgam-grid">
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Platform & Infrastructure</span></summary>
-                  <div class="govuk-details__text">Cloud hosting, networking, end-user computing, identity and access management, service management, monitoring, and disaster recovery.</div>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">API management and gateways</span></summary>
+                  <div class="govuk-details__text">Platforms and services for designing, publishing, securing, and monitoring APIs, often combined with API developer portals/catalogues for discovery and governance.</div>
                 </details>
               </li>
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Cyber Security</span></summary>
-                  <div class="govuk-details__text">Network security, endpoint protection, security operations, information governance and compliance, vulnerability management, and supply chain security.</div>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Data integration and pipelines (ETL/ELT)</span></summary>
+                  <div class="govuk-details__text">Tools and processes for extracting, transforming, and loading data between systems, supporting both batch ETL and real-time ELT pipelines.</div>
                 </details>
               </li>
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Integration & Interoperability</span></summary>
-                  <div class="govuk-details__text">API management, integration platforms, data pipelines, national service connectivity, inter-authority data sharing, and standards compliance.</div>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Event-driven and streaming integration</span></summary>
+                  <div class="govuk-details__text">Platforms for capturing and distributing real-time event streams, enabling responsive, event-driven architectures.</div>
                 </details>
               </li>
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Data & Analytics</span></summary>
-                  <div class="govuk-details__text">Master data management, business intelligence and reporting, data warehousing, data quality and governance, open data publishing, and geospatial platforms.</div>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">File transfer management</span></summary>
+                  <div class="govuk-details__text">Managed File Transfer (MFT) solutions to securely exchange files between systems or with external partners, ensuring scheduling, auditing, and integrity of bulk data transfers.</div>
                 </details>
               </li>
               <li class="lgam-item">
                 <details class="govuk-details" data-module="govuk-details">
-                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">AI & Automation</span></summary>
-                  <div class="govuk-details__text">Robotic process automation, machine learning and predictive analytics, intelligent document processing, process mining, AI governance, and conversational AI platforms.</div>
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Integration governance and tooling</span></summary>
+                  <div class="govuk-details__text">Secure by design integration architecture and governance processes supported by integration platforms and tools. These establish common integration patterns, standards, and reusable components for consistency and incorporate security & privacy by design principles (e.g. authentication, encryption, policy enforcement) into integration solutions.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Message-oriented middleware</span></summary>
+                  <div class="govuk-details__text">Enterprise service buses (ESB) and message brokers that route, transform, and orchestrate interactions between applications.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Partner (B2B) integration</span></summary>
+                  <div class="govuk-details__text">Capabilities for business-to-business (B2B) and partner data exchange, including supporting EDI standards, secure partner API connections, and external data-sharing agreements.</div>
                 </details>
               </li>
             </ul>
-          </section>-->
+          </section>
+
+          <!-- LAYER: SECURITY -->
+          <section class="lgam-layer" id="security" style="border-color: #FF0000;">
+            <strong class="lgam-badge" style="background: #FF0000;">Security</strong>
+            <p class="govuk-body govuk-!-font-weight-bold">Security encompasses all capabilities, tools, and practices that protect the organisation's people, data, systems, and services from threats and ensure resilience against disruption.</p>
+
+            <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
+              Open all <span class="govuk-visually-hidden">sections in Security</span>
+            </button>
+
+            <ul class="lgam-grid">
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Application and data security</span></summary>
+                  <div class="govuk-details__text">Capabilities to secure applications and data through secure development practices, data protection controls, and continuous security testing. This involves application security testing (SAST/DAST) during development, enforcing data classification & encryption, protecting APIs, and monitoring for application-level threats.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Identity and access management (IAM)</span></summary>
+                  <div class="govuk-details__text">Capabilities to verify identities and control access to systems that may use Zero Trust principles. This includes authentication and authorisation services (e.g. single sign-on, multi-factor authentication) to ensure only the right users/devices get appropriate access.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Incident forensics</span></summary>
+                  <div class="govuk-details__text">Digital forensic analysis capabilities including tools to collect and analyse digital evidence when breaches occur.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Network and endpoint security</span></summary>
+                  <div class="govuk-details__text">Network, endpoint, and device protection measures to guard against malware, intrusions, and unauthorised access. This includes firewalls, endpoint protection, intrusion detection/prevention systems, network segmentation, and device compliance monitoring.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Physical security and access Control</span></summary>
+                  <div class="govuk-details__text">Management of physical access and on-site security, including badge access systems, CCTV surveillance, and facility security controls.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Security operations and monitoring (SOC)</span></summary>
+                  <div class="govuk-details__text">Continuous security monitoring and incident management via a Security Operations Centre (SOC). SOC capabilities often include SIEM (Security Information & Event Management) tools and threat detection platforms to maintain real-time visibility of the security posture.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Vulnerability and threat management</span></summary>
+                  <div class="govuk-details__text">Tools and processes to identify, assess, and remediate vulnerabilities in systems, as well as manage cyber threat intelligence. This covers regular vulnerability scanning, prioritising patches based on risk, tracking emerging threats, and verifying configuration security.</div>
+                </details>
+              </li>
+            </ul>
+          </section>
+
+          <!-- LAYER: DATA AND INFORMATION -->
+          <section class="lgam-layer" id="data-information" style="border-color: #800000;">
+            <strong class="lgam-badge" style="background: #800000;">Data and Information</strong>
+            <p class="govuk-body govuk-!-font-weight-bold">Data and information management encompasses the capabilities, tools, and practices that equip the organisation to collect, manage, understand, and utilise its data and information assets in an effective manner.</p>
+
+            <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
+              Open all <span class="govuk-visually-hidden">sections in Data and Information</span>
+            </button>
+
+            <ul class="lgam-grid">
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Business intelligence and analytics</span></summary>
+                  <div class="govuk-details__text">BI and analytics platforms for aggregating data and creating reports, dashboards, and visualisations to inform decision-making. This includes interactive data exploration, performance metrics, and trend analysis .</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Data catalogue & metadata management</span></summary>
+                  <div class="govuk-details__text">Systems for cataloguing data assets and managing metadata across the organisation, enabling data discovery and understanding. This includes data dictionaries, metadata repositories, and lineage tracking.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Data governance and quality </span></summary>
+                  <div class="govuk-details__text">Tools for managing data assets consistently and ethically throughout their lifecycle.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Data science and predictive analytics</span></summary>
+                  <div class="govuk-details__text">Advanced analytics capabilities for statistical analysis, predictive modelling, and data mining to identify patterns, forecast outcomes, and support data-driven decisions.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Data storage and warehousing</span></summary>
+                  <div class="govuk-details__text">Data storage platforms for structured and unstructured data, providing scalable databases, data warehouses, and data lakes for analytical and operational needs.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Document and records management</span></summary>
+                  <div class="govuk-details__text">Enterprise document management and records archiving capabilities to organise, store, and retain unstructured information throughout their lifecycle.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Enterprise search and data indexing</span></summary>
+                  <div class="govuk-details__text">Capabilities to search and index data and content. This may involve enterprise search engines, indexing services, and taxonomy/metadata tagging.</div>
+                </details>
+              </li>
+              <li class="lgam-item">
+                <details class="govuk-details" data-module="govuk-details">
+                  <summary class="govuk-details__summary"><span class="govuk-details__summary-text">Geospatial data</span></summary>
+                  <div class="govuk-details__text">Data for mapping, geospatial analysis, and location based services.</div>
+                </details>
+              </li>
+            </ul>
+          </section>
 
         </div>
       </section>
@@ -1041,7 +1476,7 @@
             <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Cookies</a></li>-->
             <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="mailto:gdslocal-info@dsit.gov.uk">Contact</a></li>
             <!--<li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="#">Terms and conditions</a></li>-->
-            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="https://www.gov.uk/help/accessibility-statement">Accessibility statement</a></li>
+            <li class="govuk-footer__inline-list-item"><a class="govuk-footer__link" href="accessibility-statement.html">Accessibility statement</a></li>
           </ul> 
           <svg aria-hidden="true" focusable="false" class="govuk-footer__licence-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 483.2 195.7" height="17" width="41">
             <path fill="currentColor" d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145" />
@@ -1110,6 +1545,70 @@
         grid.addEventListener('click', (e) => {
           if (e.target.closest('summary')) {
             setTimeout(updateButtonState, 10);
+          }
+        });
+      });
+
+      // --- FT "Open all sub-domains" button ---
+      const ftOpenAll = document.getElementById('ftOpenAllSubdomains');
+      if (ftOpenAll) {
+        const ftLayer = ftOpenAll.closest('.lgam-layer');
+        const subdomains = ftLayer ? ftLayer.querySelectorAll('details.lgam-subdomain') : [];
+        const ftHiddenSpan = ftOpenAll.querySelector('.govuk-visually-hidden');
+        const ftHiddenHtml = ftHiddenSpan ? ' ' + ftHiddenSpan.outerHTML : '';
+
+        const updateFtState = () => {
+          const allOpen = Array.from(subdomains).every(d => d.hasAttribute('open'));
+          ftOpenAll.setAttribute('aria-expanded', allOpen);
+          ftOpenAll.innerHTML = (allOpen ? 'Close all' : 'Open all') + ftHiddenHtml;
+        };
+
+        ftOpenAll.addEventListener('click', () => {
+          const isOpening = ftOpenAll.getAttribute('aria-expanded') !== 'true';
+          subdomains.forEach(d => {
+            if (isOpening) d.setAttribute('open', '');
+            else d.removeAttribute('open');
+          });
+          updateFtState();
+        });
+
+        // Sync if individual sub-domains are toggled
+        subdomains.forEach(d => {
+          d.addEventListener('toggle', () => setTimeout(updateFtState, 10));
+        });
+      }
+
+      // --- Sub-domain "Open all" buttons ---
+      const subdomainBtns = document.querySelectorAll('.lgam-subdomain__open-all');
+      subdomainBtns.forEach(btn => {
+        const subdomain = btn.closest('.lgam-subdomain');
+        if (!subdomain) return;
+
+        const grid = subdomain.querySelector('.lgam-subdomain__grid');
+        if (!grid) return;
+
+        const detailsElements = grid.querySelectorAll('details');
+        const hiddenSpan = btn.querySelector('.govuk-visually-hidden');
+        const hiddenTextHtml = hiddenSpan ? ' ' + hiddenSpan.outerHTML : '';
+
+        const updateState = () => {
+          const allOpen = Array.from(detailsElements).every(d => d.hasAttribute('open'));
+          btn.setAttribute('aria-expanded', allOpen);
+          btn.innerHTML = (allOpen ? 'Close all' : 'Open all') + hiddenTextHtml;
+        };
+
+        btn.addEventListener('click', () => {
+          const isOpening = btn.getAttribute('aria-expanded') !== 'true';
+          detailsElements.forEach(d => {
+            if (isOpening) d.setAttribute('open', '');
+            else d.removeAttribute('open');
+          });
+          updateState();
+        });
+
+        grid.addEventListener('click', (e) => {
+          if (e.target.closest('summary')) {
+            setTimeout(updateState, 10);
           }
         });
       });
