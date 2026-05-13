@@ -69,6 +69,7 @@ Resources can be **reused and adapted by teams across government services and pr
 | Directory/File              | Description                                                                   |
 | --------------------------- | ----------------------------------------------------------------------------- |
 | `index.html`                | Main landing page providing navigation to architectural domains and resources |
+| `AI-Technology-Enablement/` | AI technology guidance, strategy, governance, and implementation frameworks   |
 | `citizen-architecture/`     | Citizen-centric architecture guidance and supporting content                  |
 | `digital-capability-model/` | Digital capability framework and maturity assessment resources                |
 | `downloads/`                | Templates, documents, and downloadable artefacts                              |

@@ -535,7 +535,6 @@
       .lgam-context-map__bottom { grid-template-columns: 1fr; }
       .lgam-context-map__block { font-size: 18px; }
       .lgam-subdomain__grid { grid-template-columns: 1fr; }
-      .app-navigation__link { padding: 10px 8px; font-size: 14px; min-height: 24px; }
     }
     /* ==========================================================================
        CDN ASSET PATH OVERRIDES & FOOTER LOGO RESTORATION
@@ -588,6 +587,7 @@
         </a> 
       </div>
       <div class="govuk-header__content"> 
+        <a href="./" class="govuk-header__link govuk-header__service-name">
         <a href="index.html" class="govuk-header__link govuk-header__service-name">
           Local Government Architecture Model 
         </a> 
@@ -598,6 +598,7 @@
   <nav class="app-service-nav">
     <div class="govuk-width-container">
       <ul class="app-service-nav__list">
+        <li><a class="app-service-nav__link app-service-nav__link--active" href="./">Documentation</a></li>
         <li><a class="app-service-nav__link app-service-nav__link--active" href="index.html">Documentation</a></li>
         <li><a class="app-service-nav__link" href="mailto:gdslocal-info@dsit.gov.uk">Contact and feedback</a></li>
       </ul>
@@ -669,35 +670,35 @@
           <p class="govuk-body-l">The Local Government Architecture Model (LGAM) describes the technology that councils use to deliver public services and the platforms that support them, across 9 layers.</p>
 
           <!-- CONTEXT MAP -->
-          <nav class="capability-architecture" aria-label="Architecture model layers">
-            <div class="lgam-context-map">
-              <a href="#public-channels" class="lgam-context-map__block lgam-context-map__block--channels" aria-label="Public Channels layer">
+          <section class="capability-architecture" aria-label="Architecture model overview">
+            <div class="lgam-context-map" role="list" aria-label="Architecture domains">
+              <a href="#public-channels" role="listitem" class="lgam-context-map__block lgam-context-map__block--channels">
                 Public Channels
               </a>
-              <a href="#foundational-technology" class="lgam-context-map__block lgam-context-map__block--enabling" aria-label="Foundational Technology layer">
+              <a href="#foundational-technology" role="listitem" class="lgam-context-map__block lgam-context-map__block--enabling">
                 Foundational Technology
               </a>
-              <a href="#council-interfaces" class="lgam-context-map__block lgam-context-map__block--interfaces" aria-label="Council Interfaces layer">
+              <a href="#council-interfaces" role="listitem" class="lgam-context-map__block lgam-context-map__block--interfaces">
                 Council Interfaces
               </a>
-              <a href="#capabilities" class="lgam-context-map__block lgam-context-map__block--capabilities" aria-label="Capabilities layer">
+              <a href="#capabilities" role="listitem" class="lgam-context-map__block lgam-context-map__block--capabilities">
                 Capabilities
               </a>
               <div class="lgam-context-map__bottom">
-                <a href="#business-areas" class="lgam-context-map__block lgam-context-map__block--business" aria-label="Business Areas layer">
+                <a href="#business-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--business">
                   Business Areas
                 </a>
-                <a href="#corporate-areas" class="lgam-context-map__block lgam-context-map__block--corporate" aria-label="Corporate Areas layer">
+                <a href="#corporate-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--corporate">
                   Corporate Areas
                 </a>
               </div>
-              <a href="#integration" class="lgam-context-map__block lgam-context-map__block--integration" aria-label="Integration layer">
+              <a href="#integration" role="listitem" class="lgam-context-map__block lgam-context-map__block--integration">
                 Integration
               </a>
-              <a href="#security" class="lgam-context-map__block lgam-context-map__block--security" aria-label="Security layer">
+              <a href="#security" role="listitem" class="lgam-context-map__block lgam-context-map__block--security">
                 Security
               </a>
-              <a href="#data-information" class="lgam-context-map__block lgam-context-map__block--data" aria-label="Data and Information Technology layer">
+              <a href="#data-information" role="listitem" class="lgam-context-map__block lgam-context-map__block--data">
                 Data and Information Technology
               </a>
             </div>
