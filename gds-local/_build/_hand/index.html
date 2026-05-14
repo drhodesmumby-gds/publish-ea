@@ -250,11 +250,11 @@
     }
 
     /* Layer Border Colors */
-    .lgam-layer--channels { border-color: #FF00FF; }
+    .lgam-layer--channels { border-color: #CC00CC; }
     .lgam-layer--agents { border-color: #800080; }
     .lgam-layer--capabilities { border-color: #000080; }
     .lgam-layer--business { border-color: #0000FF; }
-    .lgam-layer--corporate { border-color: #808080; }
+    .lgam-layer--corporate { border-color: #696969; }
 
     .lgam-grid {
       display: grid;
@@ -280,10 +280,27 @@
       cursor: pointer;
     }
 
-    .lgam-item:focus-within {
-      background-color: #f3f2f1;
-      outline: 3px solid #ffdd00; /* Standard GOV.UK focus yellow */
-      outline-offset: 0;
+
+    /* ==========================================================================
+       UNIVERSAL FOCUS STYLE
+       Single consistent style for all interactive elements.
+       Uses !important to override GOV.UK Frontend defaults.
+       ========================================================================== */
+    .govuk-template__body a:focus,
+    .govuk-template__body button:focus,
+    .govuk-template__body summary:focus,
+    .govuk-template__body [tabindex]:focus,
+    .govuk-template__body .govuk-details__summary:focus,
+    .govuk-template__body .govuk-link:focus,
+    .govuk-template__body .govuk-header__link:focus,
+    .govuk-template__body .govuk-footer__link:focus,
+    .govuk-template__body .govuk-skip-link:focus {
+      outline: none !important;
+      background-color: #ffdd00 !important;
+      color: #0b0c0c !important;
+      text-decoration: none !important;
+      box-shadow: 0 -2px #ffdd00, inset 0 -3px #0b0c0c !important;
+      border-color: #0b0c0c !important;
     }
 
     /* Details Overrides */
@@ -295,6 +312,7 @@
       font-size: 16px;
       font-weight: bold;
     }
+
 
     .govuk-details__text {
       cursor: text; /* Ensures text selection overrides pointer cursor on expanded text */
@@ -349,11 +367,15 @@
       color: #ffffff;
     }
 
-    .badge--blue { background: #FF00FF; }
+    h3.lgam-badge {
+      margin-top: 0;
+    }
+
+    .badge--blue { background: #CC00CC; }
     .badge--green { background: #800080; }
     .badge--teal { background: #008080; }
     .badge--orange { background: #0000FF; }
-    .badge--grey { background: #808080; }
+    .badge--grey { background: #696969; }
 
     /* ==========================================================================
        LGAM - CONTEXT MAP (Architecture Overview)
@@ -386,11 +408,6 @@
       text-decoration: underline;
     }
 
-    .lgam-context-map__block:focus {
-      outline: 3px solid #ffdd00;
-      outline-offset: 0;
-      box-shadow: inset 0 0 0 2px #0b0c0c;
-    }
 
     /* Foundational Technology spans the full right column */
     .lgam-context-map__block--enabling {
@@ -417,14 +434,14 @@
       gap: 4px;
     }
 
-    .lgam-context-map__block--channels     { background: #FF00FF; }
+    .lgam-context-map__block--channels     { background: #CC00CC; }
     .lgam-context-map__block--interfaces   { background: #800080; }
     .lgam-context-map__block--capabilities { background: #000080; }
     .lgam-context-map__block--enabling     { background: #008080; }
     .lgam-context-map__block--business     { background: #0000FF; }
-    .lgam-context-map__block--corporate    { background: #808080; }
-    .lgam-context-map__block--integration  { background: #808000; }
-    .lgam-context-map__block--security     { background: #FF0000; }
+    .lgam-context-map__block--corporate    { background: #696969; }
+    .lgam-context-map__block--integration  { background: #6B6B00; }
+    .lgam-context-map__block--security     { background: #CC0000; }
     .lgam-context-map__block--data         { background: #800000; }
 
     /* ==========================================================================
@@ -455,6 +472,10 @@
     .lgam-subdomain__summary::marker { display: none; content: ""; }
 
     .lgam-subdomain__summary:hover { background: #f8f8f8; }
+
+    .lgam-subdomain__summary:focus .lgam-subdomain__arrow {
+      border-left-color: #0b0c0c;
+    }
 
     .lgam-subdomain__summary .lgam-badge { display: none; }
 
@@ -600,7 +621,7 @@
     </div>
   </header>
 
-  <nav class="app-service-nav">
+  <nav class="app-service-nav" aria-label="Service">
     <div class="govuk-width-container">
       <ul class="app-service-nav__list">
         <li><a class="app-service-nav__link app-service-nav__link--active" href="index.html">Documentation</a></li>
@@ -676,34 +697,34 @@
           <!-- CONTEXT MAP -->
           <nav class="capability-architecture" aria-label="Architecture model layers">
             <div class="lgam-context-map">
-              <a href="#public-channels" class="lgam-context-map__block lgam-context-map__block--channels" aria-label="Public Channels layer">
+              <a href="#public-channels" class="lgam-context-map__block lgam-context-map__block--channels">
                 Public Channels
               </a>
-              <a href="#foundational-technology" class="lgam-context-map__block lgam-context-map__block--enabling" aria-label="Foundational Technology layer">
-                Foundational Technology
-              </a>
-              <a href="#council-interfaces" class="lgam-context-map__block lgam-context-map__block--interfaces" aria-label="Council Interfaces layer">
+              <a href="#council-interfaces" class="lgam-context-map__block lgam-context-map__block--interfaces">
                 Council Interfaces
               </a>
-              <a href="#capabilities" class="lgam-context-map__block lgam-context-map__block--capabilities" aria-label="Capabilities layer">
+              <a href="#capabilities" class="lgam-context-map__block lgam-context-map__block--capabilities">
                 Capabilities
               </a>
               <div class="lgam-context-map__bottom">
-                <a href="#business-areas" class="lgam-context-map__block lgam-context-map__block--business" aria-label="Business Areas layer">
+                <a href="#business-areas" class="lgam-context-map__block lgam-context-map__block--business">
                   Business Areas
                 </a>
-                <a href="#corporate-areas" class="lgam-context-map__block lgam-context-map__block--corporate" aria-label="Corporate Areas layer">
+                <a href="#corporate-areas" class="lgam-context-map__block lgam-context-map__block--corporate">
                   Corporate Areas
                 </a>
               </div>
-              <a href="#integration" class="lgam-context-map__block lgam-context-map__block--integration" aria-label="Integration layer">
+              <a href="#integration" class="lgam-context-map__block lgam-context-map__block--integration">
                 Integration
               </a>
-              <a href="#security" class="lgam-context-map__block lgam-context-map__block--security" aria-label="Security layer">
+              <a href="#security" class="lgam-context-map__block lgam-context-map__block--security">
                 Security
               </a>
-              <a href="#data-information" class="lgam-context-map__block lgam-context-map__block--data" aria-label="Data and Information Technology layer">
+              <a href="#data-information" class="lgam-context-map__block lgam-context-map__block--data">
                 Data and Information Technology
+              </a>
+              <a href="#foundational-technology" class="lgam-context-map__block lgam-context-map__block--enabling">
+                Foundational Technology
               </a>
             </div>
           </nav>
@@ -721,7 +742,7 @@
 
           <!-- LAYER 1: PUBLIC CHANNELS -->
           <section class="lgam-layer lgam-layer--channels" id="public-channels"> 
-            <strong class="lgam-badge badge--blue">Public Channels</strong>
+            <h3 class="lgam-badge badge--blue">Public Channels</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Public channels are how service users interact with councils.</p>
             <p>The Service Manual provides more information in <a class="govuk-link" href="https://www.gov.uk/service-manual/service-standard/point-3-join-up-across-channels">point 3: provide a joined up experience across all channels.</a></p>
             
@@ -795,7 +816,7 @@
 
           <!-- LAYER 2: COUNCIL INTERFACES -->
           <section class="lgam-layer lgam-layer--agents" id="council-interfaces"> 
-            <strong class="lgam-badge badge--green">Council Interfaces</strong>
+            <h3 class="lgam-badge badge--green">Council Interfaces</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Interfaces through which councils deliver services and information.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
@@ -844,7 +865,7 @@
 
           <!-- LAYER 3: CAPABILITIES -->
           <section class="lgam-layer lgam-layer--capabilities" id="capabilities"> 
-            <strong class="lgam-badge" style="background: #000080;">Capabilities</strong>
+            <h3 class="lgam-badge" style="background: #000080;">Capabilities</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Capabilities used by council's interfaces to help them meet the needs of their service users.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
@@ -945,7 +966,7 @@
 
           <!-- LAYER 4: BUSINESS AREAS -->
           <section class="lgam-layer lgam-layer--business" id="business-areas"> 
-            <strong class="lgam-badge" style="background: #0000FF;">Business Areas</strong>
+            <h3 class="lgam-badge" style="background: #0000FF;">Business Areas</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Business areas cover the specific functions each council must provide. Each area features individual technology components designed for a specific need.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
@@ -1036,7 +1057,7 @@
 
           <!-- LAYER 5: CORPORATE AREAS -->
           <section class="lgam-layer lgam-layer--corporate" id="corporate-areas"> 
-            <strong class="lgam-badge badge--grey">Corporate Areas</strong>
+            <h3 class="lgam-badge badge--grey">Corporate Areas</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Corporate areas are required functions not specific to councils, each with their own individual technology components.</p>
             
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
@@ -1108,7 +1129,7 @@
           </section>
           <!-- FOUNDATIONAL TECHNOLOGY -->
           <section class="lgam-layer" id="foundational-technology" style="border-color: #008080;">
-            <strong class="lgam-badge" style="background: #008080;">Foundational Technology</strong>
+            <h3 class="lgam-badge" style="background: #008080;">Foundational Technology</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Technology platforms and capabilities that underpin council service delivery.</p>
 
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" id="ftOpenAllSubdomains" data-module="govuk-button" aria-expanded="false">
@@ -1294,8 +1315,8 @@
           </section>
 
           <!-- LAYER: INTEGRATION -->
-          <section class="lgam-layer" id="integration" style="border-color: #808000;">
-            <strong class="lgam-badge" style="background: #808000;">Integration</strong>
+          <section class="lgam-layer" id="integration" style="border-color: #6B6B00;">
+            <h3 class="lgam-badge" style="background: #6B6B00;">Integration</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Integrations ensure systems, applications, and data sources can seamlessly connect and share information to provide consistent data and unified digital experiences across the organisation.</p>
 
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
@@ -1349,8 +1370,8 @@
           </section>
 
           <!-- LAYER: SECURITY -->
-          <section class="lgam-layer" id="security" style="border-color: #FF0000;">
-            <strong class="lgam-badge" style="background: #FF0000;">Security</strong>
+          <section class="lgam-layer" id="security" style="border-color: #CC0000;">
+            <h3 class="lgam-badge" style="background: #CC0000;">Security</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Security encompasses all capabilities, tools, and practices that protect the organisation's people, data, systems, and services from threats and ensure resilience against disruption.</p>
 
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
@@ -1405,7 +1426,7 @@
 
           <!-- LAYER: DATA AND INFORMATION -->
           <section class="lgam-layer" id="data-information" style="border-color: #800000;">
-            <strong class="lgam-badge" style="background: #800000;">Data and Information</strong>
+            <h3 class="lgam-badge" style="background: #800000;">Data and Information</h3>
             <p class="govuk-body govuk-!-font-weight-bold">Data and information management encompasses the capabilities, tools, and practices that equip the organisation to collect, manage, understand, and utilise its data and information assets in an effective manner.</p>
 
             <button type="button" class="govuk-button govuk-button--secondary lgam-show-all-button" data-module="govuk-button" aria-expanded="false">
