@@ -307,6 +307,11 @@
     .lgam-show-all-button {
       background-color: #ffffff !important; /* Makes the button pop against the grey layer background */
       margin-bottom: 15px; /* Restores breathing room before the grid */
+      display: none; /* Hidden without JS — revealed by .js-enabled */
+    }
+
+    .js-enabled .lgam-show-all-button {
+      display: inline-block;
     }
 
     .lgam-show-all-button:hover {
@@ -474,7 +479,7 @@
     }
 
     .lgam-subdomain__content {
-      padding: 0 15px 15px 15px;
+      padding: 10px 15px 15px 15px;
       background: #f3f2f1;
     }
 
@@ -702,7 +707,18 @@
               </a>
             </div>
           </nav>
-            
+
+          <!-- SEARCH FILTER -->
+          <div class="govuk-form-group govuk-!-margin-top-6 govuk-!-margin-bottom-6" id="lgamSearchGroup" style="display: none;">
+            <label class="govuk-label govuk-!-font-weight-bold" for="lgamSearch">
+              Search the model
+            </label>
+            <div style="display: flex; align-items: baseline; gap: 15px; flex-wrap: wrap;">
+              <input class="govuk-input govuk-!-width-one-half" id="lgamSearch" name="lgamSearch" type="search" placeholder="e.g. identity, payments, API">
+              <span id="lgamSearchCount" class="govuk-hint govuk-!-margin-bottom-0" aria-live="polite"></span>
+            </div>
+          </div>
+
           <!-- LAYER 1: PUBLIC CHANNELS -->
           <section class="lgam-layer lgam-layer--channels" id="public-channels"> 
             <strong class="lgam-badge badge--blue">Public Channels</strong>
@@ -1612,6 +1628,99 @@
           }
         });
       });
+
+      // --- GLOBAL SEARCH ---
+      const searchGroup = document.getElementById('lgamSearchGroup');
+      const searchInput = document.getElementById('lgamSearch');
+      const searchCount = document.getElementById('lgamSearchCount');
+
+      if (searchGroup && searchInput) {
+        searchGroup.style.display = 'block';
+
+        searchInput.addEventListener('input', function() {
+          const query = this.value.toLowerCase().trim();
+          let totalMatches = 0;
+          let layersWithMatches = 0;
+
+          // Search standard layer items (.lgam-item)
+          const allLayers = document.querySelectorAll('.lgam-layer');
+          allLayers.forEach(layer => {
+            const items = layer.querySelectorAll('.lgam-item');
+            let layerHasMatch = false;
+
+            items.forEach(item => {
+              const text = item.textContent.toLowerCase();
+              if (query === '' || text.includes(query)) {
+                item.style.display = '';
+                if (query !== '') {
+                  layerHasMatch = true;
+                  totalMatches++;
+                  // Auto-expand matching items
+                  const details = item.querySelector('details');
+                  if (details && query !== '') details.setAttribute('open', '');
+                }
+              } else {
+                item.style.display = 'none';
+              }
+            });
+
+            // Search subdomain items (.lgam-subdomain__card)
+            const subCards = layer.querySelectorAll('.lgam-subdomain__card');
+            subCards.forEach(card => {
+              const text = card.textContent.toLowerCase();
+              if (query === '' || text.includes(query)) {
+                card.style.display = '';
+                if (query !== '') {
+                  layerHasMatch = true;
+                  totalMatches++;
+                  // Auto-expand the card and its parent subdomain
+                  const details = card.querySelector('details');
+                  if (details) details.setAttribute('open', '');
+                  const subdomain = card.closest('.lgam-subdomain');
+                  if (subdomain) subdomain.setAttribute('open', '');
+                }
+              } else {
+                card.style.display = 'none';
+              }
+            });
+
+            // Show/hide entire layer based on matches
+            if (query === '') {
+              layer.style.display = '';
+              items.forEach(item => item.style.display = '');
+              subCards.forEach(card => card.style.display = '');
+            } else if (layerHasMatch) {
+              layer.style.display = '';
+              layersWithMatches++;
+            } else {
+              layer.style.display = 'none';
+            }
+          });
+
+          // Update count
+          if (query === '') {
+            searchCount.textContent = '';
+          } else if (totalMatches === 0) {
+            searchCount.textContent = 'No items match your search';
+          } else {
+            searchCount.textContent = totalMatches + ' item' + (totalMatches !== 1 ? 's' : '') + ' found across ' + layersWithMatches + ' layer' + (layersWithMatches !== 1 ? 's' : '');
+          }
+
+          // Sync all "Open all" button states after search
+          document.querySelectorAll('.lgam-show-all-button').forEach(btn => {
+            const container = btn.closest('.lgam-layer') || btn.closest('.lgam-subdomain');
+            if (!container) return;
+            const grid = container.querySelector('.lgam-grid') || container.querySelector('.lgam-subdomain__grid');
+            if (!grid) return;
+            const details = grid.querySelectorAll('details');
+            const allOpen = Array.from(details).filter(d => d.style.display !== 'none').every(d => d.hasAttribute('open'));
+            const hiddenSpan = btn.querySelector('.govuk-visually-hidden');
+            const hiddenHtml = hiddenSpan ? ' ' + hiddenSpan.outerHTML : '';
+            btn.setAttribute('aria-expanded', allOpen);
+            btn.innerHTML = (allOpen ? 'Close all' : 'Open all') + hiddenHtml;
+          });
+        });
+      }
     });
   </script>
 </body>

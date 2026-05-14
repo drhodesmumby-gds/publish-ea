@@ -307,6 +307,11 @@
     .lgam-show-all-button {
       background-color: #ffffff !important; /* Makes the button pop against the grey layer background */
       margin-bottom: 15px; /* Restores breathing room before the grid */
+      display: none; /* Hidden without JS — revealed by .js-enabled */
+    }
+
+    .js-enabled .lgam-show-all-button {
+      display: inline-block;
     }
 
     .lgam-show-all-button:hover {
@@ -474,7 +479,7 @@
     }
 
     .lgam-subdomain__content {
-      padding: 0 15px 15px 15px;
+      padding: 10px 15px 15px 15px;
       background: #f3f2f1;
     }
 
@@ -535,6 +540,7 @@
       .lgam-context-map__bottom { grid-template-columns: 1fr; }
       .lgam-context-map__block { font-size: 18px; }
       .lgam-subdomain__grid { grid-template-columns: 1fr; }
+      .app-navigation__link { padding: 10px 8px; font-size: 14px; min-height: 24px; }
     }
     /* ==========================================================================
        CDN ASSET PATH OVERRIDES & FOOTER LOGO RESTORATION
@@ -587,7 +593,6 @@
         </a> 
       </div>
       <div class="govuk-header__content"> 
-        <a href="./" class="govuk-header__link govuk-header__service-name">
         <a href="index.html" class="govuk-header__link govuk-header__service-name">
           Local Government Architecture Model 
         </a> 
@@ -669,40 +674,51 @@
           <p class="govuk-body-l">The Local Government Architecture Model (LGAM) describes the technology that councils use to deliver public services and the platforms that support them, across 9 layers.</p>
 
           <!-- CONTEXT MAP -->
-          <section class="capability-architecture" aria-label="Architecture model overview">
-            <div class="lgam-context-map" role="list" aria-label="Architecture domains">
-              <a href="#public-channels" role="listitem" class="lgam-context-map__block lgam-context-map__block--channels">
+          <nav class="capability-architecture" aria-label="Architecture model layers">
+            <div class="lgam-context-map">
+              <a href="#public-channels" class="lgam-context-map__block lgam-context-map__block--channels" aria-label="Public Channels layer">
                 Public Channels
               </a>
-              <a href="#foundational-technology" role="listitem" class="lgam-context-map__block lgam-context-map__block--enabling">
+              <a href="#foundational-technology" class="lgam-context-map__block lgam-context-map__block--enabling" aria-label="Foundational Technology layer">
                 Foundational Technology
               </a>
-              <a href="#council-interfaces" role="listitem" class="lgam-context-map__block lgam-context-map__block--interfaces">
+              <a href="#council-interfaces" class="lgam-context-map__block lgam-context-map__block--interfaces" aria-label="Council Interfaces layer">
                 Council Interfaces
               </a>
-              <a href="#capabilities" role="listitem" class="lgam-context-map__block lgam-context-map__block--capabilities">
+              <a href="#capabilities" class="lgam-context-map__block lgam-context-map__block--capabilities" aria-label="Capabilities layer">
                 Capabilities
               </a>
               <div class="lgam-context-map__bottom">
-                <a href="#business-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--business">
+                <a href="#business-areas" class="lgam-context-map__block lgam-context-map__block--business" aria-label="Business Areas layer">
                   Business Areas
                 </a>
-                <a href="#corporate-areas" role="listitem" class="lgam-context-map__block lgam-context-map__block--corporate">
+                <a href="#corporate-areas" class="lgam-context-map__block lgam-context-map__block--corporate" aria-label="Corporate Areas layer">
                   Corporate Areas
                 </a>
               </div>
-              <a href="#integration" role="listitem" class="lgam-context-map__block lgam-context-map__block--integration">
+              <a href="#integration" class="lgam-context-map__block lgam-context-map__block--integration" aria-label="Integration layer">
                 Integration
               </a>
-              <a href="#security" role="listitem" class="lgam-context-map__block lgam-context-map__block--security">
+              <a href="#security" class="lgam-context-map__block lgam-context-map__block--security" aria-label="Security layer">
                 Security
               </a>
-              <a href="#data-information" role="listitem" class="lgam-context-map__block lgam-context-map__block--data">
+              <a href="#data-information" class="lgam-context-map__block lgam-context-map__block--data" aria-label="Data and Information Technology layer">
                 Data and Information Technology
               </a>
             </div>
           </nav>
-            
+
+          <!-- SEARCH FILTER -->
+          <div class="govuk-form-group govuk-!-margin-top-6 govuk-!-margin-bottom-6" id="lgamSearchGroup" style="display: none;">
+            <label class="govuk-label govuk-!-font-weight-bold" for="lgamSearch">
+              Search the model
+            </label>
+            <div style="display: flex; align-items: baseline; gap: 15px; flex-wrap: wrap;">
+              <input class="govuk-input govuk-!-width-one-half" id="lgamSearch" name="lgamSearch" type="search" placeholder="e.g. identity, payments, API">
+              <span id="lgamSearchCount" class="govuk-hint govuk-!-margin-bottom-0" aria-live="polite"></span>
+            </div>
+          </div>
+
           <!-- LAYER 1: PUBLIC CHANNELS -->
           <section class="lgam-layer lgam-layer--channels" id="public-channels"> 
             <strong class="lgam-badge badge--blue">Public Channels</strong>
@@ -1612,6 +1628,99 @@
           }
         });
       });
+
+      // --- GLOBAL SEARCH ---
+      const searchGroup = document.getElementById('lgamSearchGroup');
+      const searchInput = document.getElementById('lgamSearch');
+      const searchCount = document.getElementById('lgamSearchCount');
+
+      if (searchGroup && searchInput) {
+        searchGroup.style.display = 'block';
+
+        searchInput.addEventListener('input', function() {
+          const query = this.value.toLowerCase().trim();
+          let totalMatches = 0;
+          let layersWithMatches = 0;
+
+          // Search standard layer items (.lgam-item)
+          const allLayers = document.querySelectorAll('.lgam-layer');
+          allLayers.forEach(layer => {
+            const items = layer.querySelectorAll('.lgam-item');
+            let layerHasMatch = false;
+
+            items.forEach(item => {
+              const text = item.textContent.toLowerCase();
+              if (query === '' || text.includes(query)) {
+                item.style.display = '';
+                if (query !== '') {
+                  layerHasMatch = true;
+                  totalMatches++;
+                  // Auto-expand matching items
+                  const details = item.querySelector('details');
+                  if (details && query !== '') details.setAttribute('open', '');
+                }
+              } else {
+                item.style.display = 'none';
+              }
+            });
+
+            // Search subdomain items (.lgam-subdomain__card)
+            const subCards = layer.querySelectorAll('.lgam-subdomain__card');
+            subCards.forEach(card => {
+              const text = card.textContent.toLowerCase();
+              if (query === '' || text.includes(query)) {
+                card.style.display = '';
+                if (query !== '') {
+                  layerHasMatch = true;
+                  totalMatches++;
+                  // Auto-expand the card and its parent subdomain
+                  const details = card.querySelector('details');
+                  if (details) details.setAttribute('open', '');
+                  const subdomain = card.closest('.lgam-subdomain');
+                  if (subdomain) subdomain.setAttribute('open', '');
+                }
+              } else {
+                card.style.display = 'none';
+              }
+            });
+
+            // Show/hide entire layer based on matches
+            if (query === '') {
+              layer.style.display = '';
+              items.forEach(item => item.style.display = '');
+              subCards.forEach(card => card.style.display = '');
+            } else if (layerHasMatch) {
+              layer.style.display = '';
+              layersWithMatches++;
+            } else {
+              layer.style.display = 'none';
+            }
+          });
+
+          // Update count
+          if (query === '') {
+            searchCount.textContent = '';
+          } else if (totalMatches === 0) {
+            searchCount.textContent = 'No items match your search';
+          } else {
+            searchCount.textContent = totalMatches + ' item' + (totalMatches !== 1 ? 's' : '') + ' found across ' + layersWithMatches + ' layer' + (layersWithMatches !== 1 ? 's' : '');
+          }
+
+          // Sync all "Open all" button states after search
+          document.querySelectorAll('.lgam-show-all-button').forEach(btn => {
+            const container = btn.closest('.lgam-layer') || btn.closest('.lgam-subdomain');
+            if (!container) return;
+            const grid = container.querySelector('.lgam-grid') || container.querySelector('.lgam-subdomain__grid');
+            if (!grid) return;
+            const details = grid.querySelectorAll('details');
+            const allOpen = Array.from(details).filter(d => d.style.display !== 'none').every(d => d.hasAttribute('open'));
+            const hiddenSpan = btn.querySelector('.govuk-visually-hidden');
+            const hiddenHtml = hiddenSpan ? ' ' + hiddenSpan.outerHTML : '';
+            btn.setAttribute('aria-expanded', allOpen);
+            btn.innerHTML = (allOpen ? 'Close all' : 'Open all') + hiddenHtml;
+          });
+        });
+      }
     });
   </script>
 </body>
