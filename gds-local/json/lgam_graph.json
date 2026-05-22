@@ -1,1 +1,501 @@
-
+{
+  "layers": [
+    {
+      "id": "l0",
+      "label": "l0",
+      "order": 0å
+    },
+    {
+      "id": "l1",
+      "label": "l1",
+      "order": 1
+    },
+    {
+      "id": "l2",
+      "label": "l2",
+      "order": 2
+    },
+    {
+      "id": "l3",
+      "label": "l3",
+      "order": 3
+    },
+    {
+      "id": "l4",
+      "label": "l4",
+      "order": 4
+    },
+    {
+      "id": "l5a",
+      "label": "l5a",
+      "order": 5
+    },
+    {
+      "id": "l5b",
+      "label": "l5b",
+      "order": 6
+    },
+    {
+      "id": "l5c",
+      "label": "l5c",
+      "order": 7
+    },
+    {
+      "id": "l5d",
+      "label": "l5d",
+      "order": 8
+    },
+    {
+      "id": "l5e",
+      "label": "l5e",
+      "order": 9
+    },
+    {
+      "id": "l6",
+      "label": "l6",
+      "order": 10
+    },
+    {
+      "id": "l7",
+      "label": "l7",
+      "order": 11
+    },
+    {
+      "id": "l8",
+      "label": "l8",
+      "order": 12
+    }
+  ],
+  "nodes": [
+    {
+      "id": "in-person",
+      "label": "in-person",
+      "layerId": "l0"
+    },
+    {
+      "id": "phone",
+      "label": "phone",
+      "layerId": "l0"
+    },
+    {
+      "id": "email-ch",
+      "label": "email-ch",
+      "layerId": "l0"
+    },
+    {
+      "id": "letter",
+      "label": "letter",
+      "layerId": "l0"
+    },
+    {
+      "id": "online",
+      "label": "online",
+      "layerId": "l0"
+    },
+    {
+      "id": "messaging-ch",
+      "label": "messaging-ch",
+      "layerId": "l0"
+    },
+    {
+      "id": "social",
+      "label": "social",
+      "layerId": "l0"
+    },
+    {
+      "id": "smart",
+      "label": "smart",
+      "layerId": "l0"
+    },
+    {
+      "id": "third-party",
+      "label": "third-party",
+      "layerId": "l0"
+    },
+    {
+      "id": "video",
+      "label": "video",
+      "layerId": "l0"
+    },
+    {
+      "id": "apps",
+      "label": "apps",
+      "layerId": "l1"
+    },
+    {
+      "id": "api-gw",
+      "label": "api-gw",
+      "layerId": "l1"
+    },
+    {
+      "id": "auto-phone",
+      "label": "auto-phone",
+      "layerId": "l1"
+    },
+    {
+      "id": "human",
+      "label": "human",
+      "layerId": "l1"
+    },
+    {
+      "id": "pub-devices",
+      "label": "pub-devices",
+      "layerId": "l1"
+    },
+    {
+      "id": "websites",
+      "label": "websites",
+      "layerId": "l1"
+    },
+    {
+      "id": "agentic-ai",
+      "label": "agentic-ai",
+      "layerId": "l2"
+    },
+    {
+      "id": "booking",
+      "label": "booking",
+      "layerId": "l2"
+    },
+    {
+      "id": "email-cap",
+      "label": "email-cap",
+      "layerId": "l2"
+    },
+    {
+      "id": "forms",
+      "label": "forms",
+      "layerId": "l2"
+    },
+    {
+      "id": "identity",
+      "label": "identity",
+      "layerId": "l2"
+    },
+    {
+      "id": "payments",
+      "label": "payments",
+      "layerId": "l2"
+    },
+    {
+      "id": "messaging-cap",
+      "label": "messaging-cap",
+      "layerId": "l2"
+    },
+    {
+      "id": "telephony",
+      "label": "telephony",
+      "layerId": "l2"
+    },
+    {
+      "id": "workflow",
+      "label": "workflow",
+      "layerId": "l2"
+    },
+    {
+      "id": "adult-care",
+      "label": "adult-care",
+      "layerId": "l3"
+    },
+    {
+      "id": "childrens",
+      "label": "childrens",
+      "layerId": "l3"
+    },
+    {
+      "id": "democratic",
+      "label": "democratic",
+      "layerId": "l3"
+    },
+    {
+      "id": "education",
+      "label": "education",
+      "layerId": "l3"
+    },
+    {
+      "id": "highways",
+      "label": "highways",
+      "layerId": "l3"
+    },
+    {
+      "id": "housing",
+      "label": "housing",
+      "layerId": "l3"
+    },
+    {
+      "id": "leisure",
+      "label": "leisure",
+      "layerId": "l3"
+    },
+    {
+      "id": "licensing",
+      "label": "licensing",
+      "layerId": "l3"
+    },
+    {
+      "id": "planning",
+      "label": "planning",
+      "layerId": "l3"
+    },
+    {
+      "id": "public-health",
+      "label": "public-health",
+      "layerId": "l3"
+    },
+    {
+      "id": "revenues",
+      "label": "revenues",
+      "layerId": "l3"
+    },
+    {
+      "id": "waste",
+      "label": "waste",
+      "layerId": "l3"
+    },
+    {
+      "id": "biz-planning",
+      "label": "biz-planning",
+      "layerId": "l4"
+    },
+    {
+      "id": "comms",
+      "label": "comms",
+      "layerId": "l4"
+    },
+    {
+      "id": "governance",
+      "label": "governance",
+      "layerId": "l4"
+    },
+    {
+      "id": "crm",
+      "label": "crm",
+      "layerId": "l4"
+    },
+    {
+      "id": "facilities",
+      "label": "facilities",
+      "layerId": "l4"
+    },
+    {
+      "id": "financial",
+      "label": "financial",
+      "layerId": "l4"
+    },
+    {
+      "id": "geo",
+      "label": "geo",
+      "layerId": "l4"
+    },
+    {
+      "id": "legal",
+      "label": "legal",
+      "layerId": "l4"
+    },
+    {
+      "id": "hr",
+      "label": "hr",
+      "layerId": "l4"
+    },
+    {
+      "id": "procurement",
+      "label": "procurement",
+      "layerId": "l4"
+    },
+    {
+      "id": "ai-enablement",
+      "label": "ai-enablement",
+      "layerId": "l5a"
+    },
+    {
+      "id": "conversational-ai",
+      "label": "conversational-ai",
+      "layerId": "l5a"
+    },
+    {
+      "id": "generative-ai",
+      "label": "generative-ai",
+      "layerId": "l5a"
+    },
+    {
+      "id": "intelligent-auto",
+      "label": "intelligent-auto",
+      "layerId": "l5a"
+    },
+    {
+      "id": "ml",
+      "label": "ml",
+      "layerId": "l5a"
+    },
+    {
+      "id": "release-mgmt",
+      "label": "release-mgmt",
+      "layerId": "l5b"
+    },
+    {
+      "id": "monitoring",
+      "label": "monitoring",
+      "layerId": "l5b"
+    },
+    {
+      "id": "unified-comms",
+      "label": "unified-comms",
+      "layerId": "l5c"
+    },
+    {
+      "id": "end-user-devices",
+      "label": "end-user-devices",
+      "layerId": "l5c"
+    },
+    {
+      "id": "knowledge-mgmt",
+      "label": "knowledge-mgmt",
+      "layerId": "l5c"
+    },
+    {
+      "id": "productivity",
+      "label": "productivity",
+      "layerId": "l5c"
+    },
+    {
+      "id": "app-portfolio",
+      "label": "app-portfolio",
+      "layerId": "l5d"
+    },
+    {
+      "id": "it-ops",
+      "label": "it-ops",
+      "layerId": "l5d"
+    },
+    {
+      "id": "sw-asset",
+      "label": "sw-asset",
+      "layerId": "l5d"
+    },
+    {
+      "id": "compute",
+      "label": "compute",
+      "layerId": "l5e"
+    },
+    {
+      "id": "connectivity",
+      "label": "connectivity",
+      "layerId": "l5e"
+    },
+    {
+      "id": "virtualisation",
+      "label": "virtualisation",
+      "layerId": "l5e"
+    },
+    {
+      "id": "api-mgmt",
+      "label": "api-mgmt",
+      "layerId": "l6"
+    },
+    {
+      "id": "data-pipelines",
+      "label": "data-pipelines",
+      "layerId": "l6"
+    },
+    {
+      "id": "event-streaming",
+      "label": "event-streaming",
+      "layerId": "l6"
+    },
+    {
+      "id": "file-transfer",
+      "label": "file-transfer",
+      "layerId": "l6"
+    },
+    {
+      "id": "integration-gov",
+      "label": "integration-gov",
+      "layerId": "l6"
+    },
+    {
+      "id": "middleware",
+      "label": "middleware",
+      "layerId": "l6"
+    },
+    {
+      "id": "b2b-integration",
+      "label": "b2b-integration",
+      "layerId": "l6"
+    },
+    {
+      "id": "app-data-sec",
+      "label": "app-data-sec",
+      "layerId": "l7"
+    },
+    {
+      "id": "iam",
+      "label": "iam",
+      "layerId": "l7"
+    },
+    {
+      "id": "incident-forensics",
+      "label": "incident-forensics",
+      "layerId": "l7"
+    },
+    {
+      "id": "network-sec",
+      "label": "network-sec",
+      "layerId": "l7"
+    },
+    {
+      "id": "physical-sec",
+      "label": "physical-sec",
+      "layerId": "l7"
+    },
+    {
+      "id": "soc",
+      "label": "soc",
+      "layerId": "l7"
+    },
+    {
+      "id": "vuln-mgmt",
+      "label": "vuln-mgmt",
+      "layerId": "l7"
+    },
+    {
+      "id": "bi-analytics",
+      "label": "bi-analytics",
+      "layerId": "l8"
+    },
+    {
+      "id": "data-catalogue",
+      "label": "data-catalogue",
+      "layerId": "l8"
+    },
+    {
+      "id": "data-governance",
+      "label": "data-governance",
+      "layerId": "l8"
+    },
+    {
+      "id": "data-science",
+      "label": "data-science",
+      "layerId": "l8"
+    },
+    {
+      "id": "data-storage",
+      "label": "data-storage",
+      "layerId": "l8"
+    },
+    {
+      "id": "doc-records",
+      "label": "doc-records",
+      "layerId": "l8"
+    },
+    {
+      "id": "enterprise-search",
+      "label": "enterprise-search",
+      "layerId": "l8"
+    },
+    {
+      "id": "geospatial",
+      "label": "geospatial",
+      "layerId": "l8"
+    }
+  ]
+}
