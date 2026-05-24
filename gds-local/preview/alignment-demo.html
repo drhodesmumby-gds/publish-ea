@@ -126,8 +126,8 @@
         .register-related-via { font-size: 12px; color: #505a5f; margin-top: 3px; display: block; font-family: "GDS Transport", arial, sans-serif; }
         .register-empty-state { font-size: 14px; color: #b1b4b6; font-style: italic; padding: 8px 0; font-family: "GDS Transport", arial, sans-serif; }
 
-        /* View tabs */
-        .register-view-tabs { display: flex; gap: 0; border-bottom: 1px solid #b1b4b6; background: #f3f2f1; }
+        /* View tabs + toolbar combined row */
+        .register-view-tabs { display: flex; align-items: center; gap: 0; border-bottom: 1px solid #b1b4b6; background: #f3f2f1; padding-right: 12px; }
         .register-view-tab { padding: 12px 20px; border: none; background: none; font-family: "GDS Transport", arial, sans-serif; font-size: 16px; color: #1d70b8; cursor: pointer; border-bottom: 4px solid transparent; margin-bottom: -1px; }
         .register-view-tab:hover { background: #ffffff; }
         .register-view-tab--active { background: #ffffff; font-weight: 700; border-bottom-color: #1d70b8; }
@@ -141,15 +141,13 @@
         .graph-popup__btn:hover { background: #005a30; }
         .graph-popup__close { position: absolute; top: 8px; right: 12px; border: none; background: none; font-size: 18px; cursor: pointer; color: #505a5f; padding: 4px; }
 
-        /* Toolbar */
-        .register-toolbar { display: flex; gap: 8px; padding: 10px 15px; border-bottom: 1px solid #b1b4b6; background: #ffffff; align-items: center; flex-wrap: wrap; }
-        .register-toolbar__btn { padding: 6px 14px; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; font-weight: 700; border: none; cursor: pointer; }
-        .register-toolbar__btn--primary { background: #00703c; color: #ffffff; box-shadow: 0 2px 0 #002d18; }
-        .register-toolbar__btn--primary:hover { background: #005a30; }
-        .register-toolbar__btn--secondary { background: #ffffff; color: #0b0c0c; border: 2px solid #0b0c0c; }
-        .register-toolbar__btn--secondary:hover { background: #f3f2f1; }
-        .register-toolbar__btn--warning { background: #ffffff; color: #d4351c; border: 2px solid #d4351c; }
-        .register-toolbar__btn--warning:hover { background: #f6d7d2; }
+        /* Toolbar buttons (inside tab row) */
+        .register-toolbar__btn { padding: 6px 14px; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; font-weight: 700; border: 2px solid #0b0c0c; cursor: pointer; margin-left: 6px; background: #ffffff; color: #0b0c0c; }
+        .register-toolbar__btn:hover { background: #f3f2f1; }
+        .register-toolbar__btn--primary { color: #00703c; border-color: #00703c; }
+        .register-toolbar__btn--primary:hover { background: #e8f5e9; }
+        .register-toolbar__btn--warning { color: #d4351c; border-color: #d4351c; }
+        .register-toolbar__btn--warning:hover { background: #fef7f7; }
         .register-toolbar__spacer { flex: 1; }
         .register-toolbar__status { font-size: 12px; color: #505a5f; font-family: "GDS Transport", arial, sans-serif; }
         .register-edit-btn { padding: 4px 12px; font-family: "GDS Transport", arial, sans-serif; font-size: 13px; font-weight: 700; background: #f3f2f1; border: 1px solid #b1b4b6; cursor: pointer; }
@@ -215,18 +213,15 @@
         </div>
     </nav>
 
-    <div class="register-view-tabs" role="tablist">
+    <div class="register-view-tabs" role="tablist" id="modelToolbar">
         <button class="register-view-tab register-view-tab--active" role="tab" aria-selected="true" data-view="register" id="tabRegister">Model</button>
         <button class="register-view-tab" role="tab" aria-selected="false" data-view="graph" id="tabGraph">Graph</button>
         <button class="register-view-tab" role="tab" aria-selected="false" data-view="about" id="tabAbout">About</button>
-    </div>
-
-    <div class="register-toolbar" id="modelToolbar">
-        <button class="register-toolbar__btn register-toolbar__btn--primary" id="btnAddSystem">+ Add system</button>
-        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnImport">Import JSON</button>
-        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnExport">Export JSON</button>
         <span class="register-toolbar__spacer"></span>
         <span class="register-toolbar__status" id="toolbarStatus"></span>
+        <button class="register-toolbar__btn register-toolbar__btn--primary" id="btnAddSystem">+ Add</button>
+        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnImport">Import</button>
+        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnExport">Export</button>
         <button class="register-toolbar__btn register-toolbar__btn--warning" id="btnReset">Reset</button>
         <input type="file" id="fileImport" accept=".json" style="display:none">
     </div>
@@ -258,7 +253,7 @@
             <p class="govuk-body">This is an interactive demonstration of how the <strong>Local Government Architecture Model (LGAM)</strong> can be used as a shared framework for understanding a council's technology landscape.</p>
 
             <h3 class="govuk-heading-m">What it shows</h3>
-            <p class="govuk-body">The LGAM describes local government technology across 9 layers -from the channels citizens use to reach a council, through the capabilities and business systems that deliver services, down to the infrastructure, security, and data platforms that underpin everything.</p>
+            <p class="govuk-body">The LGAM describes local government technology across 9 layers - from the channels citizens use to reach a council, through the capabilities and business systems that deliver services, down to the infrastructure, security, and data platforms that underpin everything.</p>
             <p class="govuk-body">This demo maps <strong>archetypal systems</strong> (the kinds of technology a typical council operates) against those layers, and uses the LGAM's relationship model to derive how they connect. It surfaces:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li><strong>Layer position</strong> - where each system sits in the overall architecture</li>
@@ -268,7 +263,7 @@
             </ul>
 
             <h3 class="govuk-heading-m">How it relates to the LGAM</h3>
-            <p class="govuk-body">The LGAM is a reference architecture -a shared vocabulary and structure. This demo explores what it looks like to <strong>align a council's actual technology landscape to that reference</strong>. The taxonomy (layers, domains, capabilities) comes directly from the LGAM. The relationships between systems are derived from the LGAM's own dependency graph, not hand-authored.</p>
+            <p class="govuk-body">The LGAM is a reference architecture - a shared vocabulary and structure. This demo explores what it looks like to <strong>align a council's actual technology landscape to that reference</strong>. The taxonomy (layers, domains, capabilities) comes directly from the LGAM. The relationships between systems are derived from the LGAM's own dependency graph, not hand-authored.</p>
             <p class="govuk-body">The reference data uses generic archetypes ("Social Care System", "IAM Platform") rather than specific vendor products. A council using this approach would map their own specific systems into the same structure.</p>
 
             <h3 class="govuk-heading-m">What this is not</h3>
@@ -828,7 +823,7 @@
         // View switching and URL routing
         function switchView(view, updateHash = true) {
             document.getElementById('main-content').classList.toggle('register-view--hidden', view !== 'register');
-            document.getElementById('modelToolbar').style.display = view === 'register' ? '' : 'none';
+            document.querySelectorAll('#modelToolbar .register-toolbar__btn, #modelToolbar .register-toolbar__spacer, #modelToolbar .register-toolbar__status').forEach(el => el.style.display = view === 'register' ? '' : 'none');
             document.getElementById('graphView').classList.toggle('register-view--hidden', view !== 'graph');
             document.getElementById('aboutView').classList.toggle('register-view--hidden', view !== 'about');
             document.querySelectorAll('.register-view-tab').forEach(t => {
