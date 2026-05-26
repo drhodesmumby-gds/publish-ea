@@ -865,90 +865,119 @@
             });
         });
 
+        const lgamRefNodes = [{"id":"in-person","label":"In person","colour":"#CC00CC"},{"id":"phone","label":"Phone","colour":"#CC00CC"},{"id":"email-ch","label":"Email","colour":"#CC00CC"},{"id":"letter","label":"Letter","colour":"#CC00CC"},{"id":"online","label":"Online","colour":"#CC00CC"},{"id":"messaging-ch","label":"Messaging","colour":"#CC00CC"},{"id":"social","label":"Social media","colour":"#CC00CC"},{"id":"smart","label":"Smart devices","colour":"#CC00CC"},{"id":"third-party","label":"Third-party","colour":"#CC00CC"},{"id":"video","label":"Video","colour":"#CC00CC"},{"id":"apps","label":"Apps","colour":"#800080"},{"id":"api-gw","label":"API gateways","colour":"#800080"},{"id":"auto-phone","label":"Automated phones","colour":"#800080"},{"id":"human","label":"Human","colour":"#800080"},{"id":"pub-devices","label":"Public devices","colour":"#800080"},{"id":"websites","label":"Websites","colour":"#800080"},{"id":"agentic-ai","label":"Agentic AI","colour":"#000080"},{"id":"booking","label":"Booking","colour":"#000080"},{"id":"email-cap","label":"Email","colour":"#000080"},{"id":"forms","label":"Forms","colour":"#000080"},{"id":"identity","label":"Identity","colour":"#000080"},{"id":"payments","label":"Payments","colour":"#000080"},{"id":"messaging-cap","label":"Messaging","colour":"#000080"},{"id":"telephony","label":"Telephony","colour":"#000080"},{"id":"workflow","label":"Workflow","colour":"#000080"},{"id":"adult-care","label":"Adult social care","colour":"#0000FF"},{"id":"childrens","label":"Children's social care","colour":"#0000FF"},{"id":"democratic","label":"Democratic services","colour":"#0000FF"},{"id":"education","label":"Education","colour":"#0000FF"},{"id":"highways","label":"Highways","colour":"#0000FF"},{"id":"housing","label":"Housing","colour":"#0000FF"},{"id":"leisure","label":"Leisure & culture","colour":"#0000FF"},{"id":"licensing","label":"Licensing","colour":"#0000FF"},{"id":"planning","label":"Planning","colour":"#0000FF"},{"id":"public-health","label":"Public health","colour":"#0000FF"},{"id":"revenues","label":"Revenues & benefits","colour":"#0000FF"},{"id":"waste","label":"Waste management","colour":"#0000FF"},{"id":"biz-planning","label":"Business planning","colour":"#696969"},{"id":"comms","label":"Communications","colour":"#696969"},{"id":"governance","label":"Governance","colour":"#696969"},{"id":"crm","label":"Customer relations","colour":"#696969"},{"id":"facilities","label":"Facilities","colour":"#696969"},{"id":"financial","label":"Financial","colour":"#696969"},{"id":"geo","label":"Geographical","colour":"#696969"},{"id":"legal","label":"Legal","colour":"#696969"},{"id":"hr","label":"HR & workforce","colour":"#696969"},{"id":"procurement","label":"Procurement","colour":"#696969"},{"id":"ai-enablement","label":"AI enablement","colour":"#008080"},{"id":"conversational-ai","label":"Conversational AI","colour":"#008080"},{"id":"generative-ai","label":"Generative AI","colour":"#008080"},{"id":"intelligent-auto","label":"Intelligent automation","colour":"#008080"},{"id":"ml","label":"Machine learning","colour":"#008080"},{"id":"release-mgmt","label":"Release management","colour":"#008080"},{"id":"monitoring","label":"Monitoring","colour":"#008080"},{"id":"unified-comms","label":"Unified comms","colour":"#008080"},{"id":"end-user-devices","label":"End-user devices","colour":"#008080"},{"id":"knowledge-mgmt","label":"Knowledge mgmt","colour":"#008080"},{"id":"productivity","label":"Productivity","colour":"#008080"},{"id":"app-portfolio","label":"App portfolio","colour":"#008080"},{"id":"it-ops","label":"IT operations","colour":"#008080"},{"id":"sw-asset","label":"Software asset","colour":"#008080"},{"id":"compute","label":"Compute & storage","colour":"#008080"},{"id":"connectivity","label":"Connectivity","colour":"#008080"},{"id":"virtualisation","label":"Virtualisation","colour":"#008080"},{"id":"api-mgmt","label":"API management","colour":"#6B6B00"},{"id":"data-pipelines","label":"Data pipelines","colour":"#6B6B00"},{"id":"event-streaming","label":"Event streaming","colour":"#6B6B00"},{"id":"file-transfer","label":"File transfer","colour":"#6B6B00"},{"id":"integration-gov","label":"Integration governance","colour":"#6B6B00"},{"id":"middleware","label":"Middleware","colour":"#6B6B00"},{"id":"b2b-integration","label":"B2B integration","colour":"#6B6B00"},{"id":"app-data-sec","label":"App & data security","colour":"#CC0000"},{"id":"iam","label":"IAM","colour":"#CC0000"},{"id":"incident-forensics","label":"Incident forensics","colour":"#CC0000"},{"id":"network-sec","label":"Network security","colour":"#CC0000"},{"id":"physical-sec","label":"Physical security","colour":"#CC0000"},{"id":"soc","label":"SOC","colour":"#CC0000"},{"id":"vuln-mgmt","label":"Vulnerability mgmt","colour":"#CC0000"},{"id":"bi-analytics","label":"BI & analytics","colour":"#800000"},{"id":"data-catalogue","label":"Data catalogue","colour":"#800000"},{"id":"data-governance","label":"Data governance","colour":"#800000"},{"id":"data-science","label":"Data science","colour":"#800000"},{"id":"data-storage","label":"Data storage","colour":"#800000"},{"id":"doc-records","label":"Documents & records","colour":"#800000"},{"id":"enterprise-search","label":"Enterprise search","colour":"#800000"},{"id":"geospatial","label":"Geospatial","colour":"#800000"}];
+
+        const domainToLgamNode = {"CH_Online":"online","CH_Phone":"phone","CH_InPerson":"in-person","CH_Letter":"letter","CH_SMS":"messaging-ch","CH_Email":"email-ch","CH_SocialMedia":"social","CH_SmartDevice":"smart","CH_ThirdParty":"third-party","CH_Video":"video","CI_Website":"websites","CI_App":"apps","CI_APIGateway":"api-gw","CI_Human":"human","CI_AutoPhone":"auto-phone","CI_PublicDevice":"pub-devices","CAP_Payments":"payments","CAP_Forms":"forms","CAP_Notifications":"messaging-cap","CAP_Identity":"identity","CAP_Booking":"booking","CAP_Workflow":"workflow","CAP_Email":"email-cap","CAP_Telephony":"telephony","CAP_AgenticAI":"agentic-ai","FG_AdultSocial":"adult-care","FG_ChildSocial":"childrens","FG_Democratic":"democratic","FG_Education":"education","FG_Highways":"highways","FG_Housing":"housing","FG_Leisure":"leisure","FG_Licensing":"licensing","FG_Planning":"planning","FG_PublicHealth":"public-health","FG_RevsBens":"revenues","FG_Waste":"waste","FG_BizPlanning":"biz-planning","FG_Comms":"comms","FG_Governance":"governance","FG_CustRel":"crm","FG_Facilities":"facilities","FG_Financial":"financial","FG_GIS":"geo","FG_Legal":"legal","FG_HR":"hr","FG_Procurement":"procurement","FT_AIEnablement":"ai-enablement","FT_ConversationalAI":"conversational-ai","FT_GenerativeAI":"generative-ai","FT_IntelligentAuto":"intelligent-auto","FT_MachineLearning":"ml","FT_ReleaseMgmt":"release-mgmt","FT_Monitoring":"monitoring","FT_UnifiedComms":"unified-comms","FT_EndUserDevices":"end-user-devices","FT_KnowledgeMgmt":"knowledge-mgmt","FT_Productivity":"productivity","FT_AppPortfolio":"app-portfolio","FT_ITOps":"it-ops","FT_SWAsset":"sw-asset","FT_Compute":"compute","FT_Connectivity":"connectivity","FT_Virtualisation":"virtualisation","INT_ApiMgmt":"api-mgmt","INT_DataPipelines":"data-pipelines","INT_EventStreaming":"event-streaming","INT_FileTransfer":"file-transfer","INT_Governance":"integration-gov","INT_Middleware":"middleware","INT_B2B":"b2b-integration","SEC_IAM":"iam","SEC_SOC":"soc","SEC_Endpoint":"network-sec","SEC_Vulnerability":"vuln-mgmt","SEC_AppData":"app-data-sec","SEC_Forensics":"incident-forensics","SEC_Physical":"physical-sec","DATA_BI":"bi-analytics","DATA_Governance":"data-governance","DATA_Storage":"data-storage","DATA_GIS":"geospatial","DATA_Documents":"doc-records","DATA_Catalogue":"data-catalogue","DATA_Science":"data-science","DATA_Search":"enterprise-search"};
+
+        let lgamOverlayActive = false;
+        let graphNetwork = null;
+        let graphNodes = null;
+        let graphEdges = null;
+
         function renderGraph() {
             const container = document.getElementById('graphContainer');
-            const nodes = new vis.DataSet(data.systems.map(sys => {
-                const layer = getLayerForSystem(sys);
-                return {
-                    id: sys.id,
-                    label: sys.name,
-                    color: { background: layer ? layer.colour : '#505a5f', border: layer ? layer.colour : '#505a5f', highlight: { background: '#ffdd00', border: '#0b0c0c' } },
-                    font: { color: '#ffffff', face: 'GDS Transport, arial, sans-serif', size: 12 },
-                    shape: 'box',
-                    margin: 8
-                };
-            }));
 
+            // Add toggle button if not already there
+            if (!document.getElementById('lgamToggle')) {
+                const toggle = document.createElement('button');
+                toggle.id = 'lgamToggle';
+                toggle.className = 'register-toolbar__btn';
+                toggle.style.cssText = 'position:absolute;top:10px;right:10px;z-index:5;font-size:12px;padding:4px 10px;';
+                toggle.textContent = 'Show LGAM reference';
+                container.style.position = 'relative';
+                container.appendChild(toggle);
+                toggle.addEventListener('click', () => {
+                    lgamOverlayActive = !lgamOverlayActive;
+                    toggle.textContent = lgamOverlayActive ? 'Hide LGAM reference' : 'Show LGAM reference';
+                    updateGraphOverlay();
+                });
+            }
+
+            // Build council system nodes
+            const nodeData = data.systems.map(sys => {
+                const layer = getLayerForSystem(sys);
+                return { id: sys.id, label: sys.name, color: { background: layer ? layer.colour : '#505a5f', border: layer ? layer.colour : '#505a5f', highlight: { background: '#ffdd00', border: '#0b0c0c' } }, font: { color: '#ffffff', face: 'GDS Transport, arial, sans-serif', size: 12 }, shape: 'box', margin: 8, group: 'council' };
+            });
+
+            // Build council dependency edges
+            const edgeData = [];
             const edgeSet = new Set();
-            const edges = [];
             data.systems.forEach(sys => {
-                const deps = getDerivedDependencies(sys);
-                deps.forEach(depId => {
+                getDerivedDependencies(sys).forEach(depId => {
                     const key = `${sys.id}->${depId}`;
-                    if (!edgeSet.has(key)) {
-                        edgeSet.add(key);
-                        edges.push({ from: sys.id, to: depId, arrows: 'to', color: { color: '#b1b4b6', highlight: '#1d70b8' } });
-                    }
+                    if (!edgeSet.has(key)) { edgeSet.add(key); edgeData.push({ from: sys.id, to: depId, arrows: 'to', color: { color: '#b1b4b6', highlight: '#1d70b8' } }); }
                 });
             });
 
-            const network = new vis.Network(
-                container,
-                { nodes, edges: new vis.DataSet(edges) },
-                {
-                    layout: { improvedLayout: true },
-                    physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -50, centralGravity: 0.008, springLength: 160, springConstant: 0.04, damping: 0.4 } },
-                    interaction: { hover: true, tooltipDelay: 200 },
-                    nodes: { margin: { top: 6, bottom: 6, left: 10, right: 10 } },
-                    edges: { smooth: { type: 'cubicBezier', roundness: 0.4 } }
-                }
-            );
+            graphNodes = new vis.DataSet(nodeData);
+            graphEdges = new vis.DataSet(edgeData);
 
-            function closePopup() {
-                const existing = container.querySelector('.graph-popup');
-                if (existing) existing.remove();
-            }
+            graphNetwork = new vis.Network(container, { nodes: graphNodes, edges: graphEdges }, {
+                layout: { improvedLayout: true },
+                physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -50, centralGravity: 0.008, springLength: 160, springConstant: 0.04, damping: 0.4 } },
+                interaction: { hover: true, tooltipDelay: 200 },
+                nodes: { margin: { top: 6, bottom: 6, left: 10, right: 10 } },
+                edges: { smooth: { type: 'cubicBezier', roundness: 0.4 } }
+            });
 
-            network.on('click', (params) => {
+            function closePopup() { const p = container.querySelector('.graph-popup'); if (p) p.remove(); }
+
+            graphNetwork.on('click', (params) => {
                 closePopup();
                 if (params.nodes.length > 0) {
-                    const sysId = params.nodes[0];
-                    const sys = getSystemById(sysId);
+                    const nodeId = params.nodes[0];
+                    const sys = getSystemById(nodeId);
+                    if (!sys) return; // clicked an LGAM reference node
                     const layer = getLayerForSystem(sys);
                     const canvasPos = params.pointer.DOM;
-
+                    const deps = getDerivedDependencies(sys);
+                    const consumers = getDerivedConsumers(sys);
+                    const capsHtml = sys.capabilities.length > 0 ? `<div style="margin-bottom:8px;">${sys.capabilities.map(c => { const cap = getCapabilityById(c); return `<span class="register-cap-pill register-cap-pill--provides" style="font-size:11px;padding:2px 8px;">${cap ? cap.label : c}</span>`; }).join(' ')}</div>` : '';
+                    const relsHtml = (deps.length > 0 || consumers.length > 0) ? `<div style="font-size:12px;color:#505a5f;margin-bottom:10px;">${deps.length > 0 ? `Depends on ${deps.length} system${deps.length > 1 ? 's' : ''}` : ''}${deps.length > 0 && consumers.length > 0 ? ' · ' : ''}${consumers.length > 0 ? `${consumers.length} system${consumers.length > 1 ? 's' : ''} depend on this` : ''}</div>` : '';
                     const popup = document.createElement('div');
                     popup.className = 'graph-popup';
                     popup.style.left = Math.min(canvasPos.x + 10, container.offsetWidth - 340) + 'px';
                     popup.style.top = Math.min(canvasPos.y + 10, container.offsetHeight - 200) + 'px';
-                    const deps = getDerivedDependencies(sys);
-                    const consumers = getDerivedConsumers(sys);
-                    const capsHtml = sys.capabilities.length > 0
-                        ? `<div style="margin-bottom:8px;">${sys.capabilities.map(c => { const cap = getCapabilityById(c); return `<span class="register-cap-pill register-cap-pill--provides" style="font-size:11px;padding:2px 8px;">${cap ? cap.label : c}</span>`; }).join(' ')}</div>`
-                        : '';
-                    const relsHtml = (deps.length > 0 || consumers.length > 0)
-                        ? `<div style="font-size:12px;color:#505a5f;margin-bottom:10px;">${deps.length > 0 ? `Depends on ${deps.length} system${deps.length > 1 ? 's' : ''}` : ''}${deps.length > 0 && consumers.length > 0 ? ' · ' : ''}${consumers.length > 0 ? `${consumers.length} system${consumers.length > 1 ? 's' : ''} depend on this` : ''}</div>`
-                        : '';
-
-                    popup.innerHTML = `
-                        <button class="graph-popup__close" aria-label="Close">&times;</button>
-                        <div class="graph-popup__title">${sys.name}</div>
-                        <div class="graph-popup__desc">${sys.description}</div>
-                        <div class="graph-popup__layer" style="color:${layer ? layer.colour : '#505a5f'}">${layer ? layer.label : ''} · ${getDomainById(sys.domains[0])?.label || ''}</div>
-                        ${capsHtml}${relsHtml}
-                        <button class="graph-popup__btn">View in Model →</button>
-                    `;
+                    popup.innerHTML = `<button class="graph-popup__close" aria-label="Close">&times;</button><div class="graph-popup__title">${sys.name}</div><div class="graph-popup__desc">${sys.description}</div><div class="graph-popup__layer" style="color:${layer ? layer.colour : '#505a5f'}">${layer ? layer.label : ''} · ${getDomainById(sys.domains[0])?.label || ''}</div>${capsHtml}${relsHtml}<button class="graph-popup__btn">View in Model →</button>`;
                     container.appendChild(popup);
-
                     popup.querySelector('.graph-popup__close').addEventListener('click', closePopup);
-                    popup.querySelector('.graph-popup__btn').addEventListener('click', () => {
-                        selectSystem(sysId);
-                        document.querySelector('[data-view="register"]').click();
-                    });
+                    popup.querySelector('.graph-popup__btn').addEventListener('click', () => { selectSystem(nodeId); document.querySelector('[data-view="register"]').click(); });
                 }
             });
+            graphNetwork.on('deselectNode', closePopup);
+        }
 
-            network.on('deselectNode', closePopup);
+        function updateGraphOverlay() {
+            if (!graphNodes || !graphEdges) return;
+            const lgamNodeIds = lgamRefNodes.map(n => 'lgam_' + n.id);
+
+            if (lgamOverlayActive) {
+                // Add LGAM reference nodes (faded, circular, smaller)
+                lgamRefNodes.forEach(n => {
+                    const id = 'lgam_' + n.id;
+                    if (!graphNodes.get(id)) {
+                        graphNodes.add({ id, label: n.label, color: { background: n.colour + '40', border: n.colour + '80' }, font: { color: '#505a5f', face: 'GDS Transport, arial, sans-serif', size: 10 }, shape: 'ellipse', size: 14, group: 'lgam' });
+                    }
+                });
+                // Add edges from council systems to their corresponding LGAM nodes
+                data.systems.forEach(sys => {
+                    sys.domains.forEach(domId => {
+                        const lgamId = domainToLgamNode[domId];
+                        if (lgamId) {
+                            const edgeId = `align_${sys.id}_${lgamId}`;
+                            if (!graphEdges.get(edgeId)) {
+                                graphEdges.add({ id: edgeId, from: sys.id, to: 'lgam_' + lgamId, dashes: true, color: { color: '#b1b4b660' }, arrows: '', width: 1 });
+                            }
+                        }
+                    });
+                });
+            } else {
+                // Remove LGAM nodes and alignment edges
+                const toRemoveNodes = graphNodes.get().filter(n => n.group === 'lgam').map(n => n.id);
+                const toRemoveEdges = graphEdges.get().filter(e => e.id && e.id.startsWith('align_')).map(e => e.id);
+                if (toRemoveNodes.length) graphNodes.remove(toRemoveNodes);
+                if (toRemoveEdges.length) graphEdges.remove(toRemoveEdges);
+            }
         }
 
         // CRUD
