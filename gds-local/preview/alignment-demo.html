@@ -163,6 +163,20 @@
         .register-edit-select { padding: 6px 10px; border: 2px solid #0b0c0c; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; width: 100%; }
         .register-confirm-bar { padding: 16px; background: #fef7f7; border: 2px solid #d4351c; margin-top: 16px; }
         .register-confirm-bar p { font-family: "GDS Transport", arial, sans-serif; font-size: 14px; margin-bottom: 12px; }
+        .register-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; }
+        .register-modal { background: #ffffff; width: 560px; max-height: 80vh; display: flex; flex-direction: column; border: 2px solid #0b0c0c; }
+        .register-modal__header { padding: 16px 20px; border-bottom: 1px solid #b1b4b6; display: flex; align-items: center; gap: 12px; }
+        .register-modal__header h3 { font-family: "GDS Transport", arial, sans-serif; font-size: 18px; font-weight: 700; margin: 0; flex: 1; }
+        .register-modal__body { flex: 1; overflow-y: auto; padding: 0; }
+        .register-modal__footer { padding: 12px 20px; border-top: 1px solid #b1b4b6; display: flex; gap: 8px; justify-content: flex-end; }
+        .register-modal__search { width: 200px; padding: 6px 10px; border: 2px solid #0b0c0c; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; }
+        .register-modal__group { border-bottom: 1px solid #f0f0f0; }
+        .register-modal__group-header { padding: 8px 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #505a5f; background: #f3f2f1; border-left: 4px solid; }
+        .register-modal__item { padding: 10px 20px 10px 28px; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f8f8f8; }
+        .register-modal__item:hover { background: #f3f2f1; }
+        .register-modal__item--selected { background: #e8f0fe; font-weight: 600; }
+        .register-modal__item--selected::after { content: '✓'; color: #00703c; font-weight: 700; }
+        .register-modal__item--hidden { display: none; }
 
         /* Focus styles */
         a:focus, button:focus, [tabindex]:focus { outline: 3px solid #ffdd00 !important; outline-offset: 0 !important; box-shadow: inset 0 0 0 2px #0b0c0c !important; text-decoration: none !important; }
@@ -244,6 +258,9 @@
     </div>
 
     <div class="register-view--hidden" id="graphView" role="tabpanel" aria-labelledby="tabGraph">
+        <div style="padding:8px 12px;background:#f3f2f1;border-bottom:1px solid #b1b4b6;display:flex;align-items:center;">
+            <button class="register-toolbar__btn" id="lgamToggle" style="margin-left:0;font-size:13px;">Show coverage gaps</button>
+        </div>
         <div id="graphContainer"></div>
     </div>
 
@@ -257,7 +274,7 @@
             <p class="govuk-body">This demo maps <strong>archetypal systems</strong> (the kinds of technology a typical council operates) against those layers, and uses the LGAM's relationship model to derive how they connect. It surfaces:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li><strong>Layer position</strong> - where each system sits in the overall architecture</li>
-                <li><strong>Derived dependencies</strong> - which systems depend on which, based on the LGAM's domain-level relationship graph</li>
+                <li><strong>Derived relationships</strong> - which systems are connected, based on the LGAM's domain-level relationship graph</li>
                 <li><strong>Coverage gaps</strong> - which areas of the model have no system mapped against them</li>
                 <li><strong>Capability suggestions</strong> - what capabilities the LGAM suggests are typically needed for systems in that layer</li>
             </ul>
@@ -746,31 +763,22 @@
             }
 
             const derivedConsumers = getDerivedConsumers(sys);
-            if (derivedConsumers.length > 0) {
-                html += `<div class="register-relationship-section"><p class="register-relationship-label">Systems that depend on this</p>`;
-                derivedConsumers.forEach(cId => {
-                    const consumer = getSystemById(cId);
-                    if (consumer) {
-                        html += `<div class="register-related-system" data-system-id="${cId}"><span class="register-related-name">${consumer.name}</span><span class="register-related-via">${getContextLabel(consumer)}</span></div>`;
-                    }
-                });
-                html += `</div>`;
-            }
-
             const derivedDeps = getDerivedDependencies(sys);
-            if (derivedDeps.length > 0) {
-                html += `<div class="register-relationship-section"><p class="register-relationship-label">This system depends on</p>`;
-                derivedDeps.forEach(depId => {
-                    const dep = getSystemById(depId);
-                    if (dep) {
-                        html += `<div class="register-related-system" data-system-id="${depId}"><span class="register-related-name">${dep.name}</span><span class="register-related-via">${getContextLabel(dep)}</span></div>`;
+            const manualRels = (sys.manualDeps || []);
+            const allRelatedIds = [...new Set([...derivedConsumers, ...derivedDeps, ...manualRels])];
+            if (allRelatedIds.length > 0) {
+                html += `<div class="register-relationship-section"><p class="register-relationship-label">Related systems</p>`;
+                allRelatedIds.forEach(relId => {
+                    const rel = getSystemById(relId);
+                    if (rel) {
+                        html += `<div class="register-related-system" data-system-id="${relId}"><span class="register-related-name">${rel.name}</span><span class="register-related-via">${getContextLabel(rel)}</span></div>`;
                     }
                 });
                 html += `</div>`;
             }
 
-            if (sys.capabilities.length === 0 && derivedConsumers.length === 0 && derivedDeps.length === 0 && suggested.length === 0) {
-                html += `<p class="register-empty-state">No relationships derived from LGAM</p>`;
+            if (sys.capabilities.length === 0 && allRelatedIds.length === 0 && suggested.length === 0) {
+                html += `<p class="register-empty-state">No relationships found</p>`;
             }
 
             // Completeness gaps -domains in the same layer with no system registered
@@ -877,21 +885,11 @@
         function renderGraph() {
             const container = document.getElementById('graphContainer');
 
-            // Add toggle button if not already there
-            if (!document.getElementById('lgamToggle')) {
-                const toggle = document.createElement('button');
-                toggle.id = 'lgamToggle';
-                toggle.className = 'register-toolbar__btn';
-                toggle.style.cssText = 'position:absolute;top:10px;right:10px;z-index:5;font-size:12px;padding:4px 10px;';
-                toggle.textContent = 'Show LGAM reference';
-                container.style.position = 'relative';
-                container.appendChild(toggle);
-                toggle.addEventListener('click', () => {
-                    lgamOverlayActive = !lgamOverlayActive;
-                    toggle.textContent = lgamOverlayActive ? 'Hide LGAM reference' : 'Show LGAM reference';
-                    updateGraphOverlay();
-                });
-            }
+            document.getElementById('lgamToggle').addEventListener('click', () => {
+                lgamOverlayActive = !lgamOverlayActive;
+                document.getElementById('lgamToggle').textContent = lgamOverlayActive ? 'Hide coverage gaps' : 'Show coverage gaps';
+                updateGraphOverlay();
+            });
 
             // Build council system nodes
             const nodeData = data.systems.map(sys => {
@@ -899,13 +897,14 @@
                 return { id: sys.id, label: sys.name, color: { background: layer ? layer.colour : '#505a5f', border: layer ? layer.colour : '#505a5f', highlight: { background: '#ffdd00', border: '#0b0c0c' } }, font: { color: '#ffffff', face: 'GDS Transport, arial, sans-serif', size: 12 }, shape: 'box', margin: 8, group: 'council' };
             });
 
-            // Build council dependency edges
+            // Build council dependency edges (derived + manual)
             const edgeData = [];
             const edgeSet = new Set();
             data.systems.forEach(sys => {
-                getDerivedDependencies(sys).forEach(depId => {
+                const allDeps = [...getDerivedDependencies(sys), ...(sys.manualDeps || [])];
+                allDeps.forEach(depId => {
                     const key = `${sys.id}->${depId}`;
-                    if (!edgeSet.has(key)) { edgeSet.add(key); edgeData.push({ from: sys.id, to: depId, arrows: 'to', color: { color: '#b1b4b6', highlight: '#1d70b8' } }); }
+                    if (!edgeSet.has(key)) { edgeSet.add(key); edgeData.push({ from: sys.id, to: depId, color: { color: '#b1b4b6', highlight: '#1d70b8' } }); }
                 });
             });
 
@@ -933,7 +932,8 @@
                     const deps = getDerivedDependencies(sys);
                     const consumers = getDerivedConsumers(sys);
                     const capsHtml = sys.capabilities.length > 0 ? `<div style="margin-bottom:8px;">${sys.capabilities.map(c => { const cap = getCapabilityById(c); return `<span class="register-cap-pill register-cap-pill--provides" style="font-size:11px;padding:2px 8px;">${cap ? cap.label : c}</span>`; }).join(' ')}</div>` : '';
-                    const relsHtml = (deps.length > 0 || consumers.length > 0) ? `<div style="font-size:12px;color:#505a5f;margin-bottom:10px;">${deps.length > 0 ? `Depends on ${deps.length} system${deps.length > 1 ? 's' : ''}` : ''}${deps.length > 0 && consumers.length > 0 ? ' · ' : ''}${consumers.length > 0 ? `${consumers.length} system${consumers.length > 1 ? 's' : ''} depend on this` : ''}</div>` : '';
+                    const totalRels = deps.length + consumers.length;
+                    const relsHtml = totalRels > 0 ? `<div style="font-size:12px;color:#505a5f;margin-bottom:10px;">Connected to ${totalRels} other system${totalRels > 1 ? 's' : ''}</div>` : '';
                     const popup = document.createElement('div');
                     popup.className = 'graph-popup';
                     popup.style.left = Math.min(canvasPos.x + 10, container.offsetWidth - 340) + 'px';
@@ -949,34 +949,25 @@
 
         function updateGraphOverlay() {
             if (!graphNodes || !graphEdges) return;
-            const lgamNodeIds = lgamRefNodes.map(n => 'lgam_' + n.id);
 
             if (lgamOverlayActive) {
-                // Add LGAM reference nodes (faded, circular, smaller)
+                // Find domains with no system registered
+                const coveredDomains = new Set();
+                data.systems.forEach(sys => sys.domains.forEach(d => coveredDomains.add(d)));
+
                 lgamRefNodes.forEach(n => {
-                    const id = 'lgam_' + n.id;
-                    if (!graphNodes.get(id)) {
-                        graphNodes.add({ id, label: n.label, color: { background: n.colour + '40', border: n.colour + '80' }, font: { color: '#505a5f', face: 'GDS Transport, arial, sans-serif', size: 10 }, shape: 'ellipse', size: 14, group: 'lgam' });
+                    // Find matching domain ID for this LGAM node
+                    const domId = Object.keys(domainToLgamNode).find(k => domainToLgamNode[k] === n.id);
+                    if (domId && !coveredDomains.has(domId)) {
+                        const id = 'gap_' + n.id;
+                        if (!graphNodes.get(id)) {
+                            graphNodes.add({ id, label: n.label + ' (gap)', color: { background: '#ffffff', border: n.colour }, font: { color: '#505a5f', face: 'GDS Transport, arial, sans-serif', size: 10 }, shape: 'box', borderDashes: [4, 4], borderWidth: 2, margin: 6, group: 'gap' });
+                        }
                     }
                 });
-                // Add edges from council systems to their corresponding LGAM nodes
-                data.systems.forEach(sys => {
-                    sys.domains.forEach(domId => {
-                        const lgamId = domainToLgamNode[domId];
-                        if (lgamId) {
-                            const edgeId = `align_${sys.id}_${lgamId}`;
-                            if (!graphEdges.get(edgeId)) {
-                                graphEdges.add({ id: edgeId, from: sys.id, to: 'lgam_' + lgamId, dashes: true, color: { color: '#b1b4b660' }, arrows: '', width: 1 });
-                            }
-                        }
-                    });
-                });
             } else {
-                // Remove LGAM nodes and alignment edges
-                const toRemoveNodes = graphNodes.get().filter(n => n.group === 'lgam').map(n => n.id);
-                const toRemoveEdges = graphEdges.get().filter(e => e.id && e.id.startsWith('align_')).map(e => e.id);
-                if (toRemoveNodes.length) graphNodes.remove(toRemoveNodes);
-                if (toRemoveEdges.length) graphEdges.remove(toRemoveEdges);
+                const toRemove = graphNodes.get().filter(n => n.group === 'gap').map(n => n.id);
+                if (toRemove.length) graphNodes.remove(toRemove);
             }
         }
 
@@ -1051,12 +1042,19 @@
                 <div class="register-field-row"><div class="register-field-card"><span class="register-field-label">Portability</span><select class="register-edit-select" id="editPort"><option value="high"${sys.technical.portability==='high'?' selected':''}>High</option><option value="med"${sys.technical.portability==='med'?' selected':''}>Med</option><option value="low"${sys.technical.portability==='low'?' selected':''}>Low</option></select></div><div class="register-field-card"><span class="register-field-label">Support Model</span><select class="register-edit-select" id="editSupport">${supportOpts}</select></div></div>
                 <h3 class="register-section-heading">Capabilities Provided</h3>
                 <div class="register-field-card"><span class="register-field-label">Select capabilities this system provides</span><div id="editCaps" style="display:flex;flex-wrap:wrap;gap:6px;">${data.taxonomy.capabilities.map(c => `<label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;"><input type="checkbox" value="${c.id}" ${sys.capabilities.includes(c.id)?'checked':''}> ${c.label}</label>`).join('')}</div></div>
+                <h3 class="register-section-heading">Relationships</h3>
+                <div class="register-field-card">
+                    <span class="register-field-label">Connected systems</span>
+                    <div id="editDepsDisplay" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">${(sys.manualDeps||[]).map(id => { const s = getSystemById(id); return s ? `<span class="register-cap-pill register-cap-pill--provides" style="background:#505a5f;">${s.name}</span>` : ''; }).join('') || '<span class="register-field-value--empty">None selected</span>'}</div>
+                    <button class="register-edit-btn" type="button" id="editDepsBtn">Manage relationships</button>
+                </div>
                 <div style="margin-top:16px;display:flex;gap:8px;"><button class="register-edit-btn register-edit-btn--save" id="editSave">Save</button><button class="register-edit-btn" id="editCancel">Cancel</button><span style="flex:1"></span><button class="register-edit-btn register-edit-btn--delete" id="editDelete">Delete</button></div>
                 <div class="register-confirm-bar" id="delConfirm" style="display:none;"><p><strong>Are you sure?</strong> This will permanently remove this system.</p><button class="register-edit-btn register-edit-btn--delete" id="delYes">Yes, delete</button> <button class="register-edit-btn" id="delNo">Cancel</button></div>
             `;
             document.getElementById('editSave').addEventListener('click', () => {
                 const caps = [...document.querySelectorAll('#editCaps input:checked')].map(cb => cb.value);
-                updateSystem(sys.id, { name: document.getElementById('editName').value.trim()||sys.name, description: document.getElementById('editDesc').value.trim(), lifecycle: document.getElementById('editLifecycle').value, identity: { vendor: document.getElementById('editVendor').value, users: sys.identity.users, category: sys.identity.category, businessOwner: document.getElementById('editBizOwner').value, technicalOwner: document.getElementById('editTechOwner').value }, contract: { annualCost: parseInt(document.getElementById('editCost').value)||null, contractEnd: document.getElementById('editEnd').value||null, noticePeriod: parseInt(document.getElementById('editNotice').value)||null }, technical: { hosting: document.getElementById('editHosting').value, dataModel: document.getElementById('editData').value, portability: document.getElementById('editPort').value, supportModel: document.getElementById('editSupport').value }, capabilities: caps });
+                const manualDeps = [...selectedDeps];
+                updateSystem(sys.id, { name: document.getElementById('editName').value.trim()||sys.name, description: document.getElementById('editDesc').value.trim(), lifecycle: document.getElementById('editLifecycle').value, identity: { vendor: document.getElementById('editVendor').value, users: sys.identity.users, category: sys.identity.category, businessOwner: document.getElementById('editBizOwner').value, technicalOwner: document.getElementById('editTechOwner').value }, contract: { annualCost: parseInt(document.getElementById('editCost').value)||null, contractEnd: document.getElementById('editEnd').value||null, noticePeriod: parseInt(document.getElementById('editNotice').value)||null }, technical: { hosting: document.getElementById('editHosting').value, dataModel: document.getElementById('editData').value, portability: document.getElementById('editPort').value, supportModel: document.getElementById('editSupport').value }, capabilities: caps, manualDeps });
                 document.getElementById('toolbarStatus').textContent = 'Saved';
                 setTimeout(() => document.getElementById('toolbarStatus').textContent = '', 2000);
             });
@@ -1064,6 +1062,53 @@
             document.getElementById('editDelete').addEventListener('click', () => document.getElementById('delConfirm').style.display = 'block');
             document.getElementById('delNo').addEventListener('click', () => document.getElementById('delConfirm').style.display = 'none');
             document.getElementById('delYes').addEventListener('click', () => deleteSystem(sys.id));
+
+            // Dependency picker modal
+            let selectedDeps = new Set(sys.manualDeps || []);
+            document.getElementById('editDepsBtn').addEventListener('click', () => {
+                const overlay = document.createElement('div');
+                overlay.className = 'register-modal-overlay';
+                const otherSystems = data.systems.filter(s => s.id !== sys.id && !['channels','interfaces'].includes((getDomainById(s.domains[0])||{}).layer));
+                const grouped = {};
+                data.taxonomy.layers.filter(l => !['channels','interfaces'].includes(l.id)).forEach(l => grouped[l.id] = []);
+                otherSystems.forEach(s => { const dom = getDomainById(s.domains[0]); if (dom) grouped[dom.layer]?.push(s); });
+
+                let itemsHtml = '';
+                data.taxonomy.layers.filter(l => !['channels','interfaces'].includes(l.id)).forEach(l => {
+                    if (!grouped[l.id].length) return;
+                    itemsHtml += `<div class="register-modal__group"><div class="register-modal__group-header" style="border-left-color:${l.colour}">${l.label}</div>`;
+                    grouped[l.id].forEach(s => {
+                        itemsHtml += `<div class="register-modal__item${selectedDeps.has(s.id) ? ' register-modal__item--selected' : ''}" data-sys-id="${s.id}">${s.name}</div>`;
+                    });
+                    itemsHtml += `</div>`;
+                });
+
+                overlay.innerHTML = `<div class="register-modal"><div class="register-modal__header"><h3>Manage relationships</h3><input class="register-modal__search" placeholder="Search..." id="depSearch"></div><div class="register-modal__body">${itemsHtml}</div><div class="register-modal__footer"><button class="register-edit-btn register-edit-btn--save" id="depDone">Done</button><button class="register-edit-btn" id="depCancel">Cancel</button></div></div>`;
+                document.body.appendChild(overlay);
+
+                overlay.querySelectorAll('.register-modal__item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const id = item.dataset.sysId;
+                        if (selectedDeps.has(id)) { selectedDeps.delete(id); item.classList.remove('register-modal__item--selected'); }
+                        else { selectedDeps.add(id); item.classList.add('register-modal__item--selected'); }
+                    });
+                });
+
+                document.getElementById('depSearch').addEventListener('input', (e) => {
+                    const q = e.target.value.toLowerCase();
+                    overlay.querySelectorAll('.register-modal__item').forEach(item => {
+                        item.classList.toggle('register-modal__item--hidden', q && !item.textContent.toLowerCase().includes(q));
+                    });
+                });
+
+                document.getElementById('depDone').addEventListener('click', () => {
+                    const display = document.getElementById('editDepsDisplay');
+                    display.innerHTML = selectedDeps.size > 0 ? [...selectedDeps].map(id => { const s = getSystemById(id); return s ? `<span class="register-cap-pill register-cap-pill--provides" style="background:#505a5f;">${s.name}</span>` : ''; }).join('') : '<span class="register-field-value--empty">None selected</span>';
+                    overlay.remove();
+                });
+                document.getElementById('depCancel').addEventListener('click', () => overlay.remove());
+                overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+            });
         }
 
         // Import/Export/Reset
