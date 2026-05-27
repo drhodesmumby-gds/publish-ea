@@ -126,8 +126,8 @@
         .register-related-via { font-size: 12px; color: #505a5f; margin-top: 3px; display: block; font-family: "GDS Transport", arial, sans-serif; }
         .register-empty-state { font-size: 14px; color: #b1b4b6; font-style: italic; padding: 8px 0; font-family: "GDS Transport", arial, sans-serif; }
 
-        /* View tabs */
-        .register-view-tabs { display: flex; gap: 0; border-bottom: 1px solid #b1b4b6; background: #f3f2f1; }
+        /* View tabs + toolbar combined row */
+        .register-view-tabs { display: flex; align-items: center; gap: 0; border-bottom: 1px solid #b1b4b6; background: #f3f2f1; padding-right: 12px; }
         .register-view-tab { padding: 12px 20px; border: none; background: none; font-family: "GDS Transport", arial, sans-serif; font-size: 16px; color: #1d70b8; cursor: pointer; border-bottom: 4px solid transparent; margin-bottom: -1px; }
         .register-view-tab:hover { background: #ffffff; }
         .register-view-tab--active { background: #ffffff; font-weight: 700; border-bottom-color: #1d70b8; }
@@ -141,15 +141,13 @@
         .graph-popup__btn:hover { background: #005a30; }
         .graph-popup__close { position: absolute; top: 8px; right: 12px; border: none; background: none; font-size: 18px; cursor: pointer; color: #505a5f; padding: 4px; }
 
-        /* Toolbar */
-        .register-toolbar { display: flex; gap: 8px; padding: 10px 15px; border-bottom: 1px solid #b1b4b6; background: #ffffff; align-items: center; flex-wrap: wrap; }
-        .register-toolbar__btn { padding: 6px 14px; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; font-weight: 700; border: none; cursor: pointer; }
-        .register-toolbar__btn--primary { background: #00703c; color: #ffffff; box-shadow: 0 2px 0 #002d18; }
-        .register-toolbar__btn--primary:hover { background: #005a30; }
-        .register-toolbar__btn--secondary { background: #ffffff; color: #0b0c0c; border: 2px solid #0b0c0c; }
-        .register-toolbar__btn--secondary:hover { background: #f3f2f1; }
-        .register-toolbar__btn--warning { background: #ffffff; color: #d4351c; border: 2px solid #d4351c; }
-        .register-toolbar__btn--warning:hover { background: #f6d7d2; }
+        /* Toolbar buttons (inside tab row) */
+        .register-toolbar__btn { padding: 6px 14px; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; font-weight: 700; border: 2px solid #0b0c0c; cursor: pointer; margin-left: 6px; background: #ffffff; color: #0b0c0c; }
+        .register-toolbar__btn:hover { background: #f3f2f1; }
+        .register-toolbar__btn--primary { color: #00703c; border-color: #00703c; }
+        .register-toolbar__btn--primary:hover { background: #e8f5e9; }
+        .register-toolbar__btn--warning { color: #d4351c; border-color: #d4351c; }
+        .register-toolbar__btn--warning:hover { background: #fef7f7; }
         .register-toolbar__spacer { flex: 1; }
         .register-toolbar__status { font-size: 12px; color: #505a5f; font-family: "GDS Transport", arial, sans-serif; }
         .register-edit-btn { padding: 4px 12px; font-family: "GDS Transport", arial, sans-serif; font-size: 13px; font-weight: 700; background: #f3f2f1; border: 1px solid #b1b4b6; cursor: pointer; }
@@ -165,6 +163,20 @@
         .register-edit-select { padding: 6px 10px; border: 2px solid #0b0c0c; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; width: 100%; }
         .register-confirm-bar { padding: 16px; background: #fef7f7; border: 2px solid #d4351c; margin-top: 16px; }
         .register-confirm-bar p { font-family: "GDS Transport", arial, sans-serif; font-size: 14px; margin-bottom: 12px; }
+        .register-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 100; display: flex; align-items: center; justify-content: center; }
+        .register-modal { background: #ffffff; width: 560px; max-height: 80vh; display: flex; flex-direction: column; border: 2px solid #0b0c0c; }
+        .register-modal__header { padding: 16px 20px; border-bottom: 1px solid #b1b4b6; display: flex; align-items: center; gap: 12px; }
+        .register-modal__header h3 { font-family: "GDS Transport", arial, sans-serif; font-size: 18px; font-weight: 700; margin: 0; flex: 1; }
+        .register-modal__body { flex: 1; overflow-y: auto; padding: 0; }
+        .register-modal__footer { padding: 12px 20px; border-top: 1px solid #b1b4b6; display: flex; gap: 8px; justify-content: flex-end; }
+        .register-modal__search { width: 200px; padding: 6px 10px; border: 2px solid #0b0c0c; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; }
+        .register-modal__group { border-bottom: 1px solid #f0f0f0; }
+        .register-modal__group-header { padding: 8px 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #505a5f; background: #f3f2f1; border-left: 4px solid; }
+        .register-modal__item { padding: 10px 20px 10px 28px; font-family: "GDS Transport", arial, sans-serif; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f8f8f8; }
+        .register-modal__item:hover { background: #f3f2f1; }
+        .register-modal__item--selected { background: #e8f0fe; font-weight: 600; }
+        .register-modal__item--selected::after { content: '✓'; color: #00703c; font-weight: 700; }
+        .register-modal__item--hidden { display: none; }
 
         /* Focus styles */
         a:focus, button:focus, [tabindex]:focus { outline: 3px solid #ffdd00 !important; outline-offset: 0 !important; box-shadow: inset 0 0 0 2px #0b0c0c !important; text-decoration: none !important; }
@@ -215,18 +227,15 @@
         </div>
     </nav>
 
-    <div class="register-view-tabs" role="tablist">
+    <div class="register-view-tabs" role="tablist" id="modelToolbar">
         <button class="register-view-tab register-view-tab--active" role="tab" aria-selected="true" data-view="register" id="tabRegister">Model</button>
         <button class="register-view-tab" role="tab" aria-selected="false" data-view="graph" id="tabGraph">Graph</button>
         <button class="register-view-tab" role="tab" aria-selected="false" data-view="about" id="tabAbout">About</button>
-    </div>
-
-    <div class="register-toolbar" id="modelToolbar">
-        <button class="register-toolbar__btn register-toolbar__btn--primary" id="btnAddSystem">+ Add system</button>
-        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnImport">Import JSON</button>
-        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnExport">Export JSON</button>
         <span class="register-toolbar__spacer"></span>
         <span class="register-toolbar__status" id="toolbarStatus"></span>
+        <button class="register-toolbar__btn register-toolbar__btn--primary" id="btnAddSystem">+ Add</button>
+        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnImport">Import</button>
+        <button class="register-toolbar__btn register-toolbar__btn--secondary" id="btnExport">Export</button>
         <button class="register-toolbar__btn register-toolbar__btn--warning" id="btnReset">Reset</button>
         <input type="file" id="fileImport" accept=".json" style="display:none">
     </div>
@@ -249,6 +258,9 @@
     </div>
 
     <div class="register-view--hidden" id="graphView" role="tabpanel" aria-labelledby="tabGraph">
+        <div style="padding:8px 12px;background:#f3f2f1;border-bottom:1px solid #b1b4b6;display:flex;align-items:center;">
+            <button class="register-toolbar__btn" id="lgamToggle" style="margin-left:0;font-size:13px;">Show coverage gaps</button>
+        </div>
         <div id="graphContainer"></div>
     </div>
 
@@ -258,17 +270,17 @@
             <p class="govuk-body">This is an interactive demonstration of how the <strong>Local Government Architecture Model (LGAM)</strong> can be used as a shared framework for understanding a council's technology landscape.</p>
 
             <h3 class="govuk-heading-m">What it shows</h3>
-            <p class="govuk-body">The LGAM describes local government technology across 9 layers -from the channels citizens use to reach a council, through the capabilities and business systems that deliver services, down to the infrastructure, security, and data platforms that underpin everything.</p>
+            <p class="govuk-body">The LGAM describes local government technology across 9 layers - from the channels citizens use to reach a council, through the capabilities and business systems that deliver services, down to the infrastructure, security, and data platforms that underpin everything.</p>
             <p class="govuk-body">This demo maps <strong>archetypal systems</strong> (the kinds of technology a typical council operates) against those layers, and uses the LGAM's relationship model to derive how they connect. It surfaces:</p>
             <ul class="govuk-list govuk-list--bullet">
                 <li><strong>Layer position</strong> - where each system sits in the overall architecture</li>
-                <li><strong>Derived dependencies</strong> - which systems depend on which, based on the LGAM's domain-level relationship graph</li>
+                <li><strong>Derived relationships</strong> - which systems are connected, based on the LGAM's domain-level relationship graph</li>
                 <li><strong>Coverage gaps</strong> - which areas of the model have no system mapped against them</li>
                 <li><strong>Capability suggestions</strong> - what capabilities the LGAM suggests are typically needed for systems in that layer</li>
             </ul>
 
             <h3 class="govuk-heading-m">How it relates to the LGAM</h3>
-            <p class="govuk-body">The LGAM is a reference architecture -a shared vocabulary and structure. This demo explores what it looks like to <strong>align a council's actual technology landscape to that reference</strong>. The taxonomy (layers, domains, capabilities) comes directly from the LGAM. The relationships between systems are derived from the LGAM's own dependency graph, not hand-authored.</p>
+            <p class="govuk-body">The LGAM is a reference architecture - a shared vocabulary and structure. This demo explores what it looks like to <strong>align a council's actual technology landscape to that reference</strong>. The taxonomy (layers, domains, capabilities) comes directly from the LGAM. The relationships between systems are derived from the LGAM's own dependency graph, not hand-authored.</p>
             <p class="govuk-body">The reference data uses generic archetypes ("Social Care System", "IAM Platform") rather than specific vendor products. A council using this approach would map their own specific systems into the same structure.</p>
 
             <h3 class="govuk-heading-m">What this is not</h3>
@@ -751,31 +763,22 @@
             }
 
             const derivedConsumers = getDerivedConsumers(sys);
-            if (derivedConsumers.length > 0) {
-                html += `<div class="register-relationship-section"><p class="register-relationship-label">Systems that depend on this</p>`;
-                derivedConsumers.forEach(cId => {
-                    const consumer = getSystemById(cId);
-                    if (consumer) {
-                        html += `<div class="register-related-system" data-system-id="${cId}"><span class="register-related-name">${consumer.name}</span><span class="register-related-via">${getContextLabel(consumer)}</span></div>`;
-                    }
-                });
-                html += `</div>`;
-            }
-
             const derivedDeps = getDerivedDependencies(sys);
-            if (derivedDeps.length > 0) {
-                html += `<div class="register-relationship-section"><p class="register-relationship-label">This system depends on</p>`;
-                derivedDeps.forEach(depId => {
-                    const dep = getSystemById(depId);
-                    if (dep) {
-                        html += `<div class="register-related-system" data-system-id="${depId}"><span class="register-related-name">${dep.name}</span><span class="register-related-via">${getContextLabel(dep)}</span></div>`;
+            const manualRels = (sys.manualDeps || []);
+            const allRelatedIds = [...new Set([...derivedConsumers, ...derivedDeps, ...manualRels])];
+            if (allRelatedIds.length > 0) {
+                html += `<div class="register-relationship-section"><p class="register-relationship-label">Related systems</p>`;
+                allRelatedIds.forEach(relId => {
+                    const rel = getSystemById(relId);
+                    if (rel) {
+                        html += `<div class="register-related-system" data-system-id="${relId}"><span class="register-related-name">${rel.name}</span><span class="register-related-via">${getContextLabel(rel)}</span></div>`;
                     }
                 });
                 html += `</div>`;
             }
 
-            if (sys.capabilities.length === 0 && derivedConsumers.length === 0 && derivedDeps.length === 0 && suggested.length === 0) {
-                html += `<p class="register-empty-state">No relationships derived from LGAM</p>`;
+            if (sys.capabilities.length === 0 && allRelatedIds.length === 0 && suggested.length === 0) {
+                html += `<p class="register-empty-state">No relationships found</p>`;
             }
 
             // Completeness gaps -domains in the same layer with no system registered
@@ -828,7 +831,7 @@
         // View switching and URL routing
         function switchView(view, updateHash = true) {
             document.getElementById('main-content').classList.toggle('register-view--hidden', view !== 'register');
-            document.getElementById('modelToolbar').style.display = view === 'register' ? '' : 'none';
+            document.querySelectorAll('#modelToolbar .register-toolbar__btn, #modelToolbar .register-toolbar__spacer, #modelToolbar .register-toolbar__status').forEach(el => el.style.display = view === 'register' ? '' : 'none');
             document.getElementById('graphView').classList.toggle('register-view--hidden', view !== 'graph');
             document.getElementById('aboutView').classList.toggle('register-view--hidden', view !== 'about');
             document.querySelectorAll('.register-view-tab').forEach(t => {
@@ -870,90 +873,102 @@
             });
         });
 
+        const lgamRefNodes = [{"id":"in-person","label":"In person","colour":"#CC00CC"},{"id":"phone","label":"Phone","colour":"#CC00CC"},{"id":"email-ch","label":"Email","colour":"#CC00CC"},{"id":"letter","label":"Letter","colour":"#CC00CC"},{"id":"online","label":"Online","colour":"#CC00CC"},{"id":"messaging-ch","label":"Messaging","colour":"#CC00CC"},{"id":"social","label":"Social media","colour":"#CC00CC"},{"id":"smart","label":"Smart devices","colour":"#CC00CC"},{"id":"third-party","label":"Third-party","colour":"#CC00CC"},{"id":"video","label":"Video","colour":"#CC00CC"},{"id":"apps","label":"Apps","colour":"#800080"},{"id":"api-gw","label":"API gateways","colour":"#800080"},{"id":"auto-phone","label":"Automated phones","colour":"#800080"},{"id":"human","label":"Human","colour":"#800080"},{"id":"pub-devices","label":"Public devices","colour":"#800080"},{"id":"websites","label":"Websites","colour":"#800080"},{"id":"agentic-ai","label":"Agentic AI","colour":"#000080"},{"id":"booking","label":"Booking","colour":"#000080"},{"id":"email-cap","label":"Email","colour":"#000080"},{"id":"forms","label":"Forms","colour":"#000080"},{"id":"identity","label":"Identity","colour":"#000080"},{"id":"payments","label":"Payments","colour":"#000080"},{"id":"messaging-cap","label":"Messaging","colour":"#000080"},{"id":"telephony","label":"Telephony","colour":"#000080"},{"id":"workflow","label":"Workflow","colour":"#000080"},{"id":"adult-care","label":"Adult social care","colour":"#0000FF"},{"id":"childrens","label":"Children's social care","colour":"#0000FF"},{"id":"democratic","label":"Democratic services","colour":"#0000FF"},{"id":"education","label":"Education","colour":"#0000FF"},{"id":"highways","label":"Highways","colour":"#0000FF"},{"id":"housing","label":"Housing","colour":"#0000FF"},{"id":"leisure","label":"Leisure & culture","colour":"#0000FF"},{"id":"licensing","label":"Licensing","colour":"#0000FF"},{"id":"planning","label":"Planning","colour":"#0000FF"},{"id":"public-health","label":"Public health","colour":"#0000FF"},{"id":"revenues","label":"Revenues & benefits","colour":"#0000FF"},{"id":"waste","label":"Waste management","colour":"#0000FF"},{"id":"biz-planning","label":"Business planning","colour":"#696969"},{"id":"comms","label":"Communications","colour":"#696969"},{"id":"governance","label":"Governance","colour":"#696969"},{"id":"crm","label":"Customer relations","colour":"#696969"},{"id":"facilities","label":"Facilities","colour":"#696969"},{"id":"financial","label":"Financial","colour":"#696969"},{"id":"geo","label":"Geographical","colour":"#696969"},{"id":"legal","label":"Legal","colour":"#696969"},{"id":"hr","label":"HR & workforce","colour":"#696969"},{"id":"procurement","label":"Procurement","colour":"#696969"},{"id":"ai-enablement","label":"AI enablement","colour":"#008080"},{"id":"conversational-ai","label":"Conversational AI","colour":"#008080"},{"id":"generative-ai","label":"Generative AI","colour":"#008080"},{"id":"intelligent-auto","label":"Intelligent automation","colour":"#008080"},{"id":"ml","label":"Machine learning","colour":"#008080"},{"id":"release-mgmt","label":"Release management","colour":"#008080"},{"id":"monitoring","label":"Monitoring","colour":"#008080"},{"id":"unified-comms","label":"Unified comms","colour":"#008080"},{"id":"end-user-devices","label":"End-user devices","colour":"#008080"},{"id":"knowledge-mgmt","label":"Knowledge mgmt","colour":"#008080"},{"id":"productivity","label":"Productivity","colour":"#008080"},{"id":"app-portfolio","label":"App portfolio","colour":"#008080"},{"id":"it-ops","label":"IT operations","colour":"#008080"},{"id":"sw-asset","label":"Software asset","colour":"#008080"},{"id":"compute","label":"Compute & storage","colour":"#008080"},{"id":"connectivity","label":"Connectivity","colour":"#008080"},{"id":"virtualisation","label":"Virtualisation","colour":"#008080"},{"id":"api-mgmt","label":"API management","colour":"#6B6B00"},{"id":"data-pipelines","label":"Data pipelines","colour":"#6B6B00"},{"id":"event-streaming","label":"Event streaming","colour":"#6B6B00"},{"id":"file-transfer","label":"File transfer","colour":"#6B6B00"},{"id":"integration-gov","label":"Integration governance","colour":"#6B6B00"},{"id":"middleware","label":"Middleware","colour":"#6B6B00"},{"id":"b2b-integration","label":"B2B integration","colour":"#6B6B00"},{"id":"app-data-sec","label":"App & data security","colour":"#CC0000"},{"id":"iam","label":"IAM","colour":"#CC0000"},{"id":"incident-forensics","label":"Incident forensics","colour":"#CC0000"},{"id":"network-sec","label":"Network security","colour":"#CC0000"},{"id":"physical-sec","label":"Physical security","colour":"#CC0000"},{"id":"soc","label":"SOC","colour":"#CC0000"},{"id":"vuln-mgmt","label":"Vulnerability mgmt","colour":"#CC0000"},{"id":"bi-analytics","label":"BI & analytics","colour":"#800000"},{"id":"data-catalogue","label":"Data catalogue","colour":"#800000"},{"id":"data-governance","label":"Data governance","colour":"#800000"},{"id":"data-science","label":"Data science","colour":"#800000"},{"id":"data-storage","label":"Data storage","colour":"#800000"},{"id":"doc-records","label":"Documents & records","colour":"#800000"},{"id":"enterprise-search","label":"Enterprise search","colour":"#800000"},{"id":"geospatial","label":"Geospatial","colour":"#800000"}];
+
+        const domainToLgamNode = {"CH_Online":"online","CH_Phone":"phone","CH_InPerson":"in-person","CH_Letter":"letter","CH_SMS":"messaging-ch","CH_Email":"email-ch","CH_SocialMedia":"social","CH_SmartDevice":"smart","CH_ThirdParty":"third-party","CH_Video":"video","CI_Website":"websites","CI_App":"apps","CI_APIGateway":"api-gw","CI_Human":"human","CI_AutoPhone":"auto-phone","CI_PublicDevice":"pub-devices","CAP_Payments":"payments","CAP_Forms":"forms","CAP_Notifications":"messaging-cap","CAP_Identity":"identity","CAP_Booking":"booking","CAP_Workflow":"workflow","CAP_Email":"email-cap","CAP_Telephony":"telephony","CAP_AgenticAI":"agentic-ai","FG_AdultSocial":"adult-care","FG_ChildSocial":"childrens","FG_Democratic":"democratic","FG_Education":"education","FG_Highways":"highways","FG_Housing":"housing","FG_Leisure":"leisure","FG_Licensing":"licensing","FG_Planning":"planning","FG_PublicHealth":"public-health","FG_RevsBens":"revenues","FG_Waste":"waste","FG_BizPlanning":"biz-planning","FG_Comms":"comms","FG_Governance":"governance","FG_CustRel":"crm","FG_Facilities":"facilities","FG_Financial":"financial","FG_GIS":"geo","FG_Legal":"legal","FG_HR":"hr","FG_Procurement":"procurement","FT_AIEnablement":"ai-enablement","FT_ConversationalAI":"conversational-ai","FT_GenerativeAI":"generative-ai","FT_IntelligentAuto":"intelligent-auto","FT_MachineLearning":"ml","FT_ReleaseMgmt":"release-mgmt","FT_Monitoring":"monitoring","FT_UnifiedComms":"unified-comms","FT_EndUserDevices":"end-user-devices","FT_KnowledgeMgmt":"knowledge-mgmt","FT_Productivity":"productivity","FT_AppPortfolio":"app-portfolio","FT_ITOps":"it-ops","FT_SWAsset":"sw-asset","FT_Compute":"compute","FT_Connectivity":"connectivity","FT_Virtualisation":"virtualisation","INT_ApiMgmt":"api-mgmt","INT_DataPipelines":"data-pipelines","INT_EventStreaming":"event-streaming","INT_FileTransfer":"file-transfer","INT_Governance":"integration-gov","INT_Middleware":"middleware","INT_B2B":"b2b-integration","SEC_IAM":"iam","SEC_SOC":"soc","SEC_Endpoint":"network-sec","SEC_Vulnerability":"vuln-mgmt","SEC_AppData":"app-data-sec","SEC_Forensics":"incident-forensics","SEC_Physical":"physical-sec","DATA_BI":"bi-analytics","DATA_Governance":"data-governance","DATA_Storage":"data-storage","DATA_GIS":"geospatial","DATA_Documents":"doc-records","DATA_Catalogue":"data-catalogue","DATA_Science":"data-science","DATA_Search":"enterprise-search"};
+
+        let lgamOverlayActive = false;
+        let graphNetwork = null;
+        let graphNodes = null;
+        let graphEdges = null;
+
         function renderGraph() {
             const container = document.getElementById('graphContainer');
-            const nodes = new vis.DataSet(data.systems.map(sys => {
-                const layer = getLayerForSystem(sys);
-                return {
-                    id: sys.id,
-                    label: sys.name,
-                    color: { background: layer ? layer.colour : '#505a5f', border: layer ? layer.colour : '#505a5f', highlight: { background: '#ffdd00', border: '#0b0c0c' } },
-                    font: { color: '#ffffff', face: 'GDS Transport, arial, sans-serif', size: 12 },
-                    shape: 'box',
-                    margin: 8
-                };
-            }));
 
+            document.getElementById('lgamToggle').addEventListener('click', () => {
+                lgamOverlayActive = !lgamOverlayActive;
+                document.getElementById('lgamToggle').textContent = lgamOverlayActive ? 'Hide coverage gaps' : 'Show coverage gaps';
+                updateGraphOverlay();
+            });
+
+            // Build council system nodes
+            const nodeData = data.systems.map(sys => {
+                const layer = getLayerForSystem(sys);
+                return { id: sys.id, label: sys.name, color: { background: layer ? layer.colour : '#505a5f', border: layer ? layer.colour : '#505a5f', highlight: { background: '#ffdd00', border: '#0b0c0c' } }, font: { color: '#ffffff', face: 'GDS Transport, arial, sans-serif', size: 12 }, shape: 'box', margin: 8, group: 'council' };
+            });
+
+            // Build council dependency edges (derived + manual)
+            const edgeData = [];
             const edgeSet = new Set();
-            const edges = [];
             data.systems.forEach(sys => {
-                const deps = getDerivedDependencies(sys);
-                deps.forEach(depId => {
+                const allDeps = [...getDerivedDependencies(sys), ...(sys.manualDeps || [])];
+                allDeps.forEach(depId => {
                     const key = `${sys.id}->${depId}`;
-                    if (!edgeSet.has(key)) {
-                        edgeSet.add(key);
-                        edges.push({ from: sys.id, to: depId, arrows: 'to', color: { color: '#b1b4b6', highlight: '#1d70b8' } });
-                    }
+                    if (!edgeSet.has(key)) { edgeSet.add(key); edgeData.push({ from: sys.id, to: depId, color: { color: '#b1b4b6', highlight: '#1d70b8' } }); }
                 });
             });
 
-            const network = new vis.Network(
-                container,
-                { nodes, edges: new vis.DataSet(edges) },
-                {
-                    layout: { improvedLayout: true },
-                    physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -50, centralGravity: 0.008, springLength: 160, springConstant: 0.04, damping: 0.4 } },
-                    interaction: { hover: true, tooltipDelay: 200 },
-                    nodes: { margin: { top: 6, bottom: 6, left: 10, right: 10 } },
-                    edges: { smooth: { type: 'cubicBezier', roundness: 0.4 } }
-                }
-            );
+            graphNodes = new vis.DataSet(nodeData);
+            graphEdges = new vis.DataSet(edgeData);
 
-            function closePopup() {
-                const existing = container.querySelector('.graph-popup');
-                if (existing) existing.remove();
-            }
+            graphNetwork = new vis.Network(container, { nodes: graphNodes, edges: graphEdges }, {
+                layout: { improvedLayout: true },
+                physics: { solver: 'forceAtlas2Based', forceAtlas2Based: { gravitationalConstant: -50, centralGravity: 0.008, springLength: 160, springConstant: 0.04, damping: 0.4 } },
+                interaction: { hover: true, tooltipDelay: 200 },
+                nodes: { margin: { top: 6, bottom: 6, left: 10, right: 10 } },
+                edges: { smooth: { type: 'cubicBezier', roundness: 0.4 } }
+            });
 
-            network.on('click', (params) => {
+            function closePopup() { const p = container.querySelector('.graph-popup'); if (p) p.remove(); }
+
+            graphNetwork.on('click', (params) => {
                 closePopup();
                 if (params.nodes.length > 0) {
-                    const sysId = params.nodes[0];
-                    const sys = getSystemById(sysId);
+                    const nodeId = params.nodes[0];
+                    const sys = getSystemById(nodeId);
+                    if (!sys) return; // clicked an LGAM reference node
                     const layer = getLayerForSystem(sys);
                     const canvasPos = params.pointer.DOM;
-
+                    const deps = getDerivedDependencies(sys);
+                    const consumers = getDerivedConsumers(sys);
+                    const capsHtml = sys.capabilities.length > 0 ? `<div style="margin-bottom:8px;">${sys.capabilities.map(c => { const cap = getCapabilityById(c); return `<span class="register-cap-pill register-cap-pill--provides" style="font-size:11px;padding:2px 8px;">${cap ? cap.label : c}</span>`; }).join(' ')}</div>` : '';
+                    const totalRels = deps.length + consumers.length;
+                    const relsHtml = totalRels > 0 ? `<div style="font-size:12px;color:#505a5f;margin-bottom:10px;">Connected to ${totalRels} other system${totalRels > 1 ? 's' : ''}</div>` : '';
                     const popup = document.createElement('div');
                     popup.className = 'graph-popup';
                     popup.style.left = Math.min(canvasPos.x + 10, container.offsetWidth - 340) + 'px';
                     popup.style.top = Math.min(canvasPos.y + 10, container.offsetHeight - 200) + 'px';
-                    const deps = getDerivedDependencies(sys);
-                    const consumers = getDerivedConsumers(sys);
-                    const capsHtml = sys.capabilities.length > 0
-                        ? `<div style="margin-bottom:8px;">${sys.capabilities.map(c => { const cap = getCapabilityById(c); return `<span class="register-cap-pill register-cap-pill--provides" style="font-size:11px;padding:2px 8px;">${cap ? cap.label : c}</span>`; }).join(' ')}</div>`
-                        : '';
-                    const relsHtml = (deps.length > 0 || consumers.length > 0)
-                        ? `<div style="font-size:12px;color:#505a5f;margin-bottom:10px;">${deps.length > 0 ? `Depends on ${deps.length} system${deps.length > 1 ? 's' : ''}` : ''}${deps.length > 0 && consumers.length > 0 ? ' · ' : ''}${consumers.length > 0 ? `${consumers.length} system${consumers.length > 1 ? 's' : ''} depend on this` : ''}</div>`
-                        : '';
-
-                    popup.innerHTML = `
-                        <button class="graph-popup__close" aria-label="Close">&times;</button>
-                        <div class="graph-popup__title">${sys.name}</div>
-                        <div class="graph-popup__desc">${sys.description}</div>
-                        <div class="graph-popup__layer" style="color:${layer ? layer.colour : '#505a5f'}">${layer ? layer.label : ''} · ${getDomainById(sys.domains[0])?.label || ''}</div>
-                        ${capsHtml}${relsHtml}
-                        <button class="graph-popup__btn">View in Model →</button>
-                    `;
+                    popup.innerHTML = `<button class="graph-popup__close" aria-label="Close">&times;</button><div class="graph-popup__title">${sys.name}</div><div class="graph-popup__desc">${sys.description}</div><div class="graph-popup__layer" style="color:${layer ? layer.colour : '#505a5f'}">${layer ? layer.label : ''} · ${getDomainById(sys.domains[0])?.label || ''}</div>${capsHtml}${relsHtml}<button class="graph-popup__btn">View in Model →</button>`;
                     container.appendChild(popup);
-
                     popup.querySelector('.graph-popup__close').addEventListener('click', closePopup);
-                    popup.querySelector('.graph-popup__btn').addEventListener('click', () => {
-                        selectSystem(sysId);
-                        document.querySelector('[data-view="register"]').click();
-                    });
+                    popup.querySelector('.graph-popup__btn').addEventListener('click', () => { selectSystem(nodeId); document.querySelector('[data-view="register"]').click(); });
                 }
             });
+            graphNetwork.on('deselectNode', closePopup);
+        }
 
-            network.on('deselectNode', closePopup);
+        function updateGraphOverlay() {
+            if (!graphNodes || !graphEdges) return;
+
+            if (lgamOverlayActive) {
+                // Find domains with no system registered
+                const coveredDomains = new Set();
+                data.systems.forEach(sys => sys.domains.forEach(d => coveredDomains.add(d)));
+
+                lgamRefNodes.forEach(n => {
+                    // Find matching domain ID for this LGAM node
+                    const domId = Object.keys(domainToLgamNode).find(k => domainToLgamNode[k] === n.id);
+                    if (domId && !coveredDomains.has(domId)) {
+                        const id = 'gap_' + n.id;
+                        if (!graphNodes.get(id)) {
+                            graphNodes.add({ id, label: n.label + ' (gap)', color: { background: '#ffffff', border: n.colour }, font: { color: '#505a5f', face: 'GDS Transport, arial, sans-serif', size: 10 }, shape: 'box', borderDashes: [4, 4], borderWidth: 2, margin: 6, group: 'gap' });
+                        }
+                    }
+                });
+            } else {
+                const toRemove = graphNodes.get().filter(n => n.group === 'gap').map(n => n.id);
+                if (toRemove.length) graphNodes.remove(toRemove);
+            }
         }
 
         // CRUD
@@ -1027,12 +1042,19 @@
                 <div class="register-field-row"><div class="register-field-card"><span class="register-field-label">Portability</span><select class="register-edit-select" id="editPort"><option value="high"${sys.technical.portability==='high'?' selected':''}>High</option><option value="med"${sys.technical.portability==='med'?' selected':''}>Med</option><option value="low"${sys.technical.portability==='low'?' selected':''}>Low</option></select></div><div class="register-field-card"><span class="register-field-label">Support Model</span><select class="register-edit-select" id="editSupport">${supportOpts}</select></div></div>
                 <h3 class="register-section-heading">Capabilities Provided</h3>
                 <div class="register-field-card"><span class="register-field-label">Select capabilities this system provides</span><div id="editCaps" style="display:flex;flex-wrap:wrap;gap:6px;">${data.taxonomy.capabilities.map(c => `<label style="display:flex;align-items:center;gap:4px;font-size:13px;cursor:pointer;"><input type="checkbox" value="${c.id}" ${sys.capabilities.includes(c.id)?'checked':''}> ${c.label}</label>`).join('')}</div></div>
+                <h3 class="register-section-heading">Relationships</h3>
+                <div class="register-field-card">
+                    <span class="register-field-label">Connected systems</span>
+                    <div id="editDepsDisplay" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">${(sys.manualDeps||[]).map(id => { const s = getSystemById(id); return s ? `<span class="register-cap-pill register-cap-pill--provides" style="background:#505a5f;">${s.name}</span>` : ''; }).join('') || '<span class="register-field-value--empty">None selected</span>'}</div>
+                    <button class="register-edit-btn" type="button" id="editDepsBtn">Manage relationships</button>
+                </div>
                 <div style="margin-top:16px;display:flex;gap:8px;"><button class="register-edit-btn register-edit-btn--save" id="editSave">Save</button><button class="register-edit-btn" id="editCancel">Cancel</button><span style="flex:1"></span><button class="register-edit-btn register-edit-btn--delete" id="editDelete">Delete</button></div>
                 <div class="register-confirm-bar" id="delConfirm" style="display:none;"><p><strong>Are you sure?</strong> This will permanently remove this system.</p><button class="register-edit-btn register-edit-btn--delete" id="delYes">Yes, delete</button> <button class="register-edit-btn" id="delNo">Cancel</button></div>
             `;
             document.getElementById('editSave').addEventListener('click', () => {
                 const caps = [...document.querySelectorAll('#editCaps input:checked')].map(cb => cb.value);
-                updateSystem(sys.id, { name: document.getElementById('editName').value.trim()||sys.name, description: document.getElementById('editDesc').value.trim(), lifecycle: document.getElementById('editLifecycle').value, identity: { vendor: document.getElementById('editVendor').value, users: sys.identity.users, category: sys.identity.category, businessOwner: document.getElementById('editBizOwner').value, technicalOwner: document.getElementById('editTechOwner').value }, contract: { annualCost: parseInt(document.getElementById('editCost').value)||null, contractEnd: document.getElementById('editEnd').value||null, noticePeriod: parseInt(document.getElementById('editNotice').value)||null }, technical: { hosting: document.getElementById('editHosting').value, dataModel: document.getElementById('editData').value, portability: document.getElementById('editPort').value, supportModel: document.getElementById('editSupport').value }, capabilities: caps });
+                const manualDeps = [...selectedDeps];
+                updateSystem(sys.id, { name: document.getElementById('editName').value.trim()||sys.name, description: document.getElementById('editDesc').value.trim(), lifecycle: document.getElementById('editLifecycle').value, identity: { vendor: document.getElementById('editVendor').value, users: sys.identity.users, category: sys.identity.category, businessOwner: document.getElementById('editBizOwner').value, technicalOwner: document.getElementById('editTechOwner').value }, contract: { annualCost: parseInt(document.getElementById('editCost').value)||null, contractEnd: document.getElementById('editEnd').value||null, noticePeriod: parseInt(document.getElementById('editNotice').value)||null }, technical: { hosting: document.getElementById('editHosting').value, dataModel: document.getElementById('editData').value, portability: document.getElementById('editPort').value, supportModel: document.getElementById('editSupport').value }, capabilities: caps, manualDeps });
                 document.getElementById('toolbarStatus').textContent = 'Saved';
                 setTimeout(() => document.getElementById('toolbarStatus').textContent = '', 2000);
             });
@@ -1040,6 +1062,53 @@
             document.getElementById('editDelete').addEventListener('click', () => document.getElementById('delConfirm').style.display = 'block');
             document.getElementById('delNo').addEventListener('click', () => document.getElementById('delConfirm').style.display = 'none');
             document.getElementById('delYes').addEventListener('click', () => deleteSystem(sys.id));
+
+            // Dependency picker modal
+            let selectedDeps = new Set(sys.manualDeps || []);
+            document.getElementById('editDepsBtn').addEventListener('click', () => {
+                const overlay = document.createElement('div');
+                overlay.className = 'register-modal-overlay';
+                const otherSystems = data.systems.filter(s => s.id !== sys.id && !['channels','interfaces'].includes((getDomainById(s.domains[0])||{}).layer));
+                const grouped = {};
+                data.taxonomy.layers.filter(l => !['channels','interfaces'].includes(l.id)).forEach(l => grouped[l.id] = []);
+                otherSystems.forEach(s => { const dom = getDomainById(s.domains[0]); if (dom) grouped[dom.layer]?.push(s); });
+
+                let itemsHtml = '';
+                data.taxonomy.layers.filter(l => !['channels','interfaces'].includes(l.id)).forEach(l => {
+                    if (!grouped[l.id].length) return;
+                    itemsHtml += `<div class="register-modal__group"><div class="register-modal__group-header" style="border-left-color:${l.colour}">${l.label}</div>`;
+                    grouped[l.id].forEach(s => {
+                        itemsHtml += `<div class="register-modal__item${selectedDeps.has(s.id) ? ' register-modal__item--selected' : ''}" data-sys-id="${s.id}">${s.name}</div>`;
+                    });
+                    itemsHtml += `</div>`;
+                });
+
+                overlay.innerHTML = `<div class="register-modal"><div class="register-modal__header"><h3>Manage relationships</h3><input class="register-modal__search" placeholder="Search..." id="depSearch"></div><div class="register-modal__body">${itemsHtml}</div><div class="register-modal__footer"><button class="register-edit-btn register-edit-btn--save" id="depDone">Done</button><button class="register-edit-btn" id="depCancel">Cancel</button></div></div>`;
+                document.body.appendChild(overlay);
+
+                overlay.querySelectorAll('.register-modal__item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const id = item.dataset.sysId;
+                        if (selectedDeps.has(id)) { selectedDeps.delete(id); item.classList.remove('register-modal__item--selected'); }
+                        else { selectedDeps.add(id); item.classList.add('register-modal__item--selected'); }
+                    });
+                });
+
+                document.getElementById('depSearch').addEventListener('input', (e) => {
+                    const q = e.target.value.toLowerCase();
+                    overlay.querySelectorAll('.register-modal__item').forEach(item => {
+                        item.classList.toggle('register-modal__item--hidden', q && !item.textContent.toLowerCase().includes(q));
+                    });
+                });
+
+                document.getElementById('depDone').addEventListener('click', () => {
+                    const display = document.getElementById('editDepsDisplay');
+                    display.innerHTML = selectedDeps.size > 0 ? [...selectedDeps].map(id => { const s = getSystemById(id); return s ? `<span class="register-cap-pill register-cap-pill--provides" style="background:#505a5f;">${s.name}</span>` : ''; }).join('') : '<span class="register-field-value--empty">None selected</span>';
+                    overlay.remove();
+                });
+                document.getElementById('depCancel').addEventListener('click', () => overlay.remove());
+                overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+            });
         }
 
         // Import/Export/Reset
