@@ -13,13 +13,13 @@
   <text x="350" y="106" font-size="11" font-weight="bold" fill="#505a5f">RULES ENGINE</text>
   <rect x="640" y="15" width="210" height="245" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
   <text x="650" y="31" font-size="11" font-weight="bold" fill="#505a5f">BACK-OFFICE</text>
-  <path d="M 235 145 L 265 145 L 295 145 L 325 145 L 355 145" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 485 170 L 565 220 L 595 220 L 625 220 L 655 220" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
-  <text x="595" y="210" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Live spatial lookup</text>
-  <path d="M 535 145 L 565 145 L 595 145 L 625 145 L 655 145" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <text x="595" y="135" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Structured JSON</text>
-  <path d="M 485 120 L 565 70 L 595 70 L 625 70 L 655 70" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
-  <text x="595" y="60" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Calculates fee</text>
+  <line x1="235" y1="145" x2="355" y2="145" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 535 132 L 535 220 L 655 220" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <text x="595" y="124" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Live spatial lookup</text>
+  <line x1="535" y1="145" x2="655" y2="145" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="595" y="137" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Structured JSON</text>
+  <path d="M 535 157 L 535 70 L 655 70" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <text x="595" y="62" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Calculates fee</text>
   <rect x="55" y="120" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
   <text x="145" y="140" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Agent</text>
   <text x="145" y="157" font-size="11" text-anchor="middle" fill="#505a5f">(OIDC Identity)</text>

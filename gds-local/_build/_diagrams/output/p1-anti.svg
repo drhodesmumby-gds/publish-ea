@@ -13,12 +13,12 @@
   <text x="350" y="69" font-size="11" font-weight="bold" fill="#505a5f">PROCESSING</text>
   <rect x="640" y="15" width="210" height="170" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
   <text x="650" y="31" font-size="11" font-weight="bold" fill="#505a5f">STORAGE</text>
-  <path d="M 235 108 L 265 108 L 295 108 L 325 108 L 355 108" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <text x="295" y="98" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Fills in form</text>
-  <path d="M 525 133 L 565 145 L 595 145 L 625 145 L 655 145" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <text x="595" y="135" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Generates flat PDF</text>
-  <path d="M 525 83 L 565 70 L 595 70 L 625 70 L 655 70" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <text x="595" y="60" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Captures minimal fields</text>
+  <line x1="235" y1="108" x2="355" y2="108" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="295" y="100" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Fills in form</text>
+  <path d="M 535 99 L 535 145 L 655 145" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="595" y="91" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Generates flat PDF</text>
+  <path d="M 535 116 L 535 70 L 655 70" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="595" y="62" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Captures minimal fields</text>
   <rect x="55" y="83" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
   <text x="145" y="113" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Applicant</text>
   <rect x="355" y="83" width="180" height="50" fill="#ffffff" stroke="#d4351c" stroke-width="2" rx="4"/>

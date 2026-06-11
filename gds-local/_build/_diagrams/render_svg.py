@@ -342,28 +342,33 @@ class Diagram:
                     self._edge_ports[key][1] = point
 
     def _determine_sides(self, src, tgt):
-        """Determine which sides of src and tgt to connect."""
-        # Primarily horizontal
-        if abs(src.cy - tgt.cy) < NODE_H:
-            if src.cx < tgt.cx:
-                return "right", "left"
-            else:
-                return "left", "right"
-        # Primarily vertical
-        if abs(src.cx - tgt.cx) < NODE_W:
-            if src.cy < tgt.cy:
-                return "bottom", "top"
-            else:
-                return "top", "bottom"
-        # Diagonal
-        if src.cx < tgt.cx:
-            src_side = "right"
+        """Determine which sides of src and tgt to connect.
+
+        Uses the relative position of node centres plus the aspect ratio
+        of the target to choose the most natural connection point.
+        """
+        dx = tgt.cx - src.cx
+        dy = tgt.cy - src.cy
+
+        # For source: use the side facing the target
+        if abs(dx) > abs(dy):
+            src_side = "right" if dx > 0 else "left"
         else:
-            src_side = "left"
-        if src.cy < tgt.cy:
-            tgt_side = "top"
+            src_side = "bottom" if dy > 0 else "top"
+
+        # For target: prefer the side facing the source, but account for
+        # tall/narrow or wide/short nodes — use the longer edge when possible
+        # to allow better port distribution
+        if abs(dx) > abs(dy):
+            tgt_side = "left" if dx > 0 else "right"
         else:
-            tgt_side = "bottom"
+            # Target is above/below source. If target is tall (h > w*1.5),
+            # prefer connecting on the left/right side (longer edge, more space)
+            if tgt.h > tgt.w * 1.5:
+                tgt_side = "left" if dx > 0 else "right"
+            else:
+                tgt_side = "top" if dy > 0 else "bottom"
+
         return src_side, tgt_side
 
     def _port_position(self, node, side, index, total):
@@ -540,25 +545,9 @@ class Diagram:
                 )
             return "".join(lines)
 
-        # Use dagre edge points if available
-        dagre_points = getattr(self, "_dagre_edges", {}).get((edge.source, edge.target))
-        if dagre_points and len(dagre_points) >= 2:
-            d = " ".join(
-                f"{'M' if i == 0 else 'L'} {p['x']} {p['y']}"
-                for i, p in enumerate(dagre_points)
-            )
-            lines.append(
-                f'  <path d="{d}" fill="none" stroke="{colour}" stroke-width="2"{dash} '
-                f'marker-end="url(#{marker})"/>\n'
-            )
-            if edge.label:
-                mid = dagre_points[len(dagre_points) // 2]
-                lines.append(
-                    f'  <text x="{mid["x"]}" y="{mid["y"] - 10}" font-size="11" '
-                    f'font-style="italic" text-anchor="middle" fill="{colour}">'
-                    f'{xml_escape(edge.label)}</text>\n'
-                )
-            return "".join(lines)
+        # Note: dagre edge points are NOT used — we use our own port distribution
+        # and orthogonal routing for cleaner, evenly-spaced connectors.
+        # dagre is used only for node positioning (Sugiyama layer/crossing optimisation).
 
         # Use distributed port positions
         ports = self._edge_ports.get(id(edge))
