@@ -167,12 +167,17 @@ class Diagram:
         # Sort nodes by (rank, row) so dagre's initial ordering respects our hints
         zone_order = {z.id: i for i, z in enumerate(self.zones)}
         sorted_nodes = sorted(self.nodes, key=lambda n: (zone_order.get(n.zone, 0), n.row or 0))
+
+        # Inflate node dimensions for layout — dagre routes edges around the
+        # inflated bounding box, giving visual clearance from node borders.
+        EDGE_CLEARANCE = 20
+
         dagre_input = {
             "nodes": [
                 {
                     "id": n.id,
-                    "width": n.w,
-                    "height": n.h,
+                    "width": n.w + EDGE_CLEARANCE,
+                    "height": n.h + EDGE_CLEARANCE,
                     "rank": zone_order.get(n.zone, 0),
                 }
                 for n in sorted_nodes
@@ -212,13 +217,17 @@ class Diagram:
         except (subprocess.TimeoutExpired, json.JSONDecodeError, FileNotFoundError):
             return False
 
-        # Apply dagre positions to our nodes
+        # Apply dagre positions to our nodes.
+        # Dagre positions are centre-based on the inflated dimensions — we
+        # re-centre the real (smaller) node within that space.
         pos_map = {n["id"]: n for n in output["nodes"]}
         for node in self.nodes:
             if node.id in pos_map:
                 p = pos_map[node.id]
-                node.x = p["x"]
-                node.y = p["y"]
+                # dagre returns top-left of the inflated box
+                # Centre the real node within it
+                node.x = p["x"] + (p["width"] - node.w) // 2
+                node.y = p["y"] + (p["height"] - node.h) // 2
 
         # Store edge routing points
         self._dagre_edges = {
