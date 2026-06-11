@@ -1,25 +1,27 @@
 #!/usr/bin/env python3
 """
-Renders architecture diagrams as SVG from a structured layout definition.
+Constraint-based SVG layout engine for architecture diagrams.
 
-Produces compact, grid-aligned diagrams matching the GOV.UK aesthetic:
-- Zone containers (dashed background boxes with headers)
-- Rectangular nodes with two-line labels, coloured borders
-- Straight-line connectors with arrowheads (horizontal/vertical/L-shaped)
-- Database cylinder shapes for data stores
-- Consistent spacing and alignment
+Takes a declarative diagram definition (zones, nodes, edges) and automatically
+calculates positions, then renders to SVG matching the GOV.UK block aesthetic.
+
+Layout algorithm:
+1. Zones are placed as columns left-to-right
+2. Nodes are assigned to zones and stacked vertically within each zone
+3. Connectors are routed as straight horizontal/vertical lines where possible,
+   with L-shaped bends when source and target are not aligned
+4. Optional hints can override default row ordering
 
 Usage: python3 render_svg.py
 """
 
-import os
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 OUTPUT_DIR = SCRIPT_DIR / "output"
 
 # ---------------------------------------------------------------------------
-# GOV.UK Colour Palette
+# Configuration
 # ---------------------------------------------------------------------------
 
 COLOURS = {
@@ -38,318 +40,521 @@ COLOURS = {
     "white": "#ffffff",
 }
 
-FONT = "'GDS Transport', Arial, sans-serif"
+# Layout constants
+NODE_W = 180
+NODE_H = 50
+NODE_PAD_X = 20
+NODE_PAD_Y = 20
+ZONE_PAD_TOP = 30
+ZONE_PAD_BOTTOM = 15
+ZONE_PAD_X = 15
+ZONE_GAP = 15
+CANVAS_PAD = 25
 
 
 def xml_escape(text):
-    """Escape text for safe inclusion in SVG/XML."""
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-# ---------------------------------------------------------------------------
-# SVG Primitives
-# ---------------------------------------------------------------------------
-
-
-def svg_header(width, height):
-    return (
-        f'<svg viewBox="0 0 {width} {height}" width="100%" height="100%" '
-        f'xmlns="http://www.w3.org/2000/svg" '
-        f'style="font-family: {FONT};">\n'
-        f'  <defs>\n'
-        f'    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" '
-        f'markerWidth="6" markerHeight="6" orient="auto-start-reverse">\n'
-        f'      <path d="M 0 0 L 10 5 L 0 10 z" fill="{COLOURS["connector"]}" />\n'
-        f'    </marker>\n'
-        f'    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" '
-        f'markerWidth="6" markerHeight="6" orient="auto-start-reverse">\n'
-        f'      <path d="M 0 0 L 10 5 L 0 10 z" fill="{COLOURS["connector-blue"]}" />\n'
-        f'    </marker>\n'
-        f'  </defs>\n'
-    )
-
-
-def svg_footer():
-    return '</svg>\n'
-
-
-def svg_zone(x, y, w, h, label):
-    """Render a zone container (dashed background box with header label)."""
-    return (
-        f'  <rect x="{x}" y="{y}" width="{w}" height="{h}" '
-        f'fill="{COLOURS["zone-fill"]}" stroke="{COLOURS["zone-stroke"]}" '
-        f'stroke-dasharray="4" rx="4"/>\n'
-        f'  <text x="{x + 10}" y="{y + 16}" font-size="11" font-weight="bold" '
-        f'fill="{COLOURS["text-light"]}">{xml_escape(label)}</text>\n'
-    )
-
-
-def svg_node(x, y, w, h, label, subtitle="", style="system"):
-    """Render a rectangular node with border colour based on style."""
-    stroke = COLOURS.get(style, COLOURS["system"])
-    fill = COLOURS["white"]
-    text_fill = COLOURS["text"]
-
-    lines = []
-    lines.append(
-        f'  <rect x="{x}" y="{y}" width="{w}" height="{h}" '
-        f'fill="{fill}" stroke="{stroke}" stroke-width="2" rx="4"/>\n'
-    )
-    if subtitle:
-        lines.append(
-            f'  <text x="{x + w // 2}" y="{y + h // 2 - 5}" font-size="14" '
-            f'font-weight="bold" text-anchor="middle" fill="{text_fill}">{xml_escape(label)}</text>\n'
-        )
-        lines.append(
-            f'  <text x="{x + w // 2}" y="{y + h // 2 + 12}" font-size="11" '
-            f'text-anchor="middle" fill="{COLOURS["text-light"]}">{xml_escape(subtitle)}</text>\n'
-        )
-    else:
-        lines.append(
-            f'  <text x="{x + w // 2}" y="{y + h // 2 + 5}" font-size="14" '
-            f'font-weight="bold" text-anchor="middle" fill="{text_fill}">{xml_escape(label)}</text>\n'
-        )
-    return "".join(lines)
-
-
-def svg_node_filled(x, y, w, h, label, fill_colour, text_colour="#ffffff"):
-    """Render a solid-filled node (e.g. API Gateway)."""
-    lines = []
-    lines.append(
-        f'  <rect x="{x}" y="{y}" width="{w}" height="{h}" '
-        f'fill="{fill_colour}" rx="4"/>\n'
-    )
-    # Rotated text for tall narrow nodes
-    if h > w * 1.5:
-        cx, cy = x + w // 2, y + h // 2
-        lines.append(
-            f'  <text x="{cx}" y="{cy}" font-size="14" font-weight="bold" '
-            f'text-anchor="middle" fill="{text_colour}" '
-            f'transform="rotate(-90 {cx} {cy})">{xml_escape(label)}</text>\n'
-        )
-    else:
-        lines.append(
-            f'  <text x="{x + w // 2}" y="{y + h // 2 + 5}" font-size="14" '
-            f'font-weight="bold" text-anchor="middle" fill="{text_colour}">{xml_escape(label)}</text>\n'
-        )
-    return "".join(lines)
-
-
-def svg_database(x, y, w, h, label, style="database"):
-    """Render a database cylinder shape."""
-    stroke = COLOURS.get(style, COLOURS["database"])
-    fill = COLOURS["white"]
-    # Cylinder: rect with curved top
-    lines = []
-    lines.append(
-        f'  <path d="M {x} {y + 15} L {x + w} {y + 15} L {x + w} {y + h} L {x} {y + h} Z" '
-        f'fill="{fill}" stroke="{stroke}" stroke-width="2"/>\n'
-    )
-    lines.append(
-        f'  <path d="M {x} {y + 15} Q {x + w // 2} {y + 25} {x + w} {y + 15}" '
-        f'fill="none" stroke="{stroke}" stroke-width="1"/>\n'
-    )
-    # Top ellipse
-    lines.append(
-        f'  <ellipse cx="{x + w // 2}" cy="{y + 15}" rx="{w // 2}" ry="10" '
-        f'fill="{fill}" stroke="{stroke}" stroke-width="2"/>\n'
-    )
-    lines.append(
-        f'  <text x="{x + w // 2}" y="{y + h // 2 + 12}" font-size="14" '
-        f'font-weight="bold" text-anchor="middle" fill="{COLOURS["text"]}">{xml_escape(label)}</text>\n'
-    )
-    return "".join(lines)
-
-
-def svg_line(x1, y1, x2, y2, style="connector", dashed=False):
-    """Draw a straight line with arrowhead."""
-    colour = COLOURS.get(style, COLOURS["connector"])
-    marker = "arrow-blue" if "blue" in style else "arrow"
-    dash = ' stroke-dasharray="4"' if dashed else ""
-    return (
-        f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
-        f'stroke="{colour}" stroke-width="2"{dash} marker-end="url(#{marker})"/>\n'
-    )
-
-
-def svg_path(points, style="connector", dashed=False):
-    """Draw a multi-segment path with arrowhead. Points is list of (x, y) tuples."""
-    colour = COLOURS.get(style, COLOURS["connector"])
-    marker = "arrow-blue" if "blue" in style else "arrow"
-    dash = ' stroke-dasharray="4"' if dashed else ""
-    d = f"M {points[0][0]} {points[0][1]}"
-    for px, py in points[1:]:
-        d += f" L {px} {py}"
-    return (
-        f'  <path d="{d}" fill="none" stroke="{colour}" stroke-width="2"{dash} '
-        f'marker-end="url(#{marker})"/>\n'
-    )
-
-
-def svg_label(x, y, text, style="connector"):
-    """Draw a connector label at a specific position."""
-    colour = COLOURS.get(style, COLOURS["connector"])
-    return (
-        f'  <text x="{x}" y="{y}" font-size="11" font-style="italic" '
-        f'text-anchor="middle" fill="{colour}">{xml_escape(text)}</text>\n'
-    )
-
-
-def svg_connector(x1, y1, x2, y2, label="", style="connector", dashed=False):
-    """Draw a straight or L-shaped connector with arrowhead (convenience wrapper)."""
-    lines = []
-    if abs(y2 - y1) < 5 or abs(x2 - x1) < 5:
-        lines.append(svg_line(x1, y1, x2, y2, style, dashed))
-    else:
-        lines.append(svg_path([(x1, y1), (x2, y1), (x2, y2)], style, dashed))
-
-    if label:
-        lx = (x1 + x2) // 2
-        ly = min(y1, y2) - 8
-        lines.append(svg_label(lx, ly, label, style))
-
-    return "".join(lines)
-
 
 # ---------------------------------------------------------------------------
-# Diagram Definitions (layout + content)
+# Layout Engine
 # ---------------------------------------------------------------------------
 
-def render_overview_strategic():
-    """Render the main overview diagram matching the original aesthetic."""
-    W, H = 920, 490
-    svg = svg_header(W, H)
+class Node:
+    def __init__(self, id, label, subtitle="", style="system", zone="", row=None, col=0):
+        self.id = id
+        self.label = label
+        self.subtitle = subtitle
+        self.style = style
+        self.zone = zone
+        self.row = row  # Vertical position within zone (0-based)
+        self.col = col  # Sub-column within zone (0-based, default 0)
+        # Computed by layout:
+        self.x = 0
+        self.y = 0
+        self.w = NODE_W
+        self.h = NODE_H
 
-    # Zone containers (3 columns) — top pushed down to leave room for UPRN label
-    svg += svg_zone(10, 50, 230, 420, "PUBLIC / PRESENTATION")
-    svg += svg_zone(255, 50, 140, 420, "INTEGRATION")
-    svg += svg_zone(410, 50, 500, 420, "CORE BACK-OFFICE & DATA")
+    @property
+    def cx(self):
+        return self.x + self.w // 2
 
-    # Public / Presentation nodes
-    svg += svg_node(30, 95, 190, 50, "Rules Engine (Forms)", "e.g. PlanX", "system")
-    svg += svg_node(30, 175, 190, 50, "Identity / Auth", "Agent SSO (OIDC)", "system")
-    svg += svg_node(30, 375, 190, 50, "Public Register", "Edge-cached / Read-replica", "system-green")
+    @property
+    def cy(self):
+        return self.y + self.h // 2
 
-    # Integration: tall filled gateway
-    svg += svg_node_filled(275, 95, 100, 295, "API Gateway", COLOURS["integration"])
+    @property
+    def right(self):
+        return self.x + self.w
 
-    # Core Back-Office nodes
-    svg += svg_node(440, 120, 210, 60, "Case Management", "(Workflow Engine)", "system")
-    svg += svg_node(440, 250, 210, 60, "Statutory Consultees", "External API Integrations", "system")
-    svg += svg_node(440, 370, 210, 50, "Payment Gateway", "GOV.UK Pay", "system")
-    svg += svg_database(720, 90, 140, 60, "Spatial DB")
-    svg += svg_database(720, 180, 140, 60, "EDRMS (Docs)")
-    svg += svg_node(720, 290, 140, 50, "Event Broker", "Pub/Sub", "system")
-    svg += svg_node(720, 380, 140, 40, "GOV.UK Notify", "", "external")
-    svg += svg_node(720, 435, 140, 30, "planning.data.gov.uk", "", "external")
+    @property
+    def bottom(self):
+        return self.y + self.h
 
-    # --- Connectors ---
-
-    # Direct UPRN query (dashed, above zone headers)
-    svg += svg_path([(375, 35), (785, 35), (785, 90)], "connector-blue", dashed=True)
-    svg += svg_label(580, 27, "Direct UPRN / Constraint Queries", "connector-blue")
-
-    # Presentation → Gateway (horizontal)
-    svg += svg_line(220, 120, 270, 120)  # Rules Engine → Gateway
-    svg += svg_line(220, 200, 270, 200)  # Identity → Gateway
-
-    # Gateway → Case Management (bidirectional, offset)
-    svg += svg_line(375, 145, 435, 145)  # Gateway → CM
-    svg += svg_line(435, 158, 375, 158)  # CM → Gateway
-
-    # Gateway ← Public Register (register receives data from back-office)
-    svg += svg_line(325, 390, 225, 400)
-
-    # Case Management ↔ Spatial DB (bidirectional)
-    svg += svg_line(650, 130, 715, 110, "connector-blue")  # CM → Spatial
-    svg += svg_line(715, 125, 650, 145, "connector-blue")  # Spatial → CM
-
-    # Case Management → EDRMS
-    svg += svg_line(650, 155, 715, 200, "connector-blue")
-
-    # Case Management → Statutory Consultees (vertical down)
-    svg += svg_line(545, 180, 545, 245)
-
-    # Statutory ↔ Gateway (bidirectional)
-    svg += svg_line(440, 270, 375, 270)  # Statutory → Gateway
-    svg += svg_line(375, 285, 440, 285)  # Gateway → Statutory
-
-    # Case Management → Payment Gateway (vertical down, left side)
-    svg += svg_line(480, 180, 480, 365)
-
-    # Case Management → Event Broker (L-shaped, avoids Statutory)
-    svg += svg_path([(650, 150), (690, 150), (690, 310), (715, 310)], "connector-blue")
-
-    # Event Broker → GOV.UK Notify (vertical down)
-    svg += svg_line(790, 340, 790, 375)
-
-    # Event Broker → planning.data.gov.uk (vertical down)
-    svg += svg_line(790, 340, 790, 430)
-
-    svg += svg_footer()
-    return svg
+    def edge_point(self, side):
+        """Return (x, y) for the midpoint of a given edge."""
+        if side == "left":
+            return (self.x, self.cy)
+        elif side == "right":
+            return (self.right, self.cy)
+        elif side == "top":
+            return (self.cx, self.y)
+        elif side == "bottom":
+            return (self.cx, self.bottom)
+        return (self.cx, self.cy)
 
 
-def render_p1_anti():
-    """Phase 1 anti-pattern: Generic E-Form to PDF."""
-    W, H = 820, 200
-    svg = svg_header(W, H)
-
-    svg += svg_node(20, 75, 130, 50, "Applicant", "", "external")
-    svg += svg_node(210, 75, 170, 50, "Generic E-Form", "", "antipattern")
-    svg += svg_node(490, 20, 170, 50, "Doc Repository", "", "database")
-    svg += svg_node(490, 130, 170, 50, "Workflow DB", "", "database")
-
-    svg += svg_connector(150, 100, 205, 100)
-    svg += svg_connector(380, 80, 485, 45, "Generates Flat PDF", "antipattern")
-    svg += svg_connector(380, 120, 485, 155, "Basic Metadata", "connector")
-
-    svg += svg_footer()
-    return svg
+class Edge:
+    def __init__(self, source, target, label="", style="connector", dashed=False, route=None):
+        self.source = source
+        self.target = target
+        self.label = label
+        self.style = style
+        self.dashed = dashed
+        self.route = route  # Optional: "above" or "below" to force routing above/below nodes
 
 
-def render_p1_target_strategic():
-    """Phase 1 target: Rules-as-code submission (strategic)."""
-    W, H = 820, 250
-    svg = svg_header(W, H)
+class Zone:
+    def __init__(self, id, label, width=None):
+        self.id = id
+        self.label = label
+        self.width = width  # If None, auto-calculated from node widths
+        # Computed:
+        self.x = 0
+        self.y = 0
+        self.w = 0
+        self.h = 0
+        self.nodes = []
 
-    svg += svg_node(20, 100, 110, 50, "Agent", "(OIDC Identity)", "external")
-    svg += svg_node(190, 100, 170, 50, "Rules-as-code", "Dynamic Frontend", "system-green")
-    svg += svg_node(480, 20, 170, 45, "Geospatial API", "", "system")
-    svg += svg_node(480, 100, 170, 45, "Workflow Engine", "", "system")
-    svg += svg_node(480, 185, 170, 45, "Payment Gateway", "", "system")
 
-    svg += svg_connector(130, 125, 185, 125)
-    svg += svg_connector(360, 110, 475, 42, "Live spatial intersection", "connector-blue")
-    svg += svg_connector(360, 125, 475, 122, "Structured JSON")
-    svg += svg_connector(360, 140, 475, 207, "Calculates fee upfront", "connector-blue")
+class Diagram:
+    def __init__(self, zones=None, nodes=None, edges=None, title=""):
+        self.zones = zones or []
+        self.nodes = nodes or []
+        self.edges = edges or []
+        self.title = title
+        self._node_map = {}
 
-    svg += svg_footer()
-    return svg
+    def layout(self):
+        """Calculate all positions using grid-based sub-column layout."""
+        self._node_map = {n.id: n for n in self.nodes}
+
+        # Assign nodes to zones
+        zone_map = {z.id: z for z in self.zones}
+        for node in self.nodes:
+            if node.zone in zone_map:
+                zone_map[node.zone].nodes.append(node)
+
+        # For each zone, determine grid dimensions (max_col+1 × max_row+1)
+        for zone in self.zones:
+            if not zone.nodes:
+                continue
+            # Auto-assign rows if not specified
+            col_counters = {}
+            for node in zone.nodes:
+                if node.row is None:
+                    node.row = col_counters.get(node.col, 0)
+                col_counters[node.col] = max(col_counters.get(node.col, 0), node.row + 1)
+
+        # Calculate zone widths based on number of sub-columns
+        for zone in self.zones:
+            if zone.width:
+                zone.w = zone.width
+            else:
+                n_cols = max((n.col for n in zone.nodes), default=0) + 1
+                zone.w = n_cols * (NODE_W + NODE_PAD_X) + ZONE_PAD_X
+            zone._n_cols = max((n.col for n in zone.nodes), default=0) + 1
+
+        # Calculate zone heights based on tallest sub-column
+        for zone in self.zones:
+            max_rows = 0
+            for c in range(zone._n_cols):
+                col_nodes = [n for n in zone.nodes if n.col == c]
+                if col_nodes:
+                    max_row = max(n.row for n in col_nodes) + 1
+                    max_rows = max(max_rows, max_row)
+            zone.h = ZONE_PAD_TOP + max_rows * (NODE_H + NODE_PAD_Y) + ZONE_PAD_BOTTOM
+
+        # All zones same height
+        max_zone_h = max((z.h for z in self.zones), default=200)
+        for zone in self.zones:
+            zone.h = max_zone_h
+
+        # Position zones left-to-right
+        x_cursor = CANVAS_PAD
+        for zone in self.zones:
+            zone.x = x_cursor
+            zone.y = CANVAS_PAD
+            x_cursor += zone.w + ZONE_GAP
+
+        # Position nodes within zones using grid (col, row)
+        for zone in self.zones:
+            col_width = (zone.w - ZONE_PAD_X) // max(zone._n_cols, 1)
+            for node in zone.nodes:
+                node.x = zone.x + ZONE_PAD_X + node.col * col_width + (col_width - node.w) // 2
+                node.y = zone.y + ZONE_PAD_TOP + node.row * (NODE_H + NODE_PAD_Y)
+
+        # Calculate canvas size
+        total_w = x_cursor - ZONE_GAP + CANVAS_PAD
+        total_h = max_zone_h + CANVAS_PAD * 2
+        return total_w, total_h
+
+    def get_node(self, id):
+        return self._node_map.get(id)
+
+    def render(self):
+        """Layout and render to SVG string."""
+        w, h = self.layout()
+        parts = []
+        parts.append(
+            f'<svg viewBox="0 0 {w} {h}" width="100%" height="100%" '
+            f"xmlns=\"http://www.w3.org/2000/svg\" "
+            f"style=\"font-family: 'GDS Transport', Arial, sans-serif;\">\n"
+        )
+        parts.append(
+            '  <defs>\n'
+            '    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" '
+            'markerWidth="6" markerHeight="6" orient="auto-start-reverse">\n'
+            f'      <path d="M 0 0 L 10 5 L 0 10 z" fill="{COLOURS["connector"]}" />\n'
+            '    </marker>\n'
+            '    <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5" '
+            'markerWidth="6" markerHeight="6" orient="auto-start-reverse">\n'
+            f'      <path d="M 0 0 L 10 5 L 0 10 z" fill="{COLOURS["connector-blue"]}" />\n'
+            '    </marker>\n'
+            '  </defs>\n'
+        )
+
+        # Render zones
+        for zone in self.zones:
+            parts.append(self._render_zone(zone))
+
+        # Render nodes
+        for node in self.nodes:
+            parts.append(self._render_node(node))
+
+        # Render edges
+        for edge in self.edges:
+            parts.append(self._render_edge(edge))
+
+        parts.append('</svg>\n')
+        return "".join(parts)
+
+    def _render_zone(self, zone):
+        return (
+            f'  <rect x="{zone.x}" y="{zone.y}" width="{zone.w}" height="{zone.h}" '
+            f'fill="{COLOURS["zone-fill"]}" stroke="{COLOURS["zone-stroke"]}" '
+            f'stroke-dasharray="4" rx="4"/>\n'
+            f'  <text x="{zone.x + 10}" y="{zone.y + 16}" font-size="11" '
+            f'font-weight="bold" fill="{COLOURS["text-light"]}">'
+            f'{xml_escape(zone.label)}</text>\n'
+        )
+
+    def _render_node(self, node):
+        stroke = COLOURS.get(node.style, COLOURS["system"])
+        fill = COLOURS["white"]
+
+        # Special case: filled nodes (integration style)
+        if node.style == "integration":
+            return self._render_filled_node(node)
+
+        # Special case: database shape
+        if node.style == "database":
+            return self._render_database(node)
+
+        lines = []
+        lines.append(
+            f'  <rect x="{node.x}" y="{node.y}" width="{node.w}" height="{node.h}" '
+            f'fill="{fill}" stroke="{stroke}" stroke-width="2" rx="4"/>\n'
+        )
+        if node.subtitle:
+            lines.append(
+                f'  <text x="{node.cx}" y="{node.cy - 5}" font-size="14" '
+                f'font-weight="bold" text-anchor="middle" fill="{COLOURS["text"]}">'
+                f'{xml_escape(node.label)}</text>\n'
+            )
+            lines.append(
+                f'  <text x="{node.cx}" y="{node.cy + 12}" font-size="11" '
+                f'text-anchor="middle" fill="{COLOURS["text-light"]}">'
+                f'{xml_escape(node.subtitle)}</text>\n'
+            )
+        else:
+            lines.append(
+                f'  <text x="{node.cx}" y="{node.cy + 5}" font-size="14" '
+                f'font-weight="bold" text-anchor="middle" fill="{COLOURS["text"]}">'
+                f'{xml_escape(node.label)}</text>\n'
+            )
+        return "".join(lines)
+
+    def _render_filled_node(self, node):
+        colour = COLOURS.get(node.style, COLOURS["system"])
+        lines = []
+        lines.append(
+            f'  <rect x="{node.x}" y="{node.y}" width="{node.w}" height="{node.h}" '
+            f'fill="{colour}" rx="4"/>\n'
+        )
+        # Rotate text if node is taller than wide
+        if node.h > node.w * 1.5:
+            lines.append(
+                f'  <text x="{node.cx}" y="{node.cy}" font-size="14" font-weight="bold" '
+                f'text-anchor="middle" fill="#ffffff" '
+                f'transform="rotate(-90 {node.cx} {node.cy})">'
+                f'{xml_escape(node.label)}</text>\n'
+            )
+        else:
+            lines.append(
+                f'  <text x="{node.cx}" y="{node.cy + 5}" font-size="14" font-weight="bold" '
+                f'text-anchor="middle" fill="#ffffff">{xml_escape(node.label)}</text>\n'
+            )
+        return "".join(lines)
+
+    def _render_database(self, node):
+        stroke = COLOURS["database"]
+        fill = COLOURS["white"]
+        x, y, w, h = node.x, node.y, node.w, node.h
+        lines = []
+        lines.append(
+            f'  <path d="M {x} {y+12} L {x+w} {y+12} L {x+w} {y+h} L {x} {y+h} Z" '
+            f'fill="{fill}" stroke="{stroke}" stroke-width="2"/>\n'
+        )
+        lines.append(
+            f'  <path d="M {x} {y+12} Q {x+w//2} {y+22} {x+w} {y+12}" '
+            f'fill="none" stroke="{stroke}" stroke-width="1"/>\n'
+        )
+        lines.append(
+            f'  <ellipse cx="{x+w//2}" cy="{y+12}" rx="{w//2}" ry="10" '
+            f'fill="{fill}" stroke="{stroke}" stroke-width="2"/>\n'
+        )
+        lines.append(
+            f'  <text x="{node.cx}" y="{node.cy + 8}" font-size="14" '
+            f'font-weight="bold" text-anchor="middle" fill="{COLOURS["text"]}">'
+            f'{xml_escape(node.label)}</text>\n'
+        )
+        return "".join(lines)
+
+    def _render_edge(self, edge):
+        src = self.get_node(edge.source)
+        tgt = self.get_node(edge.target)
+        if not src or not tgt:
+            return ""
+
+        colour = COLOURS.get(edge.style, COLOURS["connector"])
+        marker = "arrow-blue" if "blue" in edge.style else "arrow"
+        dash = ' stroke-dasharray="4"' if edge.dashed else ""
+
+        lines = []
+
+        # Route "above" — connector goes up from source, across the top, down to target
+        if edge.route == "above":
+            top_y = CANVAS_PAD - 5  # Above all zones
+            sx, sy = src.edge_point("top")
+            tx, ty = tgt.edge_point("top")
+            lines.append(
+                f'  <path d="M {sx} {sy} L {sx} {top_y} L {tx} {top_y} L {tx} {ty}" '
+                f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
+                f'marker-end="url(#{marker})"/>\n'
+            )
+            if edge.label:
+                lx = (sx + tx) // 2
+                ly = top_y - 6
+                lines.append(
+                    f'  <text x="{lx}" y="{ly}" font-size="11" font-style="italic" '
+                    f'text-anchor="middle" fill="{colour}">{xml_escape(edge.label)}</text>\n'
+                )
+            return "".join(lines)
+
+        # Standard routing
+        sx, sy, tx, ty = self._route_edge(src, tgt)
+
+        # Straight line if aligned horizontally or vertically
+        if abs(sy - ty) < 10 or abs(sx - tx) < 10:
+            lines.append(
+                f'  <line x1="{sx}" y1="{sy}" x2="{tx}" y2="{ty}" '
+                f'stroke="{colour}" stroke-width="2"{dash} '
+                f'marker-end="url(#{marker})"/>\n'
+            )
+        else:
+            # L-shaped: determine routing direction
+            if abs(tx - sx) > abs(ty - sy):
+                mid_x = tx
+                lines.append(
+                    f'  <path d="M {sx} {sy} L {mid_x} {sy} L {mid_x} {ty}" '
+                    f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
+                    f'marker-end="url(#{marker})"/>\n'
+                )
+            else:
+                mid_y = ty
+                lines.append(
+                    f'  <path d="M {sx} {sy} L {sx} {mid_y} L {tx} {mid_y}" '
+                    f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
+                    f'marker-end="url(#{marker})"/>\n'
+                )
+
+        # Label
+        if edge.label:
+            lx = (sx + tx) // 2
+            ly = min(sy, ty) - 8
+            lines.append(
+                f'  <text x="{lx}" y="{ly}" font-size="11" font-style="italic" '
+                f'text-anchor="middle" fill="{colour}">{xml_escape(edge.label)}</text>\n'
+            )
+
+        return "".join(lines)
+
+    def _route_edge(self, src, tgt):
+        """Determine connection points (which edges of the nodes to connect)."""
+        # Horizontal relationship (nodes in different zones, same-ish row)
+        if abs(src.cy - tgt.cy) < NODE_H:
+            # Connect right-to-left or left-to-right
+            if src.cx < tgt.cx:
+                return (*src.edge_point("right"), *tgt.edge_point("left"))
+            else:
+                return (*src.edge_point("left"), *tgt.edge_point("right"))
+
+        # Vertical relationship (same zone or close X)
+        if abs(src.cx - tgt.cx) < NODE_W:
+            if src.cy < tgt.cy:
+                return (*src.edge_point("bottom"), *tgt.edge_point("top"))
+            else:
+                return (*src.edge_point("top"), *tgt.edge_point("bottom"))
+
+        # Diagonal — connect nearest edges
+        if src.cx < tgt.cx:
+            sx, sy = src.edge_point("right")
+        else:
+            sx, sy = src.edge_point("left")
+        if src.cy < tgt.cy:
+            tx, ty = tgt.edge_point("top")
+        else:
+            tx, ty = tgt.edge_point("bottom")
+        return (sx, sy, tx, ty)
+
+
+# ---------------------------------------------------------------------------
+# Diagram Definitions
+# ---------------------------------------------------------------------------
+
+def build_overview_strategic():
+    """Define the overview diagram declaratively."""
+    zones = [
+        Zone("presentation", "PUBLIC / PRESENTATION", width=220),
+        Zone("integration", "INTEGRATION", width=110),
+        Zone("backoffice", "CORE BACK-OFFICE & DATA"),  # Auto-width from 2 sub-columns
+    ]
+
+    nodes = [
+        # Presentation (single column)
+        Node("rules", "Rules Engine (Forms)", "e.g. PlanX", "system-green", "presentation", row=0, col=0),
+        Node("identity", "Identity / Auth", "Agent SSO (OIDC)", "system", "presentation", row=1, col=0),
+        Node("register", "Public Register", "Edge-cached / Read-replica", "system-green", "presentation", row=3, col=0),
+        # Integration (single column, tall gateway)
+        Node("gateway", "API Gateway", "", "integration", "integration", row=0, col=0),
+        # Back-office col 0: core processing systems
+        Node("workflow", "Case Management", "(Workflow Engine)", "system", "backoffice", row=0, col=0),
+        Node("statutory", "Statutory Consultees", "External APIs", "external", "backoffice", row=1, col=0),
+        Node("payment", "Payment Gateway", "GOV.UK Pay", "system", "backoffice", row=2, col=0),
+        # Back-office col 1: data stores and outputs
+        Node("spatial", "Spatial DB", "", "database", "backoffice", row=0, col=1),
+        Node("edrms", "EDRMS (Docs)", "", "database", "backoffice", row=1, col=1),
+        Node("broker", "Event Broker", "Pub/Sub", "system", "backoffice", row=2, col=1),
+        Node("notify", "GOV.UK Notify", "", "external", "backoffice", row=3, col=1),
+    ]
+
+    # Make gateway tall and narrow
+    for n in nodes:
+        if n.id == "gateway":
+            n.w = 80
+            n.h = 250
+
+    edges = [
+        Edge("rules", "gateway"),
+        Edge("identity", "gateway"),
+        Edge("gateway", "workflow"),
+        Edge("workflow", "spatial", "", "connector-blue"),
+        Edge("workflow", "edrms", "", "connector-blue"),
+        Edge("workflow", "statutory"),
+        Edge("workflow", "payment"),
+        Edge("workflow", "broker", "", "connector-blue"),
+        Edge("broker", "notify"),
+        Edge("gateway", "statutory"),
+        Edge("rules", "spatial", "Direct UPRN / Constraint Queries", "connector-blue", dashed=True, route="above"),
+    ]
+
+    return Diagram(zones=zones, nodes=nodes, edges=edges, title="overview-strategic")
+
+
+def build_p1_anti():
+    """Phase 1 anti-pattern."""
+    zones = [
+        Zone("input", "CITIZEN INPUT", width=200),
+        Zone("processing", "PROCESSING", width=210),
+        Zone("storage", "STORAGE", width=200),
+    ]
+
+    nodes = [
+        Node("applicant", "Applicant", "", "external", "input", row=0),
+        Node("eform", "Generic E-Form", "No rules, no validation", "antipattern", "processing", row=0),
+        Node("pdf", "Flat PDF", "Unstructured", "antipattern", "storage", row=0),
+        Node("metadata", "Basic Metadata", "Manual re-keying needed", "antipattern", "storage", row=1),
+    ]
+
+    edges = [
+        Edge("applicant", "eform", "Fills in form"),
+        Edge("eform", "pdf", "Generates flat PDF"),
+        Edge("eform", "metadata", "Captures minimal fields"),
+    ]
+
+    return Diagram(zones=zones, nodes=nodes, edges=edges, title="p1-anti")
+
+
+def build_p1_target_strategic():
+    """Phase 1 target: Rules-as-code submission."""
+    zones = [
+        Zone("input", "CITIZEN INPUT", width=200),
+        Zone("frontend", "RULES ENGINE", width=210),
+        Zone("backend", "BACK-OFFICE", width=200),
+    ]
+
+    nodes = [
+        Node("agent", "Agent", "(OIDC Identity)", "external", "input", row=0),
+        Node("rules", "Rules-as-code", "Dynamic Frontend", "system-green", "frontend", row=0),
+        Node("geo", "Geospatial API", "", "system", "backend", row=0),
+        Node("workflow", "Workflow Engine", "", "system", "backend", row=1),
+        Node("payment", "Payment Gateway", "", "system", "backend", row=2),
+    ]
+
+    edges = [
+        Edge("agent", "rules"),
+        Edge("rules", "geo", "Live spatial lookup", "connector-blue"),
+        Edge("rules", "workflow", "Structured JSON"),
+        Edge("rules", "payment", "Calculates fee", "connector-blue"),
+    ]
+
+    return Diagram(zones=zones, nodes=nodes, edges=edges, title="p1-target-strategic")
 
 
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
-DIAGRAMS = {
-    "overview-strategic": render_overview_strategic,
-    "p1-anti": render_p1_anti,
-    "p1-target-strategic": render_p1_target_strategic,
-}
+DIAGRAMS = [
+    build_overview_strategic,
+    build_p1_anti,
+    build_p1_target_strategic,
+]
 
 
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    print("=== SVG Diagram Renderer ===\n")
-    for name, render_fn in DIAGRAMS.items():
-        svg_content = render_fn()
-        out_path = OUTPUT_DIR / f"{name}.svg"
-        out_path.write_text(svg_content)
-        print(f"  [rendered] output/{name}.svg")
+    print("=== SVG Layout Engine ===\n")
+    for build_fn in DIAGRAMS:
+        diagram = build_fn()
+        svg = diagram.render()
+        out_path = OUTPUT_DIR / f"{diagram.title}.svg"
+        out_path.write_text(svg)
+        print(f"  [rendered] output/{diagram.title}.svg")
 
     print(f"\nDone. {len(DIAGRAMS)} diagrams rendered.")
-    print("(Remaining diagrams still use D2 auto-layout — convert incrementally)")
 
 
 if __name__ == "__main__":
