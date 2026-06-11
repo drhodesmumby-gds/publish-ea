@@ -1,0 +1,110 @@
+classes: {
+  actor: {
+    shape: person
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+  }
+  system: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  system-green: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#00703c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  antipattern: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#d4351c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  database: {
+    shape: cylinder
+    style.fill: "#ffffff"
+    style.stroke: "#505a5f"
+    style.stroke-width: 2
+    style.font-size: 14
+  }
+  external: {
+    shape: rectangle
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  integration: {
+    shape: rectangle
+    style.fill: "#1d70b8"
+    style.font-color: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  checkpoint: {
+    shape: diamond
+    style.fill: "#f47738"
+    style.stroke: "#f47738"
+    style.font-color: "#ffffff"
+    style.font-size: 12
+  }
+}
+
+direction: right
+
+# Phase 1: Submission target architecture (strategic)
+
+apiGateway: {
+  label: "API Gateway\nCentral integration layer routing requests between presen..."
+  class: integration
+}
+
+applicant: {
+  label: "Applicant / Agent\nCitizens, architects, or planning agents submitting appli..."
+  class: actor
+}
+
+edrms: {
+  label: "EDRMS\nDocument and records management for plans, drawings, deci..."
+  class: database
+}
+
+paymentGateway: {
+  label: "Payment Gateway\nFee calculation and collection (GOV.UK Pay or council pay..."
+  class: system
+}
+
+rulesEngine: {
+  label: "Rules Engine\nDynamic rules-as-code frontend (e.g. PlanX) for intellige..."
+  class: system-green
+}
+
+spatialDb: {
+  label: "Spatial Database\nUPRN/USRN gazetteer, site boundaries, constraint polygons..."
+  class: database
+}
+
+workflowEngine: {
+  label: "Workflow Engine\nCore case management system managing statutory timelines,..."
+  class: system
+}
+
+applicant -> rulesEngine: "Submits application via [HTTPS / OIDC]"
+rulesEngine -> spatialDb: "Queries constraints, UPRN lookup [REST API / GeoJSON]"
+rulesEngine -> paymentGateway: "Calculates and collects fee [REST API]"
+rulesEngine -> apiGateway: "Sends structured JSON payload [REST / MHCLG schema]"
+apiGateway -> workflowEngine: "Creates case record [REST API]"
+applicant -> edrms: "Uploads supporting documents [HTTPS]"
+workflowEngine -> apiGateway: "Sends consultation requests [REST API]"

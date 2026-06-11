@@ -1,0 +1,98 @@
+classes: {
+  actor: {
+    shape: person
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+  }
+  system: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  system-green: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#00703c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  antipattern: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#d4351c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  database: {
+    shape: cylinder
+    style.fill: "#ffffff"
+    style.stroke: "#505a5f"
+    style.stroke-width: 2
+    style.font-size: 14
+  }
+  external: {
+    shape: rectangle
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  integration: {
+    shape: rectangle
+    style.fill: "#1d70b8"
+    style.font-color: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  checkpoint: {
+    shape: diamond
+    style.fill: "#f47738"
+    style.stroke: "#f47738"
+    style.font-color: "#ffffff"
+    style.font-size: 12
+  }
+}
+
+direction: right
+
+# Anti-pattern: Phase 1 Anti-pattern: Generic e-form producing flat PDF
+
+applicant: {
+  label: "Applicant"
+  class: antipattern
+}
+
+generic_form: {
+  label: "Generic E-Form\nNo rules, no validation"
+  class: antipattern
+}
+
+flat_pdf: {
+  label: "Flat PDF\nUnstructured submission"
+  class: antipattern
+}
+
+basic_metadata: {
+  label: "Basic Metadata\nManual re-keying required"
+  class: antipattern
+}
+
+back_office: {
+  label: "Back Office\nOfficer re-types everything"
+  class: antipattern
+}
+
+applicant -> generic_form: "Fills in generic form"
+generic_form -> flat_pdf: "Generates flat PDF"
+generic_form -> basic_metadata: "Captures minimal fields"
+flat_pdf -> back_office: "Emailed to officer"
+basic_metadata -> back_office: "Manually reconciled"

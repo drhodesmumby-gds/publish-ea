@@ -1,0 +1,98 @@
+classes: {
+  actor: {
+    shape: person
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+  }
+  system: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  system-green: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#00703c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  antipattern: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#d4351c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  database: {
+    shape: cylinder
+    style.fill: "#ffffff"
+    style.stroke: "#505a5f"
+    style.stroke-width: 2
+    style.font-size: 14
+  }
+  external: {
+    shape: rectangle
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  integration: {
+    shape: rectangle
+    style.fill: "#1d70b8"
+    style.font-color: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  checkpoint: {
+    shape: diamond
+    style.fill: "#f47738"
+    style.stroke: "#f47738"
+    style.font-color: "#ffffff"
+    style.font-size: 12
+  }
+}
+
+direction: right
+
+# Anti-pattern: Phase 2 Anti-pattern: Manual redrawing and email chasing
+
+pdf_plans: {
+  label: "PDF Plans\nScanned drawings"
+  class: antipattern
+}
+
+officer: {
+  label: "Officer\nManual validation"
+  class: antipattern
+}
+
+gis: {
+  label: "GIS System\nOfficer redraws polygons"
+  class: antipattern
+}
+
+email: {
+  label: "Email\nChases missing info"
+  class: antipattern
+}
+
+applicant: {
+  label: "Applicant / Agent\nDelayed response"
+  class: antipattern
+}
+
+pdf_plans -> officer: "Reviews paper plans"
+officer -> gis: "Manually redraws site boundary"
+officer -> email: "Sends missing-info request"
+email -> applicant: "Untracked correspondence"
+applicant -> email: "Replies with attachments"

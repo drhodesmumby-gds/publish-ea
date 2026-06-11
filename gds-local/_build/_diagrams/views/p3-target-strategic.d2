@@ -1,0 +1,99 @@
+classes: {
+  actor: {
+    shape: person
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+  }
+  system: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  system-green: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#00703c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  antipattern: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#d4351c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  database: {
+    shape: cylinder
+    style.fill: "#ffffff"
+    style.stroke: "#505a5f"
+    style.stroke-width: 2
+    style.font-size: 14
+  }
+  external: {
+    shape: rectangle
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  integration: {
+    shape: rectangle
+    style.fill: "#1d70b8"
+    style.font-color: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  checkpoint: {
+    shape: diamond
+    style.fill: "#f47738"
+    style.stroke: "#f47738"
+    style.font-color: "#ffffff"
+    style.font-size: 12
+  }
+}
+
+direction: right
+
+# Phase 3: Consultation target architecture (strategic)
+
+apiGateway: {
+  label: "API Gateway\nCentral integration layer routing requests between presen..."
+  class: integration
+}
+
+public: {
+  label: "The Public\nMembers of the public viewing the planning register and s..."
+  class: actor
+}
+
+publicRegister: {
+  label: "Public Register\nEdge-cached read-replica serving the public planning regi..."
+  class: system-green
+}
+
+statutoryBodies: {
+  label: "Statutory Consultees\nEnvironment Agency, Historic England, Highways, etc."
+  class: external
+}
+
+workflowEngine: {
+  label: "Workflow Engine\nCore case management system managing statutory timelines,..."
+  class: system
+}
+
+apiGateway -> workflowEngine: "Creates case record [REST API]"
+workflowEngine -> publicRegister: "Replicates case data asynchronously [Event / CDC]"
+public -> publicRegister: "Views applications, submits comments [HTTPS]"
+workflowEngine -> apiGateway: "Sends consultation requests [REST API]"
+apiGateway -> statutoryBodies: "Routes structured consultations [Webhooks / REST]"
+statutoryBodies -> apiGateway: "Returns consultation responses [Webhooks / REST]"

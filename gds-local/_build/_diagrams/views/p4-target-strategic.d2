@@ -1,0 +1,106 @@
+classes: {
+  actor: {
+    shape: person
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+  }
+  system: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  system-green: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#00703c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  antipattern: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#d4351c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  database: {
+    shape: cylinder
+    style.fill: "#ffffff"
+    style.stroke: "#505a5f"
+    style.stroke-width: 2
+    style.font-size: 14
+  }
+  external: {
+    shape: rectangle
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  integration: {
+    shape: rectangle
+    style.fill: "#1d70b8"
+    style.font-color: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  checkpoint: {
+    shape: diamond
+    style.fill: "#f47738"
+    style.stroke: "#f47738"
+    style.font-color: "#ffffff"
+    style.font-size: 12
+  }
+}
+
+direction: right
+
+# Phase 4: Determination target architecture (strategic)
+
+eventBroker: {
+  label: "Event Broker\nPub/sub system firing events on status changes (e.g. dete..."
+  class: system
+}
+
+notify: {
+  label: "GOV.UK Notify\nGovernment notification service for emails, letters, and SMS"
+  class: external
+}
+
+officer: {
+  label: "Officer\nCouncil planning officer performing validation, assessmen..."
+  class: actor
+}
+
+pins: {
+  label: "PINS\nPlanning Inspectorate appeals system"
+  class: external
+}
+
+planningData: {
+  label: "planning.data.gov.uk\nMHCLG national planning data platform"
+  class: external
+}
+
+workflowEngine: {
+  label: "Workflow Engine\nCore case management system managing statutory timelines,..."
+  class: system
+}
+
+officer -> workflowEngine: "Reviews AI suggestions, confirms/amends [UI]"
+workflowEngine -> notify: "Requests missing info from agent [REST API]"
+workflowEngine -> notify: "Sends neighbour notifications [REST API]"
+officer -> workflowEngine: "Records determination decision [UI]"
+workflowEngine -> eventBroker: "Fires determination event [Pub/Sub]"
+eventBroker -> planningData: "Publishes structured decision [REST / MHCLG schema]"
+eventBroker -> pins: "Transfers appeal bundle [REST API]"
+eventBroker -> notify: "Triggers decision notification [REST API]"

@@ -1,0 +1,155 @@
+classes: {
+  actor: {
+    shape: person
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+  }
+  system: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  system-green: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#00703c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  antipattern: {
+    shape: rectangle
+    style.fill: "#ffffff"
+    style.stroke: "#d4351c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  database: {
+    shape: cylinder
+    style.fill: "#ffffff"
+    style.stroke: "#505a5f"
+    style.stroke-width: 2
+    style.font-size: 14
+  }
+  external: {
+    shape: rectangle
+    style.fill: "#f3f2f1"
+    style.stroke: "#0b0c0c"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  integration: {
+    shape: rectangle
+    style.fill: "#1d70b8"
+    style.font-color: "#ffffff"
+    style.stroke: "#1d70b8"
+    style.stroke-width: 2
+    style.border-radius: 4
+    style.font-size: 14
+  }
+  checkpoint: {
+    shape: diamond
+    style.fill: "#f47738"
+    style.stroke: "#f47738"
+    style.font-color: "#ffffff"
+    style.font-size: 12
+  }
+}
+
+direction: right
+
+# Strategic overview of Development Control architecture
+
+apiGateway: {
+  label: "API Gateway\nCentral integration layer routing requests between presen..."
+  class: integration
+}
+
+applicant: {
+  label: "Applicant / Agent\nCitizens, architects, or planning agents submitting appli..."
+  class: actor
+}
+
+edrms: {
+  label: "EDRMS\nDocument and records management for plans, drawings, deci..."
+  class: database
+}
+
+eventBroker: {
+  label: "Event Broker\nPub/sub system firing events on status changes (e.g. dete..."
+  class: system
+}
+
+notify: {
+  label: "GOV.UK Notify\nGovernment notification service for emails, letters, and SMS"
+  class: external
+}
+
+paymentGateway: {
+  label: "Payment Gateway\nFee calculation and collection (GOV.UK Pay or council pay..."
+  class: system
+}
+
+pins: {
+  label: "PINS\nPlanning Inspectorate appeals system"
+  class: external
+}
+
+planningData: {
+  label: "planning.data.gov.uk\nMHCLG national planning data platform"
+  class: external
+}
+
+public: {
+  label: "The Public\nMembers of the public viewing the planning register and s..."
+  class: actor
+}
+
+publicRegister: {
+  label: "Public Register\nEdge-cached read-replica serving the public planning regi..."
+  class: system-green
+}
+
+rulesEngine: {
+  label: "Rules Engine\nDynamic rules-as-code frontend (e.g. PlanX) for intellige..."
+  class: system-green
+}
+
+spatialDb: {
+  label: "Spatial Database\nUPRN/USRN gazetteer, site boundaries, constraint polygons..."
+  class: database
+}
+
+statutoryBodies: {
+  label: "Statutory Consultees\nEnvironment Agency, Historic England, Highways, etc."
+  class: external
+}
+
+workflowEngine: {
+  label: "Workflow Engine\nCore case management system managing statutory timelines,..."
+  class: system
+}
+
+applicant -> rulesEngine: "Submits application via [HTTPS / OIDC]"
+rulesEngine -> spatialDb: "Queries constraints, UPRN lookup [REST API / GeoJSON]"
+rulesEngine -> paymentGateway: "Calculates and collects fee [REST API]"
+rulesEngine -> apiGateway: "Sends structured JSON payload [REST / MHCLG schema]"
+apiGateway -> workflowEngine: "Creates case record [REST API]"
+applicant -> edrms: "Uploads supporting documents [HTTPS]"
+workflowEngine -> notify: "Requests missing info from agent [REST API]"
+workflowEngine -> publicRegister: "Replicates case data asynchronously [Event / CDC]"
+public -> publicRegister: "Views applications, submits comments [HTTPS]"
+workflowEngine -> apiGateway: "Sends consultation requests [REST API]"
+apiGateway -> statutoryBodies: "Routes structured consultations [Webhooks / REST]"
+statutoryBodies -> apiGateway: "Returns consultation responses [Webhooks / REST]"
+workflowEngine -> notify: "Sends neighbour notifications [REST API]"
+workflowEngine -> eventBroker: "Fires determination event [Pub/Sub]"
+eventBroker -> planningData: "Publishes structured decision [REST / MHCLG schema]"
+eventBroker -> pins: "Transfers appeal bundle [REST API]"
+eventBroker -> notify: "Triggers decision notification [REST API]"
