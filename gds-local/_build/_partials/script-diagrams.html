@@ -1,0 +1,13 @@
+    // Diagram view toggle
+    document.addEventListener('DOMContentLoaded', function() {
+      var toggle = document.querySelector('.diagram-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function(e) {
+        if (!e.target.classList.contains('diagram-toggle__btn')) return;
+        var mode = e.target.dataset.mode;
+        document.body.classList.toggle('diagram-detailed', mode === 'detailed');
+        toggle.querySelectorAll('.diagram-toggle__btn').forEach(function(btn) {
+          btn.classList.toggle('diagram-toggle__btn--active', btn.dataset.mode === mode);
+        });
+      });
+    });

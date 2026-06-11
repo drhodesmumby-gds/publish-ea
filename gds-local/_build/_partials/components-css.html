@@ -59,3 +59,30 @@
     .value-stream-card__title { margin-top: 0; margin-bottom: 10px; }
     .value-stream-card__link { text-decoration: none; color: #1d70b8; }
     .value-stream-card__link:hover { text-decoration: underline; }
+
+    /* Diagram view toggle */
+    .diagram-view--detailed { display: none; }
+    body.diagram-detailed .diagram-view--strategic { display: none; }
+    body.diagram-detailed .diagram-view--detailed { display: block; }
+
+    .diagram-toggle {
+      display: inline-flex;
+      gap: 0;
+      border: 1px solid #b1b4b6;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .diagram-toggle__btn {
+      padding: 6px 14px;
+      font-size: 14px;
+      font-family: "GDS Transport", arial, sans-serif;
+      border: none;
+      background: #f3f2f1;
+      color: #0b0c0c;
+      cursor: pointer;
+    }
+    .diagram-toggle__btn--active {
+      background: #1d70b8;
+      color: #fff;
+    }
