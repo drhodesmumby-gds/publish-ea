@@ -160,34 +160,52 @@ def svg_database(x, y, w, h, label, style="database"):
     return "".join(lines)
 
 
-def svg_connector(x1, y1, x2, y2, label="", style="connector", dashed=False):
-    """Draw a straight or L-shaped connector with arrowhead."""
+def svg_line(x1, y1, x2, y2, style="connector", dashed=False):
+    """Draw a straight line with arrowhead."""
     colour = COLOURS.get(style, COLOURS["connector"])
     marker = "arrow-blue" if "blue" in style else "arrow"
     dash = ' stroke-dasharray="4"' if dashed else ""
+    return (
+        f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
+        f'stroke="{colour}" stroke-width="2"{dash} marker-end="url(#{marker})"/>\n'
+    )
 
+
+def svg_path(points, style="connector", dashed=False):
+    """Draw a multi-segment path with arrowhead. Points is list of (x, y) tuples."""
+    colour = COLOURS.get(style, COLOURS["connector"])
+    marker = "arrow-blue" if "blue" in style else "arrow"
+    dash = ' stroke-dasharray="4"' if dashed else ""
+    d = f"M {points[0][0]} {points[0][1]}"
+    for px, py in points[1:]:
+        d += f" L {px} {py}"
+    return (
+        f'  <path d="{d}" fill="none" stroke="{colour}" stroke-width="2"{dash} '
+        f'marker-end="url(#{marker})"/>\n'
+    )
+
+
+def svg_label(x, y, text, style="connector"):
+    """Draw a connector label at a specific position."""
+    colour = COLOURS.get(style, COLOURS["connector"])
+    return (
+        f'  <text x="{x}" y="{y}" font-size="11" font-style="italic" '
+        f'text-anchor="middle" fill="{colour}">{xml_escape(text)}</text>\n'
+    )
+
+
+def svg_connector(x1, y1, x2, y2, label="", style="connector", dashed=False):
+    """Draw a straight or L-shaped connector with arrowhead (convenience wrapper)."""
     lines = []
-    # If mostly horizontal or vertical, draw straight line
     if abs(y2 - y1) < 5 or abs(x2 - x1) < 5:
-        lines.append(
-            f'  <line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" '
-            f'stroke="{colour}" stroke-width="2"{dash} marker-end="url(#{marker})"/>\n'
-        )
+        lines.append(svg_line(x1, y1, x2, y2, style, dashed))
     else:
-        # L-shaped: go horizontal first, then vertical
-        lines.append(
-            f'  <path d="M {x1} {y1} L {x2} {y1} L {x2} {y2}" '
-            f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
-            f'marker-end="url(#{marker})"/>\n'
-        )
+        lines.append(svg_path([(x1, y1), (x2, y1), (x2, y2)], style, dashed))
 
     if label:
         lx = (x1 + x2) // 2
-        ly = min(y1, y2) - 5 if abs(y1 - y2) < 10 else (y1 + y2) // 2 - 5
-        lines.append(
-            f'  <text x="{lx}" y="{ly}" font-size="11" text-anchor="middle" '
-            f'fill="{colour}">{xml_escape(label)}</text>\n'
-        )
+        ly = min(y1, y2) - 8
+        lines.append(svg_label(lx, ly, label, style))
 
     return "".join(lines)
 
@@ -198,67 +216,74 @@ def svg_connector(x1, y1, x2, y2, label="", style="connector", dashed=False):
 
 def render_overview_strategic():
     """Render the main overview diagram matching the original aesthetic."""
-    W, H = 920, 480
+    W, H = 920, 490
     svg = svg_header(W, H)
 
-    # Zone containers (3 columns)
-    svg += svg_zone(10, 30, 230, 420, "PUBLIC / PRESENTATION")
-    svg += svg_zone(255, 30, 140, 420, "INTEGRATION")
-    svg += svg_zone(410, 30, 500, 420, "CORE BACK-OFFICE & DATA")
+    # Zone containers (3 columns) — top pushed down to leave room for UPRN label
+    svg += svg_zone(10, 50, 230, 420, "PUBLIC / PRESENTATION")
+    svg += svg_zone(255, 50, 140, 420, "INTEGRATION")
+    svg += svg_zone(410, 50, 500, 420, "CORE BACK-OFFICE & DATA")
 
     # Public / Presentation nodes
-    svg += svg_node(30, 75, 190, 50, "Rules Engine (Forms)", "e.g. PlanX", "system")
-    svg += svg_node(30, 155, 190, 50, "Identity / Auth", "Agent SSO (OIDC)", "system")
-    svg += svg_node(30, 355, 190, 50, "Public Register", "Edge-cached / Read-replica", "system-green")
+    svg += svg_node(30, 95, 190, 50, "Rules Engine (Forms)", "e.g. PlanX", "system")
+    svg += svg_node(30, 175, 190, 50, "Identity / Auth", "Agent SSO (OIDC)", "system")
+    svg += svg_node(30, 375, 190, 50, "Public Register", "Edge-cached / Read-replica", "system-green")
 
     # Integration: tall filled gateway
-    svg += svg_node_filled(275, 75, 100, 295, "API Gateway", COLOURS["integration"])
+    svg += svg_node_filled(275, 95, 100, 295, "API Gateway", COLOURS["integration"])
 
     # Core Back-Office nodes
-    svg += svg_node(440, 100, 210, 60, "Case Management", "(Workflow Engine)", "system")
-    svg += svg_node(440, 230, 210, 60, "Statutory Consultees", "External API Integrations", "system")
-    svg += svg_node(440, 330, 210, 50, "Payment Gateway", "GOV.UK Pay", "system")
-    svg += svg_database(710, 70, 150, 60, "Spatial DB")
-    svg += svg_database(710, 160, 150, 60, "EDRMS (Docs)")
-    svg += svg_node(710, 270, 150, 50, "Event Broker", "Pub/Sub", "system")
-    svg += svg_node(710, 360, 150, 50, "GOV.UK Notify", "", "external")
-    svg += svg_node(710, 420, 150, 30, "planning.data.gov.uk", "", "external")
+    svg += svg_node(440, 120, 210, 60, "Case Management", "(Workflow Engine)", "system")
+    svg += svg_node(440, 250, 210, 60, "Statutory Consultees", "External API Integrations", "system")
+    svg += svg_node(440, 370, 210, 50, "Payment Gateway", "GOV.UK Pay", "system")
+    svg += svg_database(720, 90, 140, 60, "Spatial DB")
+    svg += svg_database(720, 180, 140, 60, "EDRMS (Docs)")
+    svg += svg_node(720, 290, 140, 50, "Event Broker", "Pub/Sub", "system")
+    svg += svg_node(720, 380, 140, 40, "GOV.UK Notify", "", "external")
+    svg += svg_node(720, 435, 140, 30, "planning.data.gov.uk", "", "external")
 
-    # Connectors: Presentation → Gateway
-    svg += svg_connector(220, 100, 270, 100)
-    svg += svg_connector(220, 180, 270, 180)
+    # --- Connectors ---
 
-    # Gateway → Back-office
-    svg += svg_connector(375, 130, 435, 130)
-    svg += svg_connector(435, 145, 375, 145)
+    # Direct UPRN query (dashed, above zone headers)
+    svg += svg_path([(375, 35), (785, 35), (785, 90)], "connector-blue", dashed=True)
+    svg += svg_label(580, 27, "Direct UPRN / Constraint Queries", "connector-blue")
 
-    # Gateway → Statutory
-    svg += svg_connector(375, 260, 435, 260)
-    svg += svg_connector(435, 275, 375, 275)
+    # Presentation → Gateway (horizontal)
+    svg += svg_line(220, 120, 270, 120)  # Rules Engine → Gateway
+    svg += svg_line(220, 200, 270, 200)  # Identity → Gateway
 
-    # Gateway → Public Register (output)
-    svg += svg_connector(275, 375, 225, 375)
+    # Gateway → Case Management (bidirectional, offset)
+    svg += svg_line(375, 145, 435, 145)  # Gateway → CM
+    svg += svg_line(435, 158, 375, 158)  # CM → Gateway
 
-    # Case Management → Spatial DB
-    svg += svg_connector(650, 110, 705, 90, "", "connector-blue")
-    svg += svg_connector(705, 105, 650, 125, "", "connector-blue")
+    # Gateway ← Public Register (register receives data from back-office)
+    svg += svg_line(325, 390, 225, 400)
+
+    # Case Management ↔ Spatial DB (bidirectional)
+    svg += svg_line(650, 130, 715, 110, "connector-blue")  # CM → Spatial
+    svg += svg_line(715, 125, 650, 145, "connector-blue")  # Spatial → CM
 
     # Case Management → EDRMS
-    svg += svg_connector(650, 140, 705, 180, "", "connector-blue")
+    svg += svg_line(650, 155, 715, 200, "connector-blue")
 
-    # Case Management → Event Broker
-    svg += svg_connector(545, 160, 545, 265)
-    svg += svg_connector(650, 145, 785, 265, "", "connector-blue", dashed=True)
+    # Case Management → Statutory Consultees (vertical down)
+    svg += svg_line(545, 180, 545, 245)
 
-    # Event Broker → outputs
-    svg += svg_connector(785, 320, 785, 355)
-    svg += svg_connector(785, 320, 785, 415)
+    # Statutory ↔ Gateway (bidirectional)
+    svg += svg_line(440, 270, 375, 270)  # Statutory → Gateway
+    svg += svg_line(375, 285, 440, 285)  # Gateway → Statutory
 
-    # Direct UPRN query (dashed, from Gateway to Spatial)
-    svg += svg_connector(375, 80, 705, 80, "Direct UPRN / Constraint Queries", "connector-blue", dashed=True)
+    # Case Management → Payment Gateway (vertical down, left side)
+    svg += svg_line(480, 180, 480, 365)
 
-    # Payment
-    svg += svg_connector(545, 160, 545, 325)
+    # Case Management → Event Broker (L-shaped, avoids Statutory)
+    svg += svg_path([(650, 150), (690, 150), (690, 310), (715, 310)], "connector-blue")
+
+    # Event Broker → GOV.UK Notify (vertical down)
+    svg += svg_line(790, 340, 790, 375)
+
+    # Event Broker → planning.data.gov.uk (vertical down)
+    svg += svg_line(790, 340, 790, 430)
 
     svg += svg_footer()
     return svg
