@@ -296,25 +296,95 @@ class Diagram:
     def get_node(self, id):
         return self._node_map.get(id)
 
-    def _build_edge_pairs(self):
-        """Identify bidirectional edge pairs for offset rendering."""
-        self._edge_offsets = {}
-        seen = set()
+    def _build_edge_ports(self):
+        """Assign port positions for edges, distributing evenly along node edges."""
+        # Count connections per node per side
+        # side_counts[node_id][side] = list of edge ids connecting on that side
+        self._edge_ports = {}  # edge_id -> (src_point, tgt_point)
+
+        # First pass: determine which side each edge connects on
+        edge_sides = []
         for edge in self.edges:
-            pair_key = tuple(sorted([edge.source, edge.target]))
-            if pair_key in seen:
-                self._edge_offsets[id(edge)] = 8  # Offset second edge
+            if edge.route == "above" or edge.dashed:
+                edge_sides.append((edge, None, None, None, None))
+                continue
+            src = self.get_node(edge.source)
+            tgt = self.get_node(edge.target)
+            if not src or not tgt:
+                edge_sides.append((edge, None, None, None, None))
+                continue
+            src_side, tgt_side = self._determine_sides(src, tgt)
+            edge_sides.append((edge, src, tgt, src_side, tgt_side))
+
+        # Group edges by (node_id, side) to count ports
+        from collections import defaultdict
+        port_groups = defaultdict(list)  # (node_id, side) -> [edge]
+        for edge, src, tgt, src_side, tgt_side in edge_sides:
+            if src_side is None:
+                continue
+            port_groups[(edge.source, src_side)].append(("source", edge))
+            port_groups[(edge.target, tgt_side)].append(("target", edge))
+
+        # Assign port positions
+        for (node_id, side), connections in port_groups.items():
+            node = self.get_node(node_id)
+            if not node:
+                continue
+            n = len(connections)
+            for i, (role, edge) in enumerate(connections):
+                point = self._port_position(node, side, i, n)
+                key = id(edge)
+                if key not in self._edge_ports:
+                    self._edge_ports[key] = [None, None]
+                if role == "source":
+                    self._edge_ports[key][0] = point
+                else:
+                    self._edge_ports[key][1] = point
+
+    def _determine_sides(self, src, tgt):
+        """Determine which sides of src and tgt to connect."""
+        # Primarily horizontal
+        if abs(src.cy - tgt.cy) < NODE_H:
+            if src.cx < tgt.cx:
+                return "right", "left"
             else:
-                seen.add(pair_key)
-                self._edge_offsets[id(edge)] = -8 if any(
-                    e for e in self.edges if e is not edge and
-                    tuple(sorted([e.source, e.target])) == pair_key
-                ) else 0
+                return "left", "right"
+        # Primarily vertical
+        if abs(src.cx - tgt.cx) < NODE_W:
+            if src.cy < tgt.cy:
+                return "bottom", "top"
+            else:
+                return "top", "bottom"
+        # Diagonal
+        if src.cx < tgt.cx:
+            src_side = "right"
+        else:
+            src_side = "left"
+        if src.cy < tgt.cy:
+            tgt_side = "top"
+        else:
+            tgt_side = "bottom"
+        return src_side, tgt_side
+
+    def _port_position(self, node, side, index, total):
+        """Calculate a distributed port position along a node's edge."""
+        # Distribute evenly: divide edge length into (total+1) segments
+        fraction = (index + 1) / (total + 1)
+
+        if side == "left":
+            return (node.x, node.y + int(node.h * fraction))
+        elif side == "right":
+            return (node.right, node.y + int(node.h * fraction))
+        elif side == "top":
+            return (node.x + int(node.w * fraction), node.y)
+        elif side == "bottom":
+            return (node.x + int(node.w * fraction), node.bottom)
+        return (node.cx, node.cy)
 
     def render(self):
         """Layout and render to SVG string."""
         w, h = self.layout()
-        self._build_edge_pairs()
+        self._build_edge_ports()
         parts = []
         parts.append(
             f'<svg viewBox="0 0 {w} {h}" width="100%" height="100%" '
@@ -448,7 +518,6 @@ class Diagram:
         colour = COLOURS.get(edge.style, COLOURS["connector"])
         marker = "arrow-blue" if "blue" in edge.style else "arrow"
         dash = ' stroke-dasharray="4"' if edge.dashed else ""
-        offset = self._edge_offsets.get(id(edge), 0)
 
         lines = []
 
@@ -491,40 +560,47 @@ class Diagram:
                 )
             return "".join(lines)
 
-        # Fallback: standard routing
-        sx, sy, tx, ty = self._route_edge(src, tgt)
+        # Use distributed port positions
+        ports = self._edge_ports.get(id(edge))
+        if ports and ports[0] and ports[1]:
+            sx, sy = ports[0]
+            tx, ty = ports[1]
+        else:
+            sx, sy, tx, ty = self._route_edge(src, tgt)
 
-        # Apply perpendicular offset for bidirectional pairs
-        if offset != 0:
-            if abs(sy - ty) < abs(sx - tx):
-                # Primarily horizontal — offset vertically
-                sy += offset
-                ty += offset
-            else:
-                # Primarily vertical — offset horizontally
-                sx += offset
-                tx += offset
-
-        # Straight line if aligned horizontally or vertically
-        if abs(sy - ty) < 10 or abs(sx - tx) < 10:
+        # Route connector with orthogonal segments, ensuring the final
+        # segment is perpendicular to the target edge (so arrows point inward)
+        if abs(sy - ty) < 5:
+            # Horizontal: straight line
+            lines.append(
+                f'  <line x1="{sx}" y1="{sy}" x2="{tx}" y2="{ty}" '
+                f'stroke="{colour}" stroke-width="2"{dash} '
+                f'marker-end="url(#{marker})"/>\n'
+            )
+        elif abs(sx - tx) < 5:
+            # Vertical: straight line
             lines.append(
                 f'  <line x1="{sx}" y1="{sy}" x2="{tx}" y2="{ty}" '
                 f'stroke="{colour}" stroke-width="2"{dash} '
                 f'marker-end="url(#{marker})"/>\n'
             )
         else:
-            # L-shaped: determine routing direction
-            if abs(tx - sx) > abs(ty - sy):
-                mid_x = tx
+            # L-shaped: route so the LAST segment is perpendicular to target edge
+            # Determine target side from port position relative to target node
+            tgt_side = self._determine_sides(src, tgt)[1] if ports else "left"
+            if tgt_side in ("left", "right"):
+                # Target is on a vertical edge: final segment must be horizontal
+                # So go vertical first, then horizontal into target
                 lines.append(
-                    f'  <path d="M {sx} {sy} L {mid_x} {sy} L {mid_x} {ty}" '
+                    f'  <path d="M {sx} {sy} L {sx} {ty} L {tx} {ty}" '
                     f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
                     f'marker-end="url(#{marker})"/>\n'
                 )
             else:
-                mid_y = ty
+                # Target is on a horizontal edge: final segment must be vertical
+                # So go horizontal first, then vertical into target
                 lines.append(
-                    f'  <path d="M {sx} {sy} L {sx} {mid_y} L {tx} {mid_y}" '
+                    f'  <path d="M {sx} {sy} L {tx} {sy} L {tx} {ty}" '
                     f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
                     f'marker-end="url(#{marker})"/>\n'
                 )
