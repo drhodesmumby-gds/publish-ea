@@ -164,7 +164,9 @@ class Diagram:
             return False
 
         # Build dagre input — rank maps to our zone ordering
+        # Sort nodes by (rank, row) so dagre's initial ordering respects our hints
         zone_order = {z.id: i for i, z in enumerate(self.zones)}
+        sorted_nodes = sorted(self.nodes, key=lambda n: (zone_order.get(n.zone, 0), n.row or 0))
         dagre_input = {
             "nodes": [
                 {
@@ -173,12 +175,17 @@ class Diagram:
                     "height": n.h,
                     "rank": zone_order.get(n.zone, 0),
                 }
-                for n in self.nodes
+                for n in sorted_nodes
             ],
             "edges": [
-                {"source": e.source, "target": e.target}
+                {
+                    "source": e.source,
+                    "target": e.target,
+                    "weight": 0 if e.route == "ordering" else 1,
+                    "minlen": 0 if e.route == "ordering" else 1,
+                }
                 for e in self.edges
-                if not e.dashed and not self._is_back_edge(e, zone_order)
+                if not e.dashed and not self._is_back_edge(e, zone_order) and e.route != "above"
             ],
             "config": {
                 "rankdir": "LR",
@@ -526,6 +533,8 @@ class Diagram:
         return "".join(lines)
 
     def _render_edge(self, edge):
+        if edge.route == "ordering":
+            return ""  # Invisible layout hint, not rendered
         src = self.get_node(edge.source)
         tgt = self.get_node(edge.target)
         if not src or not tgt:
@@ -540,10 +549,12 @@ class Diagram:
         # Route "above" — connector goes up from source, across the top, down to target
         if edge.route == "above":
             top_y = CANVAS_PAD - 5  # Above all zones
-            sx, sy = src.edge_point("top")
+            # Route: right edge of source → up to top → across to target x → down to target top
+            # This avoids the vertical segment clipping adjacent nodes
+            sx, sy = src.edge_point("right")
             tx, ty = tgt.edge_point("top")
             lines.append(
-                f'  <path d="M {sx} {sy} L {sx} {top_y} L {tx} {top_y} L {tx} {ty}" '
+                f'  <path d="M {sx} {sy} L {sx + 15} {sy} L {sx + 15} {top_y} L {tx} {top_y} L {tx} {ty}" '
                 f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
                 f'marker-end="url(#{marker})"/>\n'
             )
@@ -687,10 +698,11 @@ def build_overview_strategic():
     ]
 
     nodes = [
-        # Presentation (single column)
-        Node("rules", "Rules Engine (Forms)", "e.g. PlanX", "system-green", "presentation", row=0, col=0),
+        # Presentation (single column) — Rules Engine first so its connector
+        # to Gateway doesn't cross through Identity/Auth
         Node("identity", "Identity / Auth", "Agent SSO (OIDC)", "system", "presentation", row=1, col=0),
-        Node("register", "Public Register", "Edge-cached / Read-replica", "system-green", "presentation", row=3, col=0),
+        Node("rules", "Rules Engine (Forms)", "e.g. PlanX", "system-green", "presentation", row=0, col=0),
+        Node("register", "Public Register", "Edge-cached / Read-replica", "system-green", "presentation", row=2, col=0),
         # Integration (single column, tall gateway)
         Node("gateway", "API Gateway", "", "integration", "integration", row=0, col=0),
         # Back-office col 0: core processing systems
@@ -726,6 +738,10 @@ def build_overview_strategic():
         Edge("gateway", "register"),   # Async replication to public register
         Edge("rules", "spatial", "Direct UPRN / Constraint Queries", "connector-blue", dashed=True, route="above"),
     ]
+
+    # Node ordering: dagre uses insertion order as initial hint for within-rank ordering.
+    # Rules Engine is listed before Identity in the nodes list so dagre places it
+    # vertically closer to Case Management (avoiding connector crossing through Identity).
 
     return Diagram(zones=zones, nodes=nodes, edges=edges, title="overview-strategic")
 
