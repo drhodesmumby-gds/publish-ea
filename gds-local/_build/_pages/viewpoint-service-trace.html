@@ -1,0 +1,382 @@
+---
+title: Example architecture - Adult Social Care
+caption: LGAM Viewpoints
+status: draft
+---
+<style>
+    /* === OPTION A: ZONE-BASED LAYOUT === */
+    .zone-diagram {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2px;
+      margin-bottom: 40px;
+    }
+
+    .zone-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .zone-row--full {
+      grid-template-columns: 1fr;
+    }
+
+    .zone {
+      padding: 15px;
+      position: relative;
+    }
+
+    .zone__label {
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .zone__items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .zone__chip {
+      background: #ffffff;
+      border: 1px solid;
+      padding: 4px 10px;
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    /* Zone colours */
+    .zone--citizen { background: #f9e6f9; }
+    .zone--citizen .zone__label { color: #CC00CC; }
+    .zone--citizen .zone__chip { border-color: #CC00CC; }
+
+    .zone--interfaces { background: #f0e6f0; }
+    .zone--interfaces .zone__label { color: #800080; }
+    .zone--interfaces .zone__chip { border-color: #800080; }
+
+    .zone--capabilities { background: #e6e6f5; }
+    .zone--capabilities .zone__label { color: #000080; }
+    .zone--capabilities .zone__chip { border-color: #000080; }
+
+    .zone--business { background: #e6e6ff; }
+    .zone--business .zone__label { color: #0000FF; }
+    .zone--business .zone__chip { border-color: #0000FF; }
+
+    .zone--ft { background: #e6f5f5; }
+    .zone--ft .zone__label { color: #008080; }
+    .zone--ft .zone__chip { border-color: #008080; }
+
+    .zone--integration { background: #f2f2e6; }
+    .zone--integration .zone__label { color: #6B6B00; }
+    .zone--integration .zone__chip { border-color: #6B6B00; }
+
+    .zone--security { background: #fce6e6; }
+    .zone--security .zone__label { color: #CC0000; }
+    .zone--security .zone__chip { border-color: #CC0000; }
+
+    .zone--data { background: #f0e6e6; }
+    .zone--data .zone__label { color: #800000; }
+    .zone--data .zone__chip { border-color: #800000; }
+
+    /* === OPTION B: HUB AND SPOKE === */
+    .hub-diagram {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto 40px;
+    }
+
+    .hub-centre {
+      background: #0000FF;
+      color: #fff;
+      text-align: center;
+      padding: 25px;
+      font-family: "GDS Transport", arial, sans-serif;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0 auto 4px;
+      max-width: 300px;
+    }
+
+    .hub-centre__subtitle {
+      font-weight: 400;
+      font-size: 14px;
+      display: block;
+      margin-top: 5px;
+      opacity: 0.9;
+    }
+
+    .hub-spokes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 4px;
+    }
+
+    .hub-spoke {
+      padding: 12px 15px;
+      border-left: 4px solid;
+    }
+
+    .hub-spoke__label {
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    .hub-spoke__items {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .hub-spoke__items li {
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 13px;
+      padding: 3px 0;
+      line-height: 1.4;
+    }
+
+    .hub-spoke--channels { border-color: #CC00CC; background: #f9e6f9; }
+    .hub-spoke--channels .hub-spoke__label { color: #CC00CC; }
+
+    .hub-spoke--interfaces { border-color: #800080; background: #f0e6f0; }
+    .hub-spoke--interfaces .hub-spoke__label { color: #800080; }
+
+    .hub-spoke--capabilities { border-color: #000080; background: #e6e6f5; }
+    .hub-spoke--capabilities .hub-spoke__label { color: #000080; }
+
+    .hub-spoke--ft { border-color: #008080; background: #e6f5f5; }
+    .hub-spoke--ft .hub-spoke__label { color: #008080; }
+
+    .hub-spoke--integration { border-color: #6B6B00; background: #f2f2e6; }
+    .hub-spoke--integration .hub-spoke__label { color: #6B6B00; }
+
+    .hub-spoke--security { border-color: #CC0000; background: #fce6e6; }
+    .hub-spoke--security .hub-spoke__label { color: #CC0000; }
+
+    .hub-spoke--data { border-color: #800000; background: #f0e6e6; }
+    .hub-spoke--data .hub-spoke__label { color: #800000; }
+
+    .hub-spoke--corporate { border-color: #696969; background: #f3f2f1; }
+    .hub-spoke--corporate .hub-spoke__label { color: #696969; }
+
+    @media (max-width: 768px) {
+      .zone-row { grid-template-columns: 1fr; }
+      .hub-spokes { grid-template-columns: 1fr; }
+    }
+</style>
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this view</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#option-a">Option A: Zone layout</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#option-b">Option B: Hub and spoke</a></li>
+</nav-contents>
+<main-content>
+          <span class="govuk-caption-xl">LGAM Viewpoints</span>
+          <h1 class="govuk-heading-xl">Example architecture: Adult Social Care</h1>
+
+          <h2 class="govuk-heading-l" id="about">About this view</h2>
+          <p class="govuk-body-l">Two approaches to visualising how a council's adult social care technology connects across LGAM layers — without implying a linear chain.</p>
+          <p class="govuk-body">Each shows the same information: specific systems and services involved in delivering adult social care, arranged by LGAM layer. Any element can connect to any other element in any layer.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- OPTION A: ZONE-BASED -->
+          <h2 class="govuk-heading-l" id="option-a">Option A: Zone layout</h2>
+          <p class="govuk-body">Layers shown as spatial zones — the citizen journey flows left-to-right across the top, enabling technology sits beneath.</p>
+
+          <div class="zone-diagram">
+            <!-- Top row: citizen-facing flow -->
+            <div class="zone-row">
+              <div class="zone zone--citizen">
+                <p class="zone__label">Channels</p>
+                <div class="zone__items">
+                  <span class="zone__chip">Council website</span>
+                  <span class="zone__chip">Contact centre</span>
+                  <span class="zone__chip">Social worker visit</span>
+                </div>
+              </div>
+              <div class="zone zone--interfaces">
+                <p class="zone__label">Interfaces</p>
+                <div class="zone__items">
+                  <span class="zone__chip">Citizen portal</span>
+                  <span class="zone__chip">Professional portal</span>
+                  <span class="zone__chip">Mobile app</span>
+                </div>
+              </div>
+            </div>
+            <div class="zone-row">
+              <div class="zone zone--capabilities">
+                <p class="zone__label">Capabilities</p>
+                <div class="zone__items">
+                  <span class="zone__chip">Liquidlogic</span>
+                  <span class="zone__chip">GOV.UK Forms</span>
+                  <span class="zone__chip">GOV.UK Pay</span>
+                  <span class="zone__chip">One Login</span>
+                  <span class="zone__chip">Bookings</span>
+                </div>
+              </div>
+              <div class="zone zone--business">
+                <p class="zone__label">Business processes</p>
+                <div class="zone__items">
+                  <span class="zone__chip">Assessment</span>
+                  <span class="zone__chip">Care planning</span>
+                  <span class="zone__chip">Safeguarding</span>
+                  <span class="zone__chip">Financial assessment</span>
+                  <span class="zone__chip">Provider management</span>
+                </div>
+              </div>
+            </div>
+            <!-- Bottom rows: enabling technology -->
+            <div class="zone-row">
+              <div class="zone zone--integration">
+                <p class="zone__label">Integration</p>
+                <div class="zone__items">
+                  <span class="zone__chip">NHS Spine</span>
+                  <span class="zone__chip">DWP API</span>
+                  <span class="zone__chip">CQC API</span>
+                  <span class="zone__chip">Azure Integration</span>
+                </div>
+              </div>
+              <div class="zone zone--ft">
+                <p class="zone__label">Foundational Technology</p>
+                <div class="zone__items">
+                  <span class="zone__chip">Azure UK South</span>
+                  <span class="zone__chip">Entra ID</span>
+                  <span class="zone__chip">ServiceNow</span>
+                  <span class="zone__chip">Azure Monitor</span>
+                </div>
+              </div>
+            </div>
+            <div class="zone-row">
+              <div class="zone zone--security">
+                <p class="zone__label">Security</p>
+                <div class="zone__items">
+                  <span class="zone__chip">Microsoft Defender</span>
+                  <span class="zone__chip">Managed SOC</span>
+                  <span class="zone__chip">OneTrust (DPIA)</span>
+                </div>
+              </div>
+              <div class="zone zone--data">
+                <p class="zone__label">Data</p>
+                <div class="zone__items">
+                  <span class="zone__chip">Citizen record</span>
+                  <span class="zone__chip">LLPG</span>
+                  <span class="zone__chip">Power BI</span>
+                  <span class="zone__chip">Data Lake</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <!-- OPTION B: HUB AND SPOKE -->
+          <h2 class="govuk-heading-l" id="option-b">Option B: Hub and spoke</h2>
+          <p class="govuk-body">The business area at the centre, with all connected technology radiating outward — showing that relationships are not hierarchical.</p>
+
+          <div class="hub-diagram">
+            <div class="hub-centre">
+              Adult Social Care
+              <span class="hub-centre__subtitle">Assessment, care planning, safeguarding, provider management</span>
+            </div>
+
+            <div class="hub-spokes">
+              <div class="hub-spoke hub-spoke--channels">
+                <p class="hub-spoke__label">Channels</p>
+                <ul class="hub-spoke__items">
+                  <li>Council website</li>
+                  <li>Contact centre</li>
+                  <li>Social worker visit</li>
+                </ul>
+              </div>
+
+              <div class="hub-spoke hub-spoke--interfaces">
+                <p class="hub-spoke__label">Interfaces</p>
+                <ul class="hub-spoke__items">
+                  <li>Citizen portal</li>
+                  <li>Professional portal</li>
+                  <li>Mobile app</li>
+                </ul>
+              </div>
+
+              <div class="hub-spoke hub-spoke--capabilities">
+                <p class="hub-spoke__label">Capabilities</p>
+                <ul class="hub-spoke__items">
+                  <li>Liquidlogic (case management)</li>
+                  <li>GOV.UK Forms (referrals)</li>
+                  <li>GOV.UK Pay (contributions)</li>
+                  <li>One Login (identity)</li>
+                  <li>Bookings (respite/day care)</li>
+                </ul>
+              </div>
+
+              <div class="hub-spoke hub-spoke--corporate">
+                <p class="hub-spoke__label">Corporate</p>
+                <ul class="hub-spoke__items">
+                  <li>Finance (care funding)</li>
+                  <li>HR (workforce)</li>
+                  <li>Legal (MCA, CoP)</li>
+                </ul>
+              </div>
+
+              <div class="hub-spoke hub-spoke--integration">
+                <p class="hub-spoke__label">Integration</p>
+                <ul class="hub-spoke__items">
+                  <li>NHS Spine</li>
+                  <li>DWP benefits API</li>
+                  <li>CQC Provider API</li>
+                  <li>Azure Integration Services</li>
+                </ul>
+              </div>
+
+              <div class="hub-spoke hub-spoke--ft">
+                <p class="hub-spoke__label">Foundational Tech</p>
+                <ul class="hub-spoke__items">
+                  <li>Azure UK South</li>
+                  <li>Entra ID</li>
+                  <li>ServiceNow</li>
+                  <li>Azure Monitor</li>
+                </ul>
+              </div>
+
+              <div class="hub-spoke hub-spoke--security">
+                <p class="hub-spoke__label">Security</p>
+                <ul class="hub-spoke__items">
+                  <li>Microsoft Defender</li>
+                  <li>Managed SOC</li>
+                  <li>OneTrust (DPIA)</li>
+                </ul>
+              </div>
+
+              <div class="hub-spoke hub-spoke--data">
+                <p class="hub-spoke__label">Data</p>
+                <ul class="hub-spoke__items">
+                  <li>Citizen master record</li>
+                  <li>LLPG / Addresses</li>
+                  <li>Power BI (ASC-CLD)</li>
+                  <li>Azure Data Lake</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <h2 class="govuk-heading-m">Notes</h2>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+            <li>Both views show the same information — specific systems involved in delivering adult social care, arranged by LGAM layer.</li>
+            <li>Neither implies a linear chain. Any element can connect to any element in any layer.</li>
+            <li>These are illustrative — your council would substitute its own systems.</li>
+            <li>For interactive connection mapping, see the <a href="https://architect.rumens.uk/lgam_editor_gds.html" class="govuk-link">LGAM Connection Editor</a>.</li>
+          </ul>
+
+          <p class="govuk-body"><a href="index.html" class="govuk-link">&larr; Back to LGAM overview</a></p>
+</main-content>
