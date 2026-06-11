@@ -19,6 +19,7 @@ Hand-authored pages (index.html, gds-local-alt.html):
 import os
 import re
 import shutil
+import subprocess
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -297,6 +298,24 @@ def main():
 
     # Ensure preview directory exists
     os.makedirs(PREVIEW_DIR, exist_ok=True)
+
+    # Generate diagrams if _diagrams/ directory exists
+    diagrams_dir = os.path.join(SCRIPT_DIR, "_diagrams")
+    if os.path.isdir(diagrams_dir):
+        generate_script = os.path.join(diagrams_dir, "generate.py")
+        if os.path.exists(generate_script):
+            print("Generating diagrams...\n")
+            result = subprocess.run(
+                [sys.executable, generate_script],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode != 0:
+                print(f"  [warning] Diagram generation failed:\n{result.stderr}")
+            else:
+                for line in result.stdout.strip().splitlines():
+                    print(f"  {line}")
+            print()
 
     print(f"Building {len(page_files)} page(s)...\n")
 
