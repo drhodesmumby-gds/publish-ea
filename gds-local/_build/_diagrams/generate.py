@@ -168,7 +168,7 @@ def generate_view_d2(view, elements, relationships, theme_content):
     lines.append(theme_content)
     lines.append("")
     # Layout direction
-    lines.append("direction: right")
+    lines.append("direction: down")
     lines.append("")
     # Title comment
     lines.append(f"# {view['description']}")
@@ -179,8 +179,7 @@ def generate_view_d2(view, elements, relationships, theme_content):
         if varname not in elements:
             continue
         elem = elements[varname]
-        desc_trunc = truncate(elem["description"])
-        label = f"{elem['name']}\\n{desc_trunc}"
+        label = elem["name"]
         tag = elem["tag"]
         lines.append(f"{varname}: {{")
         lines.append(f'  label: "{label}"')
@@ -191,14 +190,10 @@ def generate_view_d2(view, elements, relationships, theme_content):
     # Edges — only where both source and target are in the view
     for rel in relationships:
         if rel["source"] in included and rel["target"] in included:
-            # Both must also exist in the elements dict
             if rel["source"] not in elements or rel["target"] not in elements:
                 continue
-            edge_label = rel["label"]
-            if rel["technology"]:
-                edge_label += f" [{rel['technology']}]"
             lines.append(
-                f'{rel["source"]} -> {rel["target"]}: "{edge_label}"'
+                f'{rel["source"]} -> {rel["target"]}: "{rel["label"]}"'
             )
 
     lines.append("")
@@ -210,7 +205,7 @@ def generate_antipattern_d2(key, title, nodes, edges, theme_content):
     lines = []
     lines.append(theme_content)
     lines.append("")
-    lines.append("direction: right")
+    lines.append("direction: down")
     lines.append("")
     lines.append(f"# Anti-pattern: {title}")
     lines.append("")
