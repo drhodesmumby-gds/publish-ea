@@ -224,17 +224,15 @@ class Diagram:
             '  </defs>\n'
         )
 
-        # Render zones
+        # Render order: zones (background) → edges (mid) → nodes (foreground)
         for zone in self.zones:
             parts.append(self._render_zone(zone))
 
-        # Render nodes
-        for node in self.nodes:
-            parts.append(self._render_node(node))
-
-        # Render edges
         for edge in self.edges:
             parts.append(self._render_edge(edge))
+
+        for node in self.nodes:
+            parts.append(self._render_node(node))
 
         parts.append('</svg>\n')
         return "".join(parts)
@@ -401,31 +399,44 @@ class Diagram:
         return "".join(lines)
 
     def _route_edge(self, src, tgt):
-        """Determine connection points (which edges of the nodes to connect)."""
+        """Determine connection points with clearance padding."""
+        PAD = 4  # Clearance so arrows don't overlap borders
+
         # Horizontal relationship (nodes in different zones, same-ish row)
         if abs(src.cy - tgt.cy) < NODE_H:
-            # Connect right-to-left or left-to-right
             if src.cx < tgt.cx:
-                return (*src.edge_point("right"), *tgt.edge_point("left"))
+                sx, sy = src.edge_point("right")
+                tx, ty = tgt.edge_point("left")
+                return (sx + PAD, sy, tx - PAD, ty)
             else:
-                return (*src.edge_point("left"), *tgt.edge_point("right"))
+                sx, sy = src.edge_point("left")
+                tx, ty = tgt.edge_point("right")
+                return (sx - PAD, sy, tx + PAD, ty)
 
         # Vertical relationship (same zone or close X)
         if abs(src.cx - tgt.cx) < NODE_W:
             if src.cy < tgt.cy:
-                return (*src.edge_point("bottom"), *tgt.edge_point("top"))
+                sx, sy = src.edge_point("bottom")
+                tx, ty = tgt.edge_point("top")
+                return (sx, sy + PAD, tx, ty - PAD)
             else:
-                return (*src.edge_point("top"), *tgt.edge_point("bottom"))
+                sx, sy = src.edge_point("top")
+                tx, ty = tgt.edge_point("bottom")
+                return (sx, sy - PAD, tx, ty + PAD)
 
         # Diagonal — connect nearest edges
         if src.cx < tgt.cx:
             sx, sy = src.edge_point("right")
+            sx += PAD
         else:
             sx, sy = src.edge_point("left")
+            sx -= PAD
         if src.cy < tgt.cy:
             tx, ty = tgt.edge_point("top")
+            ty -= PAD
         else:
             tx, ty = tgt.edge_point("bottom")
+            ty += PAD
         return (sx, sy, tx, ty)
 
 
