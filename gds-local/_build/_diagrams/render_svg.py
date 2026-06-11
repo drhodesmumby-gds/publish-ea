@@ -172,9 +172,9 @@ class Diagram:
             ],
             "config": {
                 "rankdir": "LR",
-                "nodesep": 15,
-                "ranksep": 40,
-                "edgesep": 8,
+                "nodesep": 20,
+                "ranksep": 45,
+                "edgesep": 20,
                 "marginx": CANVAS_PAD,
                 "marginy": CANVAS_PAD,
             },
