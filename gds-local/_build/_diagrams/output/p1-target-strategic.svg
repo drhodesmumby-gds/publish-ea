@@ -1,4 +1,4 @@
-<svg viewBox="0 0 875 340" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="font-family: 'GDS Transport', Arial, sans-serif;">
+<svg viewBox="0 0 890 275" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="font-family: 'GDS Transport', Arial, sans-serif;">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b0c0c" />
@@ -7,29 +7,29 @@
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d70b8" />
     </marker>
   </defs>
-  <rect x="43" y="115" width="210" height="95" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="53" y="131" font-size="11" font-weight="bold" fill="#505a5f">CITIZEN INPUT</text>
-  <rect x="333" y="115" width="210" height="95" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="343" y="131" font-size="11" font-weight="bold" fill="#505a5f">RULES ENGINE</text>
-  <rect x="623" y="25" width="210" height="275" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="633" y="41" font-size="11" font-weight="bold" fill="#505a5f">BACK-OFFICE</text>
-  <path d="M 248 170 L 270 170 L 293 170 L 315 170 L 338 170" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 485 205 L 560 260 L 583 260 L 605 260 L 628 260" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
-  <text x="583" y="250" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Live spatial lookup</text>
-  <path d="M 538 170 L 560 170 L 583 170 L 605 170 L 628 170" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <text x="583" y="160" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Structured JSON</text>
-  <path d="M 485 135 L 560 80 L 583 80 L 605 80 L 628 80" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
-  <text x="583" y="70" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Calculates fee</text>
-  <rect x="58" y="145" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
-  <text x="148" y="165" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Agent</text>
-  <text x="148" y="182" font-size="11" text-anchor="middle" fill="#505a5f">(OIDC Identity)</text>
-  <rect x="348" y="145" width="180" height="50" fill="#ffffff" stroke="#00703c" stroke-width="2" rx="4"/>
-  <text x="438" y="165" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Rules-as-code</text>
-  <text x="438" y="182" font-size="11" text-anchor="middle" fill="#505a5f">Dynamic Frontend</text>
-  <rect x="638" y="235" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
-  <text x="728" y="265" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Geospatial API</text>
-  <rect x="638" y="145" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
-  <text x="728" y="175" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Workflow Engine</text>
-  <rect x="638" y="55" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
-  <text x="728" y="85" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Payment Gateway</text>
+  <rect x="40" y="83" width="210" height="95" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
+  <text x="50" y="99" font-size="11" font-weight="bold" fill="#505a5f">CITIZEN INPUT</text>
+  <rect x="340" y="83" width="210" height="95" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
+  <text x="350" y="99" font-size="11" font-weight="bold" fill="#505a5f">RULES ENGINE</text>
+  <rect x="640" y="13" width="210" height="235" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
+  <text x="650" y="29" font-size="11" font-weight="bold" fill="#505a5f">BACK-OFFICE</text>
+  <path d="M 235 138 L 265 138 L 295 138 L 325 138 L 355 138" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 488 163 L 565 208 L 595 208 L 625 208 L 655 208" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <text x="595" y="198" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Live spatial lookup</text>
+  <path d="M 535 138 L 565 138 L 595 138 L 625 138 L 655 138" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="595" y="128" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Structured JSON</text>
+  <path d="M 488 113 L 565 68 L 595 68 L 625 68 L 655 68" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <text x="595" y="58" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Calculates fee</text>
+  <rect x="55" y="113" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
+  <text x="145" y="133" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Agent</text>
+  <text x="145" y="150" font-size="11" text-anchor="middle" fill="#505a5f">(OIDC Identity)</text>
+  <rect x="355" y="113" width="180" height="50" fill="#ffffff" stroke="#00703c" stroke-width="2" rx="4"/>
+  <text x="445" y="133" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Rules-as-code</text>
+  <text x="445" y="150" font-size="11" text-anchor="middle" fill="#505a5f">Dynamic Frontend</text>
+  <rect x="655" y="183" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
+  <text x="745" y="213" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Geospatial API</text>
+  <rect x="655" y="113" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
+  <text x="745" y="143" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Workflow Engine</text>
+  <rect x="655" y="43" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
+  <text x="745" y="73" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Payment Gateway</text>
 </svg>

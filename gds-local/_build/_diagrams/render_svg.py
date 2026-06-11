@@ -168,16 +168,12 @@ class Diagram:
         zone_order = {z.id: i for i, z in enumerate(self.zones)}
         sorted_nodes = sorted(self.nodes, key=lambda n: (zone_order.get(n.zone, 0), n.row or 0))
 
-        # Inflate node dimensions for layout — dagre routes edges around the
-        # inflated bounding box, giving visual clearance from node borders.
-        EDGE_CLEARANCE = 20
-
         dagre_input = {
             "nodes": [
                 {
                     "id": n.id,
-                    "width": n.w + EDGE_CLEARANCE,
-                    "height": n.h + EDGE_CLEARANCE,
+                    "width": n.w,
+                    "height": n.h,
                     "rank": zone_order.get(n.zone, 0),
                 }
                 for n in sorted_nodes
@@ -195,8 +191,8 @@ class Diagram:
             "config": {
                 "rankdir": "LR",
                 "nodesep": 20,
-                "ranksep": 45,
-                "edgesep": 20,
+                "ranksep": 60,
+                "edgesep": 15,
                 "marginx": CANVAS_PAD,
                 "marginy": CANVAS_PAD,
             },
@@ -217,23 +213,22 @@ class Diagram:
         except (subprocess.TimeoutExpired, json.JSONDecodeError, FileNotFoundError):
             return False
 
-        # Apply dagre positions to our nodes.
-        # Dagre positions are centre-based on the inflated dimensions — we
-        # re-centre the real (smaller) node within that space.
+        # Apply dagre positions to our nodes (dagre returns top-left coordinates)
         pos_map = {n["id"]: n for n in output["nodes"]}
         for node in self.nodes:
             if node.id in pos_map:
                 p = pos_map[node.id]
-                # dagre returns top-left of the inflated box
-                # Centre the real node within it
-                node.x = p["x"] + (p["width"] - node.w) // 2
-                node.y = p["y"] + (p["height"] - node.h) // 2
+                node.x = p["x"]
+                node.y = p["y"]
 
-        # Store edge routing points
-        self._dagre_edges = {
-            (e["source"], e["target"]): e["points"]
-            for e in output["edges"]
-        }
+        # Store edge routing points, with clearance post-processing
+        self._dagre_edges = {}
+        for e in output["edges"]:
+            points = e["points"]
+            # Trim first and last points to stop short of node borders
+            if len(points) >= 2:
+                points = self._apply_edge_clearance(points, e["source"], e["target"])
+            self._dagre_edges[(e["source"], e["target"])] = points
 
         # Calculate zone boundaries from node positions
         self._compute_zones_from_positions()
@@ -241,6 +236,38 @@ class Diagram:
         self._canvas_w = output["graph"]["width"]
         self._canvas_h = output["graph"]["height"]
         return True
+
+    def _apply_edge_clearance(self, points, src_id, tgt_id):
+        """Nudge edge intermediate points that run along node borders outward."""
+        CLEARANCE = 8
+        result = list(points)
+
+        # Check each intermediate point against all nodes
+        for i in range(1, len(result) - 1):
+            p = result[i]
+            for node in self.nodes:
+                if node.id == src_id or node.id == tgt_id:
+                    continue
+                # If point is within CLEARANCE of a node edge, nudge it out
+                if (node.x - CLEARANCE <= p["x"] <= node.x + node.w + CLEARANCE and
+                    node.y - CLEARANCE <= p["y"] <= node.y + node.h + CLEARANCE):
+                    # Determine which edge it's near and nudge away
+                    dist_left = abs(p["x"] - node.x)
+                    dist_right = abs(p["x"] - (node.x + node.w))
+                    dist_top = abs(p["y"] - node.y)
+                    dist_bottom = abs(p["y"] - (node.y + node.h))
+                    min_dist = min(dist_left, dist_right, dist_top, dist_bottom)
+                    if min_dist < CLEARANCE:
+                        if min_dist == dist_left:
+                            result[i] = {**p, "x": node.x - CLEARANCE}
+                        elif min_dist == dist_right:
+                            result[i] = {**p, "x": node.x + node.w + CLEARANCE}
+                        elif min_dist == dist_top:
+                            result[i] = {**p, "y": node.y - CLEARANCE}
+                        else:
+                            result[i] = {**p, "y": node.y + node.h + CLEARANCE}
+
+        return result
 
     def _compute_zones_from_positions(self):
         """Calculate zone boundaries by finding the bounding box of nodes in each zone."""
