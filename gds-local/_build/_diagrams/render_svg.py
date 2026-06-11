@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
 """
-Constraint-based SVG layout engine for architecture diagrams.
+Architecture diagram renderer with dagre-powered Sugiyama layout.
 
-Takes a declarative diagram definition (zones, nodes, edges) and automatically
-calculates positions, then renders to SVG matching the GOV.UK block aesthetic.
+Takes a declarative diagram definition (zones, nodes, edges) and uses dagre
+(via Node.js subprocess) for layered graph layout, then renders to SVG
+matching the GOV.UK block aesthetic.
 
-Layout algorithm:
-1. Zones are placed as columns left-to-right
-2. Nodes are assigned to zones and stacked vertically within each zone
-3. Connectors are routed as straight horizontal/vertical lines where possible,
-   with L-shaped bends when source and target are not aligned
-4. Optional hints can override default row ordering
+Layout pipeline:
+1. Diagram definition declares nodes (with zone/rank), edges, and zones
+2. dagre computes optimal positions using Sugiyama algorithm (layer assignment,
+   crossing minimisation, coordinate assignment)
+3. Zone boundaries are calculated from the positioned nodes
+4. SVG is rendered with GOV.UK styling, connector routing from dagre's edge points
+
+Fallback: if Node.js/dagre unavailable, uses built-in grid layout.
 
 Usage: python3 render_svg.py
 """
 
+import json
+import subprocess
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -136,8 +141,98 @@ class Diagram:
         self._node_map = {}
 
     def layout(self):
-        """Calculate all positions using grid-based sub-column layout."""
+        """Calculate positions using dagre if available, else grid fallback."""
         self._node_map = {n.id: n for n in self.nodes}
+        if self._try_dagre_layout():
+            return self._canvas_w, self._canvas_h
+        return self._grid_layout()
+
+    def _try_dagre_layout(self):
+        """Attempt layout via dagre (Node.js). Returns True on success."""
+        layout_script = SCRIPT_DIR / "layout.js"
+        if not layout_script.exists():
+            return False
+
+        # Build dagre input — rank maps to our zone ordering
+        zone_order = {z.id: i for i, z in enumerate(self.zones)}
+        dagre_input = {
+            "nodes": [
+                {
+                    "id": n.id,
+                    "width": n.w,
+                    "height": n.h,
+                    "rank": zone_order.get(n.zone, 0),
+                }
+                for n in self.nodes
+            ],
+            "edges": [
+                {"source": e.source, "target": e.target}
+                for e in self.edges
+                if not e.dashed  # Skip dashed/special edges from layout
+            ],
+            "config": {
+                "rankdir": "LR",
+                "nodesep": 25,
+                "ranksep": 60,
+                "marginx": CANVAS_PAD,
+                "marginy": CANVAS_PAD,
+            },
+        }
+
+        try:
+            result = subprocess.run(
+                ["node", str(layout_script)],
+                input=json.dumps(dagre_input),
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
+            if result.returncode != 0:
+                return False
+
+            output = json.loads(result.stdout)
+        except (subprocess.TimeoutExpired, json.JSONDecodeError, FileNotFoundError):
+            return False
+
+        # Apply dagre positions to our nodes
+        pos_map = {n["id"]: n for n in output["nodes"]}
+        for node in self.nodes:
+            if node.id in pos_map:
+                p = pos_map[node.id]
+                node.x = p["x"]
+                node.y = p["y"]
+
+        # Store edge routing points
+        self._dagre_edges = {
+            (e["source"], e["target"]): e["points"]
+            for e in output["edges"]
+        }
+
+        # Calculate zone boundaries from node positions
+        self._compute_zones_from_positions()
+
+        self._canvas_w = output["graph"]["width"]
+        self._canvas_h = output["graph"]["height"]
+        return True
+
+    def _compute_zones_from_positions(self):
+        """Calculate zone boundaries by finding the bounding box of nodes in each zone."""
+        zone_map = {z.id: z for z in self.zones}
+        for zone in self.zones:
+            zone_nodes = [n for n in self.nodes if n.zone == zone.id]
+            if not zone_nodes:
+                continue
+            min_x = min(n.x for n in zone_nodes) - ZONE_PAD_X
+            max_x = max(n.x + n.w for n in zone_nodes) + ZONE_PAD_X
+            min_y = min(n.y for n in zone_nodes) - ZONE_PAD_TOP
+            max_y = max(n.y + n.h for n in zone_nodes) + ZONE_PAD_BOTTOM
+            zone.x = min_x
+            zone.y = min_y
+            zone.w = max_x - min_x
+            zone.h = max_y - min_y
+
+    def _grid_layout(self):
+        """Fallback: grid-based sub-column layout."""
 
         # Assign nodes to zones
         zone_map = {z.id: z for z in self.zones}
@@ -376,7 +471,27 @@ class Diagram:
                 )
             return "".join(lines)
 
-        # Standard routing
+        # Use dagre edge points if available
+        dagre_points = getattr(self, "_dagre_edges", {}).get((edge.source, edge.target))
+        if dagre_points and len(dagre_points) >= 2:
+            d = " ".join(
+                f"{'M' if i == 0 else 'L'} {p['x']} {p['y']}"
+                for i, p in enumerate(dagre_points)
+            )
+            lines.append(
+                f'  <path d="{d}" fill="none" stroke="{colour}" stroke-width="2"{dash} '
+                f'marker-end="url(#{marker})"/>\n'
+            )
+            if edge.label:
+                mid = dagre_points[len(dagre_points) // 2]
+                lines.append(
+                    f'  <text x="{mid["x"]}" y="{mid["y"] - 10}" font-size="11" '
+                    f'font-style="italic" text-anchor="middle" fill="{colour}">'
+                    f'{xml_escape(edge.label)}</text>\n'
+                )
+            return "".join(lines)
+
+        # Fallback: standard routing
         sx, sy, tx, ty = self._route_edge(src, tgt)
 
         # Apply perpendicular offset for bidirectional pairs
