@@ -172,8 +172,9 @@ class Diagram:
             ],
             "config": {
                 "rankdir": "LR",
-                "nodesep": 25,
-                "ranksep": 60,
+                "nodesep": 15,
+                "ranksep": 40,
+                "edgesep": 8,
                 "marginx": CANVAS_PAD,
                 "marginy": CANVAS_PAD,
             },
@@ -545,9 +546,25 @@ class Diagram:
                 )
             return "".join(lines)
 
-        # Note: dagre edge points are NOT used — we use our own port distribution
-        # and orthogonal routing for cleaner, evenly-spaced connectors.
-        # dagre is used only for node positioning (Sugiyama layer/crossing optimisation).
+        # Use dagre edge points if available (dagre handles crossing avoidance)
+        dagre_points = getattr(self, "_dagre_edges", {}).get((edge.source, edge.target))
+        if dagre_points and len(dagre_points) >= 2:
+            d = " ".join(
+                f"{'M' if i == 0 else 'L'} {p['x']} {p['y']}"
+                for i, p in enumerate(dagre_points)
+            )
+            lines.append(
+                f'  <path d="{d}" fill="none" stroke="{colour}" stroke-width="2"{dash} '
+                f'marker-end="url(#{marker})"/>\n'
+            )
+            if edge.label:
+                mid = dagre_points[len(dagre_points) // 2]
+                lines.append(
+                    f'  <text x="{mid["x"]}" y="{mid["y"] - 10}" font-size="11" '
+                    f'font-style="italic" text-anchor="middle" fill="{colour}">'
+                    f'{xml_escape(edge.label)}</text>\n'
+                )
+            return "".join(lines)
 
         # Use distributed port positions
         ports = self._edge_ports.get(id(edge))
