@@ -48,10 +48,7 @@ function computeLayout(data) {
     g.setNode(node.id, opts);
   }
 
-  // Add rank constraints via invisible edges if nodes specify a rank group
-  // dagre doesn't have native rank constraints, so we use subgraphs
-  // Actually, we can use the 'rank' property with 'min'/'max'/'same' constraints
-  // But the simplest approach: group nodes by rank and use compound graphs
+  // Group nodes by rank using compound graph (clusters keep zone members together)
   const rankGroups = {};
   for (const node of data.nodes) {
     if (node.rank !== undefined) {
@@ -60,7 +57,6 @@ function computeLayout(data) {
     }
   }
 
-  // Create cluster nodes for rank groups
   for (const [rank, nodeIds] of Object.entries(rankGroups)) {
     const clusterId = `_rank_${rank}`;
     g.setNode(clusterId, { clusterLabelPos: "top" });

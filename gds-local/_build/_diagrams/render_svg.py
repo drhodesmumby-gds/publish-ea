@@ -147,6 +147,16 @@ class Diagram:
             return self._canvas_w, self._canvas_h
         return self._grid_layout()
 
+    def _is_back_edge(self, edge, zone_order):
+        """Check if an edge goes from a higher rank to a lower rank (back-edge)."""
+        src_node = self.get_node(edge.source)
+        tgt_node = self.get_node(edge.target)
+        if not src_node or not tgt_node:
+            return False
+        src_rank = zone_order.get(src_node.zone, 0)
+        tgt_rank = zone_order.get(tgt_node.zone, 0)
+        return tgt_rank < src_rank
+
     def _try_dagre_layout(self):
         """Attempt layout via dagre (Node.js). Returns True on success."""
         layout_script = SCRIPT_DIR / "layout.js"
@@ -168,7 +178,7 @@ class Diagram:
             "edges": [
                 {"source": e.source, "target": e.target}
                 for e in self.edges
-                if not e.dashed  # Skip dashed/special edges from layout
+                if not e.dashed and not self._is_back_edge(e, zone_order)
             ],
             "config": {
                 "rankdir": "LR",
