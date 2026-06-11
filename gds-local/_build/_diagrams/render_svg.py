@@ -158,12 +158,11 @@ class Diagram:
 
         # Calculate zone widths based on number of sub-columns
         for zone in self.zones:
+            zone._n_cols = max((n.col for n in zone.nodes), default=0) + 1
             if zone.width:
                 zone.w = zone.width
             else:
-                n_cols = max((n.col for n in zone.nodes), default=0) + 1
-                zone.w = n_cols * (NODE_W + NODE_PAD_X) + ZONE_PAD_X
-            zone._n_cols = max((n.col for n in zone.nodes), default=0) + 1
+                zone.w = zone._n_cols * (NODE_W + NODE_PAD_X) + ZONE_PAD_X * 2
 
         # Calculate zone heights based on tallest sub-column
         for zone in self.zones:
@@ -189,7 +188,7 @@ class Diagram:
 
         # Position nodes within zones using grid (col, row)
         for zone in self.zones:
-            col_width = (zone.w - ZONE_PAD_X) // max(zone._n_cols, 1)
+            col_width = (zone.w - ZONE_PAD_X * 2) // max(zone._n_cols, 1)
             for node in zone.nodes:
                 node.x = zone.x + ZONE_PAD_X + node.col * col_width + (col_width - node.w) // 2
                 node.y = zone.y + ZONE_PAD_TOP + node.row * (NODE_H + NODE_PAD_Y)
@@ -202,9 +201,25 @@ class Diagram:
     def get_node(self, id):
         return self._node_map.get(id)
 
+    def _build_edge_pairs(self):
+        """Identify bidirectional edge pairs for offset rendering."""
+        self._edge_offsets = {}
+        seen = set()
+        for edge in self.edges:
+            pair_key = tuple(sorted([edge.source, edge.target]))
+            if pair_key in seen:
+                self._edge_offsets[id(edge)] = 8  # Offset second edge
+            else:
+                seen.add(pair_key)
+                self._edge_offsets[id(edge)] = -8 if any(
+                    e for e in self.edges if e is not edge and
+                    tuple(sorted([e.source, e.target])) == pair_key
+                ) else 0
+
     def render(self):
         """Layout and render to SVG string."""
         w, h = self.layout()
+        self._build_edge_pairs()
         parts = []
         parts.append(
             f'<svg viewBox="0 0 {w} {h}" width="100%" height="100%" '
@@ -338,6 +353,7 @@ class Diagram:
         colour = COLOURS.get(edge.style, COLOURS["connector"])
         marker = "arrow-blue" if "blue" in edge.style else "arrow"
         dash = ' stroke-dasharray="4"' if edge.dashed else ""
+        offset = self._edge_offsets.get(id(edge), 0)
 
         lines = []
 
@@ -362,6 +378,17 @@ class Diagram:
 
         # Standard routing
         sx, sy, tx, ty = self._route_edge(src, tgt)
+
+        # Apply perpendicular offset for bidirectional pairs
+        if offset != 0:
+            if abs(sy - ty) < abs(sx - tx):
+                # Primarily horizontal — offset vertically
+                sy += offset
+                ty += offset
+            else:
+                # Primarily vertical — offset horizontally
+                sx += offset
+                tx += offset
 
         # Straight line if aligned horizontally or vertically
         if abs(sy - ty) < 10 or abs(sx - tx) < 10:
@@ -480,6 +507,7 @@ def build_overview_strategic():
         Edge("rules", "gateway"),
         Edge("identity", "gateway"),
         Edge("gateway", "workflow"),
+        Edge("workflow", "gateway"),  # Bidirectional with above
         Edge("workflow", "spatial", "", "connector-blue"),
         Edge("workflow", "edrms", "", "connector-blue"),
         Edge("workflow", "statutory"),
@@ -487,6 +515,8 @@ def build_overview_strategic():
         Edge("workflow", "broker", "", "connector-blue"),
         Edge("broker", "notify"),
         Edge("gateway", "statutory"),
+        Edge("statutory", "gateway"),  # Bidirectional responses
+        Edge("gateway", "register"),   # Async replication to public register
         Edge("rules", "spatial", "Direct UPRN / Constraint Queries", "connector-blue", dashed=True, route="above"),
     ]
 
