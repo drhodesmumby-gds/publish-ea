@@ -7,13 +7,7 @@
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d70b8" />
     </marker>
   </defs>
-  <rect x="25" y="25" width="200" height="185" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="35" y="41" font-size="11" font-weight="bold" fill="#505a5f">CITIZEN INPUT</text>
-  <rect x="285" y="25" width="210" height="185" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="295" y="41" font-size="11" font-weight="bold" fill="#505a5f">PROCESSING</text>
-  <rect x="555" y="25" width="200" height="185" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="565" y="41" font-size="11" font-weight="bold" fill="#505a5f">STORAGE</text>
-  <path d="M 215 80 L 300 80" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="25" y="25" width="200" height="185" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>\n  <text x="35" y="41" font-size="11" font-weight="bold" fill="#505a5f">CITIZEN INPUT</text>\n  <rect x="285" y="25" width="210" height="185" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>\n  <text x="295" y="41" font-size="11" font-weight="bold" fill="#505a5f">PROCESSING</text>\n  <rect x="555" y="25" width="200" height="185" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>\n  <text x="565" y="41" font-size="11" font-weight="bold" fill="#505a5f">STORAGE</text>\n  <path d="M 215 80 L 300 80" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
   <text x="257" y="72" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Fills in form</text>
   <path d="M 480 71 L 565 80" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
   <text x="522" y="67" font-size="11" font-style="italic" text-anchor="middle" fill="#0b0c0c">Generates flat PDF</text>

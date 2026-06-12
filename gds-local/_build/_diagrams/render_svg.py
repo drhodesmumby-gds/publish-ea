@@ -347,14 +347,50 @@ class Diagram:
         return "".join(parts)
 
     def _render_zone(self, zone):
-        return (
-            f'  <rect x="{zone.x}" y="{zone.y}" width="{zone.w}" height="{zone.h}" '
-            f'fill="{COLOURS["zone-fill"]}" stroke="{COLOURS["zone-stroke"]}" '
-            f'stroke-dasharray="4" rx="4"/>\n'
-            f'  <text x="{zone.x + 10}" y="{zone.y + 16}" font-size="11" '
-            f'font-weight="bold" fill="{COLOURS["text-light"]}">'
-            f'{xml_escape(zone.label)}</text>\n'
-        )
+        if zone.id == "backoffice":
+            parts = []
+            workflow_w = 245
+            parts.append(
+                f'  <rect x="{zone.x}" y="{zone.y}" width="{workflow_w}" height="{zone.h}" '
+                f'fill="{COLOURS["zone-fill"]}" stroke="{COLOURS["zone-stroke"]}" '
+                f'stroke-dasharray="4" rx="4"/>\\n'
+                f'  <text x="{zone.x + 10}" y="{zone.y + 16}" font-size="11" '
+                f'font-weight="bold" fill="{COLOURS["text-light"]}">'
+                f'CORE BACK-OFFICE (Workflow)</text>\\n'
+            )
+            
+            data_x = zone.x + workflow_w + ZONE_PAD_X
+            data_w = 220
+            data_h = 175
+            parts.append(
+                f'  <rect x="{data_x}" y="{zone.y}" width="{data_w}" height="{data_h}" '
+                f'fill="{COLOURS["zone-fill"]}" stroke="{COLOURS["zone-stroke"]}" '
+                f'stroke-dasharray="4" rx="4"/>\\n'
+                f'  <text x="{data_x + 10}" y="{zone.y + 16}" font-size="11" '
+                f'font-weight="bold" fill="{COLOURS["text-light"]}">'
+                f'SYSTEMS OF RECORD</text>\\n'
+            )
+            
+            out_y = zone.y + data_h + 10
+            out_h = zone.h - data_h - 10
+            parts.append(
+                f'  <rect x="{data_x}" y="{out_y}" width="{data_w}" height="{out_h}" '
+                f'fill="{COLOURS["zone-fill"]}" stroke="{COLOURS["zone-stroke"]}" '
+                f'stroke-dasharray="4" rx="4"/>\\n'
+                f'  <text x="{data_x + 10}" y="{out_y + 16}" font-size="11" '
+                f'font-weight="bold" fill="{COLOURS["text-light"]}">'
+                f'EVENTING &amp; OUTPUTS</text>\\n'
+            )
+            return "".join(parts)
+        else:
+            return (
+                f'  <rect x="{zone.x}" y="{zone.y}" width="{zone.w}" height="{zone.h}" '
+                f'fill="{COLOURS["zone-fill"]}" stroke="{COLOURS["zone-stroke"]}" '
+                f'stroke-dasharray="4" rx="4"/>\\n'
+                f'  <text x="{zone.x + 10}" y="{zone.y + 16}" font-size="11" '
+                f'font-weight="bold" fill="{COLOURS["text-light"]}">'
+                f'{xml_escape(zone.label)}</text>\\n'
+            )
 
     def _render_node(self, node):
         stroke = COLOURS.get(node.style, COLOURS["system"])
@@ -450,12 +486,39 @@ class Diagram:
         marker = "arrow-blue" if "blue" in edge.style else "arrow"
         dash = ' stroke-dasharray="4"' if edge.dashed else ""
 
-        if edge.route == "above":
-            top_y = CANVAS_PAD - 5
+        if edge.route == "wrap_around":
+            top_y = CANVAS_PAD + 5
+            wrap_x = max((z.x + z.w for z in self.zones), default=800) + ZONE_PAD_X * 2
+            sx, sy = src.edge_point("top")
+            tx, ty = tgt.edge_point("right")
+            path_d = f"M {sx} {sy} L {sx} {top_y} L {wrap_x} {top_y} L {wrap_x} {ty} L {tx} {ty}"
+            lx, ly = (sx + wrap_x) // 2, top_y - 6
+            return self._format_edge(path_d, colour, dash, marker, edge.label, lx, ly)
+
+        elif edge.route == "step_down_right":
+            sx, sy = src.edge_point("bottom")
+            tx, ty = tgt.edge_point("left")
+            cy = src.bottom + NODE_PAD_Y // 2
+            cx = src.right + ZONE_PAD_X // 2
+            path_d = f"M {sx} {sy} L {sx} {cy} L {cx} {cy} L {cx} {ty} L {tx} {ty}"
+            lx, ly = cx, (sy + ty) // 2
+            return self._format_edge(path_d, colour, dash, marker, edge.label, lx, ly)
+
+        elif edge.route == "around_node_right":
             sx, sy = src.edge_point("right")
-            tx, ty = tgt.edge_point("top")
-            path_d = f"M {sx} {sy} L {sx + 15} {sy} L {sx + 15} {top_y} L {tx} {top_y} L {tx} {ty}"
-            return self._format_edge(path_d, colour, dash, marker, edge.label, (sx + tx) // 2, top_y - 6)
+            tx, ty = tgt.edge_point("right")
+            wrap_x = src.right + ZONE_PAD_X
+            path_d = f"M {sx} {sy} L {wrap_x} {sy} L {wrap_x} {ty} L {tx} {ty}"
+            lx, ly = wrap_x, (sy + ty) // 2
+            return self._format_edge(path_d, colour, dash, marker, edge.label, lx, ly)
+            
+        elif edge.route == "channel_horizontal":
+            sx, sy = src.edge_point("right")
+            tx, ty = tgt.edge_point("left")
+            sy = ty  # Force perfect horizontal line based on target
+            path_d = f"M {sx} {sy} L {tx} {ty}"
+            lx, ly = (sx + tx) // 2, ty - 6
+            return self._format_edge(path_d, colour, dash, marker, edge.label, lx, ly)
 
         ports = self._edge_ports.get(id(edge))
         if ports and ports[0] and ports[1]:
@@ -465,26 +528,8 @@ class Diagram:
             sx, sy = src.cx, src.cy
             tx, ty = tgt.cx, tgt.cy
 
-        # Determine if we are skipping a node vertically
-        is_vertical_skip = False
-        if abs(src.cx - tgt.cx) < 30 and abs(sy - ty) > src.h + 30:
-            is_vertical_skip = True
-
-        if is_vertical_skip:
-            # Use a curved line that bows out to avoid the intermediate node
-            # The Q curve's max X is roughly midway to the control point.
-            # We push the control point far enough to ensure the curve clears the right edge.
-            node_right_edge = max(src.x + src.w, tgt.x + tgt.w)
-            bow_x = node_right_edge + 120
-            path_d = f"M {sx} {sy} Q {bow_x} {(sy + ty) // 2} {tx} {ty}"
-            
-            # Place label at the apex of the curve
-            apex_x = (sx + tx) / 4 + bow_x / 2
-            lx, ly = apex_x, (sy + ty) // 2
-        else:
-            # Just draw a straight line!
-            path_d = f"M {sx} {sy} L {tx} {ty}"
-            lx, ly = (sx + tx) // 2, (sy + ty) // 2 - 8
+        path_d = f"M {sx} {sy} L {tx} {ty}"
+        lx, ly = (sx + tx) // 2, (sy + ty) // 2 - 8
 
         return self._format_edge(path_d, colour, dash, marker, edge.label, lx, ly)
 
@@ -506,58 +551,62 @@ class Diagram:
 # ---------------------------------------------------------------------------
 
 def build_overview_strategic():
-    """Define the overview diagram declaratively."""
+    """Define the overview diagram declaratively using formalized route hints."""
     zones = [
-        Zone("presentation", "PUBLIC / PRESENTATION", width=220),
-        Zone("integration", "INTEGRATION", width=110),
-        Zone("backoffice", "CORE BACK-OFFICE & DATA"),  # Auto-width from 2 sub-columns
+        Zone("presentation", "PUBLIC / PRESENTATION", width=225),
+        Zone("integration", "INTEGRATION", width=120),
+        Zone("backoffice", "CORE BACK-OFFICE & DATA", width=545),
     ]
 
     nodes = [
-        # Presentation (single column) — Rules Engine first so its connector
-        # to Gateway doesn't cross through Identity/Auth
-        Node("identity", "Identity / Auth", "Agent SSO (OIDC)", "system", "presentation", row=1, col=0),
+        # Presentation
         Node("rules", "Rules Engine (Forms)", "e.g. PlanX", "system-green", "presentation", row=0, col=0),
-        Node("register", "Public Register", "Edge-cached / Read-replica", "system-green", "presentation", row=2, col=0),
-        # Integration (single column, tall gateway)
+        Node("identity", "Identity / Auth", "Agent SSO (OIDC)", "system", "presentation", row=1, col=0),
+        Node("register", "Public Register", "Edge-cached / Read-replica", "system-green", "presentation", row=4, col=0),
+        
+        # Integration
         Node("gateway", "API Gateway", "", "integration", "integration", row=0, col=0),
+        
         # Back-office col 0: core processing systems
         Node("workflow", "Case Management", "(Workflow Engine)", "system", "backoffice", row=0, col=0),
         Node("statutory", "Statutory Consultees", "External APIs", "external", "backoffice", row=1, col=0),
         Node("payment", "Payment Gateway", "GOV.UK Pay", "system", "backoffice", row=2, col=0),
+        
         # Back-office col 1: data stores and outputs
         Node("spatial", "Spatial DB", "", "database", "backoffice", row=0, col=1),
         Node("edrms", "EDRMS (Docs)", "", "database", "backoffice", row=1, col=1),
         Node("broker", "Event Broker", "Pub/Sub", "system", "backoffice", row=2, col=1),
         Node("notify", "GOV.UK Notify", "", "external", "backoffice", row=3, col=1),
+        Node("planningdata", "planning.data.gov.uk", "", "external", "backoffice", row=4, col=1),
     ]
 
-    # Make gateway tall and narrow
     for n in nodes:
         if n.id == "gateway":
-            n.w = 80
-            n.h = 250
+            n.w = 85
+            n.h = 340
 
     edges = [
         Edge("rules", "gateway"),
         Edge("identity", "gateway"),
+        Edge("rules", "payment", "Browser Redirect to GOV.UK Pay", "connector-blue", dashed=True, route="wrap_around"),
+        Edge("payment", "gateway", "Webhook"),
+        
         Edge("gateway", "workflow"),
-        Edge("workflow", "gateway"),  # Bidirectional with above
+        Edge("workflow", "gateway"),
+        Edge("gateway", "statutory"),
+        Edge("statutory", "gateway"),
+        Edge("gateway", "register", "Sync", dashed=True),
+        
+        Edge("rules", "gateway", "", "connector-blue", route="channel_horizontal"),
+        Edge("gateway", "spatial", "Spatial Query (via API)", "connector-blue", dashed=True, route="channel_horizontal"),
+        
         Edge("workflow", "spatial", "", "connector-blue"),
         Edge("workflow", "edrms", "", "connector-blue"),
-        Edge("workflow", "statutory"),
-        Edge("workflow", "payment"),
-        Edge("workflow", "broker", "", "connector-blue"),
+        Edge("workflow", "broker", "", "connector-blue", route="step_down_right"),
+        
         Edge("broker", "notify"),
-        Edge("gateway", "statutory"),
-        Edge("statutory", "gateway"),  # Bidirectional responses
-        Edge("gateway", "register"),   # Async replication to public register
-        Edge("rules", "spatial", "Direct UPRN / Constraint Queries", "connector-blue", dashed=True, route="above"),
+        Edge("broker", "planningdata", "", "connector-blue", dashed=True, route="around_node_right"),
     ]
-
-    # Node ordering: dagre uses insertion order as initial hint for within-rank ordering.
-    # Rules Engine is listed before Identity in the nodes list so dagre places it
-    # vertically closer to Case Management (avoiding connector crossing through Identity).
 
     return Diagram(zones=zones, nodes=nodes, edges=edges, title="overview-strategic")
 
