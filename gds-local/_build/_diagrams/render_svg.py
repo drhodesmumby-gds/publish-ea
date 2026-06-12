@@ -48,12 +48,12 @@ COLOURS = {
 # Layout constants
 NODE_W = 180
 NODE_H = 50
-NODE_PAD_X = 20
+NODE_PAD_X = 50
 NODE_PAD_Y = 20
 ZONE_PAD_TOP = 30
 ZONE_PAD_BOTTOM = 15
 ZONE_PAD_X = 15
-ZONE_GAP = 15
+ZONE_GAP = 60
 CANVAS_PAD = 25
 
 
@@ -141,10 +141,8 @@ class Diagram:
         self._node_map = {}
 
     def layout(self):
-        """Calculate positions using dagre if available, else grid fallback."""
+        """Calculate positions using deterministic grid layout."""
         self._node_map = {n.id: n for n in self.nodes}
-        if self._try_dagre_layout():
-            return self._canvas_w, self._canvas_h
         return self._grid_layout()
 
     def _is_back_edge(self, edge, zone_order):
@@ -156,134 +154,6 @@ class Diagram:
         src_rank = zone_order.get(src_node.zone, 0)
         tgt_rank = zone_order.get(tgt_node.zone, 0)
         return tgt_rank < src_rank
-
-    def _try_dagre_layout(self):
-        """Attempt layout via dagre (Node.js). Returns True on success."""
-        layout_script = SCRIPT_DIR / "layout.js"
-        if not layout_script.exists():
-            return False
-
-        # Build dagre input — rank maps to our zone ordering
-        # Sort nodes by (rank, row) so dagre's initial ordering respects our hints
-        zone_order = {z.id: i for i, z in enumerate(self.zones)}
-        sorted_nodes = sorted(self.nodes, key=lambda n: (zone_order.get(n.zone, 0), n.row or 0))
-
-        dagre_input = {
-            "nodes": [
-                {
-                    "id": n.id,
-                    "width": n.w,
-                    "height": n.h,
-                    "rank": zone_order.get(n.zone, 0),
-                }
-                for n in sorted_nodes
-            ],
-            "edges": [
-                {
-                    "source": e.source,
-                    "target": e.target,
-                    "weight": 0 if e.route == "ordering" else 1,
-                    "minlen": 0 if e.route == "ordering" else 1,
-                }
-                for e in self.edges
-                if not e.dashed and not self._is_back_edge(e, zone_order) and e.route != "above"
-            ],
-            "config": {
-                "rankdir": "LR",
-                "nodesep": 20,
-                "ranksep": 60,
-                "edgesep": 15,
-                "marginx": CANVAS_PAD,
-                "marginy": CANVAS_PAD,
-            },
-        }
-
-        try:
-            result = subprocess.run(
-                ["node", str(layout_script)],
-                input=json.dumps(dagre_input),
-                capture_output=True,
-                text=True,
-                timeout=10,
-            )
-            if result.returncode != 0:
-                return False
-
-            output = json.loads(result.stdout)
-        except (subprocess.TimeoutExpired, json.JSONDecodeError, FileNotFoundError):
-            return False
-
-        # Apply dagre positions to our nodes (dagre returns top-left coordinates)
-        pos_map = {n["id"]: n for n in output["nodes"]}
-        for node in self.nodes:
-            if node.id in pos_map:
-                p = pos_map[node.id]
-                node.x = p["x"]
-                node.y = p["y"]
-
-        # Store edge routing points, with clearance post-processing
-        self._dagre_edges = {}
-        for e in output["edges"]:
-            points = e["points"]
-            # Trim first and last points to stop short of node borders
-            if len(points) >= 2:
-                points = self._apply_edge_clearance(points, e["source"], e["target"])
-            self._dagre_edges[(e["source"], e["target"])] = points
-
-        # Calculate zone boundaries from node positions
-        self._compute_zones_from_positions()
-
-        self._canvas_w = output["graph"]["width"]
-        self._canvas_h = output["graph"]["height"]
-        return True
-
-    def _apply_edge_clearance(self, points, src_id, tgt_id):
-        """Nudge edge intermediate points that run along node borders outward."""
-        CLEARANCE = 8
-        result = list(points)
-
-        # Check each intermediate point against all nodes
-        for i in range(1, len(result) - 1):
-            p = result[i]
-            for node in self.nodes:
-                if node.id == src_id or node.id == tgt_id:
-                    continue
-                # If point is within CLEARANCE of a node edge, nudge it out
-                if (node.x - CLEARANCE <= p["x"] <= node.x + node.w + CLEARANCE and
-                    node.y - CLEARANCE <= p["y"] <= node.y + node.h + CLEARANCE):
-                    # Determine which edge it's near and nudge away
-                    dist_left = abs(p["x"] - node.x)
-                    dist_right = abs(p["x"] - (node.x + node.w))
-                    dist_top = abs(p["y"] - node.y)
-                    dist_bottom = abs(p["y"] - (node.y + node.h))
-                    min_dist = min(dist_left, dist_right, dist_top, dist_bottom)
-                    if min_dist < CLEARANCE:
-                        if min_dist == dist_left:
-                            result[i] = {**p, "x": node.x - CLEARANCE}
-                        elif min_dist == dist_right:
-                            result[i] = {**p, "x": node.x + node.w + CLEARANCE}
-                        elif min_dist == dist_top:
-                            result[i] = {**p, "y": node.y - CLEARANCE}
-                        else:
-                            result[i] = {**p, "y": node.y + node.h + CLEARANCE}
-
-        return result
-
-    def _compute_zones_from_positions(self):
-        """Calculate zone boundaries by finding the bounding box of nodes in each zone."""
-        zone_map = {z.id: z for z in self.zones}
-        for zone in self.zones:
-            zone_nodes = [n for n in self.nodes if n.zone == zone.id]
-            if not zone_nodes:
-                continue
-            min_x = min(n.x for n in zone_nodes) - ZONE_PAD_X
-            max_x = max(n.x + n.w for n in zone_nodes) + ZONE_PAD_X
-            min_y = min(n.y for n in zone_nodes) - ZONE_PAD_TOP
-            max_y = max(n.y + n.h for n in zone_nodes) + ZONE_PAD_BOTTOM
-            zone.x = min_x
-            zone.y = min_y
-            zone.w = max_x - min_x
-            zone.h = max_y - min_y
 
     def _grid_layout(self):
         """Fallback: grid-based sub-column layout."""
@@ -570,7 +440,7 @@ class Diagram:
 
     def _render_edge(self, edge):
         if edge.route == "ordering":
-            return ""  # Invisible layout hint, not rendered
+            return ""  # Invisible layout hint
         src = self.get_node(edge.source)
         tgt = self.get_node(edge.target)
         if not src or not tgt:
@@ -580,146 +450,56 @@ class Diagram:
         marker = "arrow-blue" if "blue" in edge.style else "arrow"
         dash = ' stroke-dasharray="4"' if edge.dashed else ""
 
-        lines = []
-
-        # Route "above" — connector goes up from source, across the top, down to target
         if edge.route == "above":
-            top_y = CANVAS_PAD - 5  # Above all zones
-            # Route: right edge of source → up to top → across to target x → down to target top
-            # This avoids the vertical segment clipping adjacent nodes
+            top_y = CANVAS_PAD - 5
             sx, sy = src.edge_point("right")
             tx, ty = tgt.edge_point("top")
-            lines.append(
-                f'  <path d="M {sx} {sy} L {sx + 15} {sy} L {sx + 15} {top_y} L {tx} {top_y} L {tx} {ty}" '
-                f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
-                f'marker-end="url(#{marker})"/>\n'
-            )
-            if edge.label:
-                lx = (sx + tx) // 2
-                ly = top_y - 6
-                lines.append(
-                    f'  <text x="{lx}" y="{ly}" font-size="11" font-style="italic" '
-                    f'text-anchor="middle" fill="{colour}">{xml_escape(edge.label)}</text>\n'
-                )
-            return "".join(lines)
+            path_d = f"M {sx} {sy} L {sx + 15} {sy} L {sx + 15} {top_y} L {tx} {top_y} L {tx} {ty}"
+            return self._format_edge(path_d, colour, dash, marker, edge.label, (sx + tx) // 2, top_y - 6)
 
-        # Use dagre edge points if available (dagre handles crossing avoidance)
-        dagre_points = getattr(self, "_dagre_edges", {}).get((edge.source, edge.target))
-        if dagre_points and len(dagre_points) >= 2:
-            d = " ".join(
-                f"{'M' if i == 0 else 'L'} {p['x']} {p['y']}"
-                for i, p in enumerate(dagre_points)
-            )
-            lines.append(
-                f'  <path d="{d}" fill="none" stroke="{colour}" stroke-width="2"{dash} '
-                f'marker-end="url(#{marker})"/>\n'
-            )
-            if edge.label:
-                mid = dagre_points[len(dagre_points) // 2]
-                lines.append(
-                    f'  <text x="{mid["x"]}" y="{mid["y"] - 10}" font-size="11" '
-                    f'font-style="italic" text-anchor="middle" fill="{colour}">'
-                    f'{xml_escape(edge.label)}</text>\n'
-                )
-            return "".join(lines)
-
-        # Use distributed port positions
         ports = self._edge_ports.get(id(edge))
         if ports and ports[0] and ports[1]:
             sx, sy = ports[0]
             tx, ty = ports[1]
         else:
-            sx, sy, tx, ty = self._route_edge(src, tgt)
+            sx, sy = src.cx, src.cy
+            tx, ty = tgt.cx, tgt.cy
 
-        # Route connector with orthogonal segments, ensuring the final
-        # segment is perpendicular to the target edge (so arrows point inward)
-        if abs(sy - ty) < 5:
-            # Horizontal: straight line
-            lines.append(
-                f'  <line x1="{sx}" y1="{sy}" x2="{tx}" y2="{ty}" '
-                f'stroke="{colour}" stroke-width="2"{dash} '
-                f'marker-end="url(#{marker})"/>\n'
-            )
-        elif abs(sx - tx) < 5:
-            # Vertical: straight line
-            lines.append(
-                f'  <line x1="{sx}" y1="{sy}" x2="{tx}" y2="{ty}" '
-                f'stroke="{colour}" stroke-width="2"{dash} '
-                f'marker-end="url(#{marker})"/>\n'
-            )
+        # Determine if we are skipping a node vertically
+        is_vertical_skip = False
+        if abs(src.cx - tgt.cx) < 30 and abs(sy - ty) > src.h + 30:
+            is_vertical_skip = True
+
+        if is_vertical_skip:
+            # Use a curved line that bows out to avoid the intermediate node
+            # The Q curve's max X is roughly midway to the control point.
+            # We push the control point far enough to ensure the curve clears the right edge.
+            node_right_edge = max(src.x + src.w, tgt.x + tgt.w)
+            bow_x = node_right_edge + 120
+            path_d = f"M {sx} {sy} Q {bow_x} {(sy + ty) // 2} {tx} {ty}"
+            
+            # Place label at the apex of the curve
+            apex_x = (sx + tx) / 4 + bow_x / 2
+            lx, ly = apex_x, (sy + ty) // 2
         else:
-            # L-shaped: route so the LAST segment is perpendicular to target edge
-            # Determine target side from port position relative to target node
-            tgt_side = self._determine_sides(src, tgt)[1] if ports else "left"
-            if tgt_side in ("left", "right"):
-                # Target is on a vertical edge: final segment must be horizontal
-                # So go vertical first, then horizontal into target
-                lines.append(
-                    f'  <path d="M {sx} {sy} L {sx} {ty} L {tx} {ty}" '
-                    f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
-                    f'marker-end="url(#{marker})"/>\n'
-                )
-            else:
-                # Target is on a horizontal edge: final segment must be vertical
-                # So go horizontal first, then vertical into target
-                lines.append(
-                    f'  <path d="M {sx} {sy} L {tx} {sy} L {tx} {ty}" '
-                    f'fill="none" stroke="{colour}" stroke-width="2"{dash} '
-                    f'marker-end="url(#{marker})"/>\n'
-                )
+            # Just draw a straight line!
+            path_d = f"M {sx} {sy} L {tx} {ty}"
+            lx, ly = (sx + tx) // 2, (sy + ty) // 2 - 8
 
-        # Label
-        if edge.label:
-            lx = (sx + tx) // 2
-            ly = min(sy, ty) - 8
+        return self._format_edge(path_d, colour, dash, marker, edge.label, lx, ly)
+
+    def _format_edge(self, path_d, colour, dash, marker, label, lx, ly):
+        lines = []
+        lines.append(
+            f'  <path d="{path_d}" fill="none" stroke="{colour}" stroke-width="2"{dash} '
+            f'marker-end="url(#{marker})"/>\n'
+        )
+        if label:
             lines.append(
                 f'  <text x="{lx}" y="{ly}" font-size="11" font-style="italic" '
-                f'text-anchor="middle" fill="{colour}">{xml_escape(edge.label)}</text>\n'
+                f'text-anchor="middle" fill="{colour}">{xml_escape(label)}</text>\n'
             )
-
         return "".join(lines)
-
-    def _route_edge(self, src, tgt):
-        """Determine connection points with clearance padding."""
-        PAD = 4  # Clearance so arrows don't overlap borders
-
-        # Horizontal relationship (nodes in different zones, same-ish row)
-        if abs(src.cy - tgt.cy) < NODE_H:
-            if src.cx < tgt.cx:
-                sx, sy = src.edge_point("right")
-                tx, ty = tgt.edge_point("left")
-                return (sx + PAD, sy, tx - PAD, ty)
-            else:
-                sx, sy = src.edge_point("left")
-                tx, ty = tgt.edge_point("right")
-                return (sx - PAD, sy, tx + PAD, ty)
-
-        # Vertical relationship (same zone or close X)
-        if abs(src.cx - tgt.cx) < NODE_W:
-            if src.cy < tgt.cy:
-                sx, sy = src.edge_point("bottom")
-                tx, ty = tgt.edge_point("top")
-                return (sx, sy + PAD, tx, ty - PAD)
-            else:
-                sx, sy = src.edge_point("top")
-                tx, ty = tgt.edge_point("bottom")
-                return (sx, sy - PAD, tx, ty + PAD)
-
-        # Diagonal — connect nearest edges
-        if src.cx < tgt.cx:
-            sx, sy = src.edge_point("right")
-            sx += PAD
-        else:
-            sx, sy = src.edge_point("left")
-            sx -= PAD
-        if src.cy < tgt.cy:
-            tx, ty = tgt.edge_point("top")
-            ty -= PAD
-        else:
-            tx, ty = tgt.edge_point("bottom")
-            ty += PAD
-        return (sx, sy, tx, ty)
-
 
 # ---------------------------------------------------------------------------
 # Diagram Definitions
