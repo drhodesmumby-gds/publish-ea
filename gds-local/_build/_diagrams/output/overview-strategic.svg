@@ -1,4 +1,4 @@
-<svg viewBox="0 0 1270 430" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="font-family: 'GDS Transport', Arial, sans-serif;">
+<svg viewBox="0 0 990 375" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style="font-family: 'GDS Transport', Arial, sans-serif;">
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#0b0c0c" />
@@ -7,58 +7,58 @@
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#1d70b8" />
     </marker>
   </defs>
-  <rect x="40" y="113" width="210" height="235" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="50" y="129" font-size="11" font-weight="bold" fill="#505a5f">PUBLIC / PRESENTATION</text>
-  <rect x="340" y="33" width="110" height="295" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="350" y="49" font-size="11" font-weight="bold" fill="#505a5f">INTEGRATION</text>
-  <rect x="540" y="28" width="690" height="375" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
-  <text x="550" y="44" font-size="11" font-weight="bold" fill="#505a5f">CORE BACK-OFFICE &amp; DATA</text>
-  <path d="M 235 238 L 265 238 L 295 238 L 325 238 L 355 216" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 235 168 L 265 168 L 295 168 L 325 168 L 355 176" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 435 212 L 465 230 L 495 230 L 525 230 L 555 230" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 555 238 L 555 163 L 435 163" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 665 205 L 765 83 L 795 83" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
-  <path d="M 735 224 L 765 223 L 795 223" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
-  <path d="M 705 205 L 765 180 L 795 173" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 693 255 L 765 293 L 795 293" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 668 255 L 765 363 L 795 363" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
-  <path d="M 975 363 L 1005 363 L 1035 363" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 435 155 L 465 131 L 495 131 L 525 131 L 645 131 L 765 131 L 795 137" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 795 165 L 795 263 L 435 263" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 355 250 L 355 308 L 235 308" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
-  <path d="M 235 238 L 250 238 L 250 20 L 885 20 L 885 58" fill="none" stroke="#1d70b8" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow-blue)"/>
-  <text x="560" y="14" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Direct UPRN / Constraint Queries</text>
-  <rect x="55" y="143" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
-  <text x="145" y="163" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Identity / Auth</text>
-  <text x="145" y="180" font-size="11" text-anchor="middle" fill="#505a5f">Agent SSO (OIDC)</text>
-  <rect x="55" y="213" width="180" height="50" fill="#ffffff" stroke="#00703c" stroke-width="2" rx="4"/>
-  <text x="145" y="233" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Rules Engine (Forms)</text>
-  <text x="145" y="250" font-size="11" text-anchor="middle" fill="#505a5f">e.g. PlanX</text>
-  <rect x="55" y="283" width="180" height="50" fill="#ffffff" stroke="#00703c" stroke-width="2" rx="4"/>
-  <text x="145" y="303" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Public Register</text>
-  <text x="145" y="320" font-size="11" text-anchor="middle" fill="#505a5f">Edge-cached / Read-replica</text>
-  <rect x="355" y="63" width="80" height="250" fill="#1d70b8" rx="4"/>
-  <text x="395" y="188" font-size="14" font-weight="bold" text-anchor="middle" fill="#ffffff" transform="rotate(-90 395 188)">API Gateway</text>
-  <rect x="555" y="205" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
-  <text x="645" y="225" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Case Management</text>
-  <text x="645" y="242" font-size="11" text-anchor="middle" fill="#505a5f">(Workflow Engine)</text>
-  <rect x="795" y="128" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
-  <text x="885" y="148" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Statutory Consultees</text>
-  <text x="885" y="165" font-size="11" text-anchor="middle" fill="#505a5f">External APIs</text>
-  <rect x="795" y="268" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
-  <text x="885" y="288" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Payment Gateway</text>
-  <text x="885" y="305" font-size="11" text-anchor="middle" fill="#505a5f">GOV.UK Pay</text>
-  <path d="M 795 70 L 975 70 L 975 108 L 795 108 Z" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
-  <path d="M 795 70 Q 885 80 975 70" fill="none" stroke="#505a5f" stroke-width="1"/>
-  <ellipse cx="885" cy="70" rx="90" ry="10" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
-  <text x="885" y="91" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Spatial DB</text>
-  <path d="M 795 210 L 975 210 L 975 248 L 795 248 Z" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
-  <path d="M 795 210 Q 885 220 975 210" fill="none" stroke="#505a5f" stroke-width="1"/>
-  <ellipse cx="885" cy="210" rx="90" ry="10" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
-  <text x="885" y="231" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">EDRMS (Docs)</text>
-  <rect x="795" y="338" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
-  <text x="885" y="358" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Event Broker</text>
-  <text x="885" y="375" font-size="11" text-anchor="middle" fill="#505a5f">Pub/Sub</text>
-  <rect x="1035" y="338" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
-  <text x="1125" y="368" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">GOV.UK Notify</text>
+  <rect x="25" y="25" width="220" height="325" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
+  <text x="35" y="41" font-size="11" font-weight="bold" fill="#505a5f">PUBLIC / PRESENTATION</text>
+  <rect x="305" y="25" width="110" height="325" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
+  <text x="315" y="41" font-size="11" font-weight="bold" fill="#505a5f">INTEGRATION</text>
+  <rect x="475" y="25" width="490" height="325" fill="#f8f8f8" stroke="#b1b4b6" stroke-dasharray="4" rx="4"/>
+  <text x="485" y="41" font-size="11" font-weight="bold" fill="#505a5f">CORE BACK-OFFICE &amp; DATA</text>
+  <path d="M 225 80 L 320 117" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 225 150 L 320 180" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 400 105 L 515 71" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 515 88 L 400 155" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 695 67 L 745 80" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <path d="M 695 80 L 745 150" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <path d="M 575 105 L 605 125" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 635 105 Q 815 150 605 195" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 695 92 L 745 220" fill="none" stroke="#1d70b8" stroke-width="2" marker-end="url(#arrow-blue)"/>
+  <path d="M 835 245 L 835 265" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 400 205 L 515 141" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 515 158 L 400 255" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 320 242 L 225 220" fill="none" stroke="#0b0c0c" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 225 80 L 240 80 L 240 20 L 835 20 L 835 55" fill="none" stroke="#1d70b8" stroke-width="2" stroke-dasharray="4" marker-end="url(#arrow-blue)"/>
+  <text x="530" y="14" font-size="11" font-style="italic" text-anchor="middle" fill="#1d70b8">Direct UPRN / Constraint Queries</text>
+  <rect x="45" y="125" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
+  <text x="135" y="145" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Identity / Auth</text>
+  <text x="135" y="162" font-size="11" text-anchor="middle" fill="#505a5f">Agent SSO (OIDC)</text>
+  <rect x="45" y="55" width="180" height="50" fill="#ffffff" stroke="#00703c" stroke-width="2" rx="4"/>
+  <text x="135" y="75" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Rules Engine (Forms)</text>
+  <text x="135" y="92" font-size="11" text-anchor="middle" fill="#505a5f">e.g. PlanX</text>
+  <rect x="45" y="195" width="180" height="50" fill="#ffffff" stroke="#00703c" stroke-width="2" rx="4"/>
+  <text x="135" y="215" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Public Register</text>
+  <text x="135" y="232" font-size="11" text-anchor="middle" fill="#505a5f">Edge-cached / Read-replica</text>
+  <rect x="320" y="55" width="80" height="250" fill="#1d70b8" rx="4"/>
+  <text x="360" y="180" font-size="14" font-weight="bold" text-anchor="middle" fill="#ffffff" transform="rotate(-90 360 180)">API Gateway</text>
+  <rect x="515" y="55" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
+  <text x="605" y="75" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Case Management</text>
+  <text x="605" y="92" font-size="11" text-anchor="middle" fill="#505a5f">(Workflow Engine)</text>
+  <rect x="515" y="125" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
+  <text x="605" y="145" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Statutory Consultees</text>
+  <text x="605" y="162" font-size="11" text-anchor="middle" fill="#505a5f">External APIs</text>
+  <rect x="515" y="195" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
+  <text x="605" y="215" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Payment Gateway</text>
+  <text x="605" y="232" font-size="11" text-anchor="middle" fill="#505a5f">GOV.UK Pay</text>
+  <path d="M 745 67 L 925 67 L 925 105 L 745 105 Z" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
+  <path d="M 745 67 Q 835 77 925 67" fill="none" stroke="#505a5f" stroke-width="1"/>
+  <ellipse cx="835" cy="67" rx="90" ry="10" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
+  <text x="835" y="88" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Spatial DB</text>
+  <path d="M 745 137 L 925 137 L 925 175 L 745 175 Z" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
+  <path d="M 745 137 Q 835 147 925 137" fill="none" stroke="#505a5f" stroke-width="1"/>
+  <ellipse cx="835" cy="137" rx="90" ry="10" fill="#ffffff" stroke="#505a5f" stroke-width="2"/>
+  <text x="835" y="158" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">EDRMS (Docs)</text>
+  <rect x="745" y="195" width="180" height="50" fill="#ffffff" stroke="#1d70b8" stroke-width="2" rx="4"/>
+  <text x="835" y="215" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">Event Broker</text>
+  <text x="835" y="232" font-size="11" text-anchor="middle" fill="#505a5f">Pub/Sub</text>
+  <rect x="745" y="265" width="180" height="50" fill="#ffffff" stroke="#0b0c0c" stroke-width="2" rx="4"/>
+  <text x="835" y="295" font-size="14" font-weight="bold" text-anchor="middle" fill="#0b0c0c">GOV.UK Notify</text>
 </svg>
