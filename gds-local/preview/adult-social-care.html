@@ -141,8 +141,8 @@
     .app-sidebar {
       background: #f3f2f1;
       border-right: 1px solid #b1b4b6;
-      width: 180px;
-      min-width: 180px;
+      width: 260px;
+      min-width: 260px;
       flex-shrink: 0;
       padding: 20px 15px;
       position: sticky;
@@ -191,6 +191,67 @@
         max-height: none;
       }
     }
+
+    /* Shared component styles */
+    .feature-box {
+      border-top: 4px solid #1d70b8;
+      background: #f3f2f1;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .arch-diagram-container {
+      background: #fff;
+      border: 1px solid #b1b4b6;
+      padding: 20px;
+      margin: 30px 0;
+      overflow-x: auto;
+    }
+
+    .capability-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: #e5e5e5;
+      color: #0b0c0c;
+      font-size: 14px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      border: 1px solid #b1b4b6;
+    }
+
+    .pattern-group { margin-bottom: 20px; }
+    .pattern-tag { display: inline-block; padding: 2px 8px; font-weight: bold; font-size: 14px; margin-bottom: 5px; }
+    .pattern-tag--target { background: #00703c; color: #fff; }
+    .pattern-tag--anti { background: #d4351c; color: #fff; }
+
+    .phase-number {
+      display: inline-block;
+      background: #1d70b8;
+      color: #fff;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      line-height: 24px;
+      margin-right: 10px;
+      font-size: 14px;
+    }
+
+    /* Value stream cards (hub pages) */
+    .value-stream-card {
+      border: 1px solid #b1b4b6;
+      padding: 20px;
+      height: 100%;
+      background-color: #fff;
+      transition: box-shadow 0.2s ease-in-out;
+    }
+    .value-stream-card:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-color: #1d70b8;
+    }
+    .value-stream-card__title { margin-top: 0; margin-bottom: 10px; }
+    .value-stream-card__link { text-decoration: none; color: #1d70b8; }
+    .value-stream-card__link:hover { text-decoration: underline; }
   </style>
 </head>
 

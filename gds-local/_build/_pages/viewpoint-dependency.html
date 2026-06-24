@@ -1,0 +1,348 @@
+---
+title: Architecture view - Adult Social Care
+caption: LGAM Viewpoints
+status: draft
+---
+<style>
+    #asc-graph {
+      width: 100%;
+      height: 700px;
+      border: 1px solid #b1b4b6;
+      background: #ffffff;
+    }
+
+    .graph-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
+      padding: 15px;
+      background: #f3f2f1;
+      border: 1px solid #b1b4b6;
+    }
+
+    .graph-legend__section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .graph-legend__title {
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #505a5f;
+    }
+
+    .graph-legend__item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: "GDS Transport", arial, sans-serif;
+      font-size: 12px;
+    }
+
+    .graph-legend__dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .graph-legend__line {
+      width: 20px;
+      height: 2px;
+      flex-shrink: 0;
+    }
+
+    .graph-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+</style>
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#graph">Graph view</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#archimate">ArchiMate mapping</a></li>
+</nav-contents>
+<main-content>
+          <span class="govuk-caption-xl">LGAM Viewpoints</span>
+          <h1 class="govuk-heading-xl">Architecture view: Adult Social Care</h1>
+
+          <h2 class="govuk-heading-l" id="about">About this view</h2>
+          <p class="govuk-body-l">An interactive graph showing a council's adult social care technology architecture, using LGAM layers and relationship types.</p>
+          <p class="govuk-body">Nodes represent specific systems, services, and components. Edges represent LGAM relationships (ROUTES TO, USES, SUPPORTS, ENABLES, SECURES). Colours indicate which LGAM layer the element belongs to.</p>
+          <p class="govuk-body">This is illustrative — each council would populate with their own systems. A mapping to ArchiMate terminology is provided below for architects who need formal modelling interoperability.</p>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <h2 class="govuk-heading-l" id="graph">Graph view</h2>
+
+          <div class="graph-controls">
+            <button class="govuk-button govuk-button--secondary" id="graphFit" data-module="govuk-button">Fit to view</button>
+            <button class="govuk-button govuk-button--secondary" id="graphPhysics" data-module="govuk-button">Toggle physics</button>
+          </div>
+
+          <div id="asc-graph"></div>
+
+          <!-- Legend -->
+          <div class="graph-legend">
+            <div class="graph-legend__section">
+              <span class="graph-legend__title">LGAM Layers (node colour)</span>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #CC00CC;"></span> Channels</div>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #800080;"></span> Interfaces</div>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #000080;"></span> Capabilities</div>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #0000FF;"></span> Business Areas</div>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #008080;"></span> Foundational Tech</div>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #6B6B00;"></span> Integration</div>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #CC0000;"></span> Security</div>
+              <div class="graph-legend__item"><span class="graph-legend__dot" style="background: #800000;"></span> Data</div>
+            </div>
+            <div class="graph-legend__section">
+              <span class="graph-legend__title">LGAM relationships (edges)</span>
+              <div class="graph-legend__item"><span class="graph-legend__line" style="background: #0b0c0c;"></span> ROUTES TO / USES / SUPPORTS</div>
+              <div class="graph-legend__item"><span class="graph-legend__line" style="background: #008080; border-top: 2px dashed #008080; height: 0;"></span> ENABLES (FT enables)</div>
+              <div class="graph-legend__item"><span class="graph-legend__line" style="background: #6B6B00;"></span> ENABLES / CONNECTS (integration)</div>
+              <div class="graph-legend__item"><span class="graph-legend__line" style="background: #800000; border-top: 2px dotted #800000; height: 0;"></span> USES data / FEEDS</div>
+              <div class="graph-legend__item"><span class="graph-legend__line" style="background: #CC0000;"></span> SECURES</div>
+            </div>
+            <div class="graph-legend__section">
+              <span class="graph-legend__title">Element types (node shape)</span>
+              <div class="graph-legend__item">&#9679; System / Service</div>
+              <div class="graph-legend__item">&#9670; Business Process</div>
+              <div class="graph-legend__item">&#9632; Infrastructure</div>
+              <div class="graph-legend__item">&#9650; Data</div>
+            </div>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+          <h2 class="govuk-heading-l" id="archimate">ArchiMate translation</h2>
+          <p class="govuk-body">For architects who use ArchiMate, the following mapping shows how to translate LGAM concepts into ArchiMate terminology. Note that LGAM is its own framework — ArchiMate does not map perfectly onto it, particularly for the upper layers where LGAM models a user journey (left-to-right flow) while ArchiMate models service provision (bottom-to-top).</p>
+
+          <h3 class="govuk-heading-m">Element type mapping</h3>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header">LGAM Layer</th>
+                <th class="govuk-table__header">ArchiMate Element Types</th>
+                <th class="govuk-table__header">Notes</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Public Channels</td><td class="govuk-table__cell">Business Interface</td><td class="govuk-table__cell">How citizens reach services</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Council Interfaces</td><td class="govuk-table__cell">Application Interface</td><td class="govuk-table__cell">Systems handling citizen interactions</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Capabilities</td><td class="govuk-table__cell">Application Component / Service</td><td class="govuk-table__cell">Reusable application services</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Business Areas</td><td class="govuk-table__cell">Business Process</td><td class="govuk-table__cell">Domain-specific functions</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Corporate Areas</td><td class="govuk-table__cell">Business Function</td><td class="govuk-table__cell">Back-office functions</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Foundational Technology</td><td class="govuk-table__cell">Node, Technology Service</td><td class="govuk-table__cell">Infrastructure platforms</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Integration</td><td class="govuk-table__cell">Application Component, Path</td><td class="govuk-table__cell">ArchiMate treats integration as paths/networks, not elements</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Security</td><td class="govuk-table__cell">Constraint, Technology Service</td><td class="govuk-table__cell">ArchiMate treats security as cross-cutting constraints</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">Data</td><td class="govuk-table__cell">Data Object, Artifact</td><td class="govuk-table__cell">Data assets and platforms</td></tr>
+            </tbody>
+          </table>
+
+          <h3 class="govuk-heading-m">Relationship mapping</h3>
+          <table class="govuk-table">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th class="govuk-table__header">LGAM Relationship</th>
+                <th class="govuk-table__header">Nearest ArchiMate Equivalent</th>
+                <th class="govuk-table__header">Fit</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row"><td class="govuk-table__cell">ROUTES TO</td><td class="govuk-table__cell">Triggering</td><td class="govuk-table__cell">Partial — ArchiMate has no direct "routes" concept</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">USES</td><td class="govuk-table__cell">Serving (reversed direction)</td><td class="govuk-table__cell">Partial — ArchiMate "Serving" flows from provider to consumer</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">SUPPORTS</td><td class="govuk-table__cell">Serving</td><td class="govuk-table__cell">Good fit</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">ENABLES</td><td class="govuk-table__cell">Realization</td><td class="govuk-table__cell">Good fit for FT→Capabilities</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">SECURES</td><td class="govuk-table__cell">Influence / Association</td><td class="govuk-table__cell">Poor — ArchiMate doesn't model "secures" as a relationship</td></tr>
+              <tr class="govuk-table__row"><td class="govuk-table__cell">CONNECTS</td><td class="govuk-table__cell">Flow</td><td class="govuk-table__cell">Good fit</td></tr>
+            </tbody>
+          </table>
+
+          <div class="govuk-inset-text">
+            <p class="govuk-body govuk-!-font-weight-bold">Using LGAM in ArchiMate tools</p>
+            <p class="govuk-body">To model your council's architecture in <a href="https://www.archimatetool.com/" class="govuk-link">Archi</a> (free, open source) aligned to LGAM:</p>
+            <ol class="govuk-list govuk-list--number">
+              <li>Create a grouping element for each LGAM layer</li>
+              <li>Add your council's specific systems as elements within each group, using the ArchiMate types above</li>
+              <li>Draw relationships between elements — use ArchiMate's Serving/Realization/Flow where they fit; use Association for LGAM relationships that don't map cleanly</li>
+              <li>Use ArchiMate viewpoints to create focused views (e.g., Application Cooperation for integration, Layered for the full stack)</li>
+            </ol>
+          </div>
+
+          <p class="govuk-body"><a href="index.html" class="govuk-link">&larr; Back to LGAM overview</a></p>
+</main-content>
+<page-script>
+    // Load Vis.js from CDN
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/vis-network/standalone/umd/vis-network.min.js';
+    script.onload = function() { initGraph(); };
+    document.head.appendChild(script);
+
+    function initGraph() {
+      // ArchiMate-typed elements with LGAM layer assignment
+      const nodes = new vis.DataSet([
+        // Channels (Business Interfaces) — Level 0
+        { id: 'ch_web', label: 'Council\nwebsite', group: 'channels', shape: 'dot', level: 0, title: 'Business Interface\n(Public Channel)' },
+        { id: 'ch_phone', label: 'Contact\ncentre', group: 'channels', shape: 'dot', level: 0, title: 'Business Interface\n(Public Channel)' },
+        { id: 'ch_visit', label: 'Social worker\nvisit', group: 'channels', shape: 'dot', level: 0, title: 'Business Interface\n(Public Channel)' },
+
+        // Interfaces (Application Interfaces/Components) — Level 1
+        { id: 'if_portal', label: 'Citizen\nportal', group: 'interfaces', shape: 'dot', level: 1, title: 'Application Interface\n(Council Interface)' },
+        { id: 'if_pro', label: 'Professional\nportal', group: 'interfaces', shape: 'dot', level: 1, title: 'Application Interface\n(Council Interface)' },
+        { id: 'if_mobile', label: 'Mobile app', group: 'interfaces', shape: 'dot', level: 1, title: 'Application Component\n(Council Interface)' },
+
+        // Capabilities (Application Services/Components) — Level 2
+        { id: 'cap_liquid', label: 'Liquidlogic', group: 'capabilities', shape: 'dot', size: 20, level: 2, title: 'Application Component\n(Capability: Workflow)' },
+        { id: 'cap_forms', label: 'GOV.UK\nForms', group: 'capabilities', shape: 'dot', level: 2, title: 'Application Service\n(Capability: Forms)' },
+        { id: 'cap_pay', label: 'GOV.UK Pay', group: 'capabilities', shape: 'dot', level: 2, title: 'Application Service\n(Capability: Payments)' },
+        { id: 'cap_login', label: 'One Login', group: 'capabilities', shape: 'dot', level: 2, title: 'Application Service\n(Capability: Identity)' },
+        { id: 'cap_book', label: 'Bookings', group: 'capabilities', shape: 'dot', level: 2, title: 'Application Service\n(Capability: Booking)' },
+
+        // Business Processes — Level 3
+        { id: 'bp_assess', label: 'Care needs\nassessment', group: 'business', shape: 'diamond', level: 3, title: 'Business Process\n(Business Area: ASC)' },
+        { id: 'bp_plan', label: 'Care\nplanning', group: 'business', shape: 'diamond', level: 3, title: 'Business Process\n(Business Area: ASC)' },
+        { id: 'bp_safe', label: 'Safeguarding', group: 'business', shape: 'diamond', level: 3, title: 'Business Process\n(Business Area: ASC)' },
+        { id: 'bp_finance', label: 'Financial\nassessment', group: 'business', shape: 'diamond', level: 3, title: 'Business Process\n(Business Area: ASC)' },
+        { id: 'bp_provider', label: 'Provider\nmanagement', group: 'business', shape: 'diamond', level: 3, title: 'Business Process\n(Business Area: ASC)' },
+
+        // Integration — Level 4 (connects across)
+        { id: 'int_nhs', label: 'NHS Spine', group: 'integration', shape: 'dot', level: 4, title: 'Application Component\n(Integration: National Connectivity)' },
+        { id: 'int_dwp', label: 'DWP\nbenefits API', group: 'integration', shape: 'dot', level: 4, title: 'Application Component\n(Integration: National Connectivity)' },
+        { id: 'int_cqc', label: 'CQC\nProvider API', group: 'integration', shape: 'dot', level: 4, title: 'Application Component\n(Integration: National Connectivity)' },
+        { id: 'int_azure', label: 'Azure\nIntegration', group: 'integration', shape: 'dot', level: 4, title: 'Application Component\n(Integration: iPaaS)' },
+
+        // Foundational Technology — Level 5
+        { id: 'ft_azure', label: 'Azure\nUK South', group: 'ft', shape: 'square', level: 5, title: 'Node\n(FT: Cloud Hosting)' },
+        { id: 'ft_entra', label: 'Entra ID', group: 'ft', shape: 'square', level: 5, title: 'Technology Service\n(FT: IAM)' },
+        { id: 'ft_snow', label: 'ServiceNow', group: 'ft', shape: 'square', level: 5, title: 'Application Component\n(FT: Service Management)' },
+        { id: 'ft_monitor', label: 'Azure\nMonitor', group: 'ft', shape: 'square', level: 5, title: 'Technology Service\n(FT: Monitoring)' },
+
+        // Security — Level 5 (alongside FT)
+        { id: 'sec_defender', label: 'Microsoft\nDefender', group: 'security', shape: 'dot', level: 5, title: 'Technology Service\n(Security: Endpoint)' },
+        { id: 'sec_soc', label: 'Managed\nSOC', group: 'security', shape: 'dot', level: 5, title: 'Technology Service\n(Security: SecOps)' },
+
+        // Data — Level 6 (rightmost)
+        { id: 'dat_citizen', label: 'Citizen\nrecord', group: 'data', shape: 'triangle', level: 6, title: 'Data Object\n(Data: Master Data)' },
+        { id: 'dat_llpg', label: 'LLPG\nAddresses', group: 'data', shape: 'triangle', level: 6, title: 'Data Object\n(Data: Master Data)' },
+        { id: 'dat_pbi', label: 'Power BI', group: 'data', shape: 'dot', level: 6, title: 'Application Component\n(Data: BI & Reporting)' },
+      ]);
+
+      // LGAM-native relationships
+      const edges = new vis.DataSet([
+        // ROUTES_TO: channels route to interfaces
+        { from: 'ch_web', to: 'if_portal', arrows: 'to', color: '#0b0c0c', title: 'ROUTES TO' },
+        { from: 'ch_phone', to: 'if_pro', arrows: 'to', color: '#0b0c0c', title: 'ROUTES TO' },
+        { from: 'ch_visit', to: 'if_mobile', arrows: 'to', color: '#0b0c0c', title: 'ROUTES TO' },
+
+        // USES: interfaces use capabilities
+        { from: 'if_portal', to: 'cap_forms', arrows: 'to', color: '#0b0c0c', title: 'USES' },
+        { from: 'if_portal', to: 'cap_login', arrows: 'to', color: '#0b0c0c', title: 'USES' },
+        { from: 'if_pro', to: 'cap_liquid', arrows: 'to', color: '#0b0c0c', title: 'USES' },
+        { from: 'if_mobile', to: 'cap_liquid', arrows: 'to', color: '#0b0c0c', title: 'USES' },
+
+        // SUPPORTS: capabilities support business processes
+        { from: 'cap_liquid', to: 'bp_assess', arrows: 'to', color: '#0b0c0c', title: 'SUPPORTS' },
+        { from: 'cap_liquid', to: 'bp_plan', arrows: 'to', color: '#0b0c0c', title: 'SUPPORTS' },
+        { from: 'cap_liquid', to: 'bp_safe', arrows: 'to', color: '#0b0c0c', title: 'SUPPORTS' },
+        { from: 'cap_liquid', to: 'bp_provider', arrows: 'to', color: '#0b0c0c', title: 'SUPPORTS' },
+        { from: 'cap_forms', to: 'bp_assess', arrows: 'to', color: '#0b0c0c', title: 'SUPPORTS' },
+        { from: 'cap_pay', to: 'bp_finance', arrows: 'to', color: '#0b0c0c', title: 'SUPPORTS' },
+        { from: 'cap_book', to: 'bp_plan', arrows: 'to', color: '#0b0c0c', title: 'SUPPORTS' },
+
+        // ENABLES: FT enables capabilities/interfaces
+        { from: 'ft_azure', to: 'cap_liquid', arrows: 'to', dashes: true, color: '#008080', title: 'ENABLES' },
+        { from: 'ft_entra', to: 'if_pro', arrows: 'to', dashes: true, color: '#008080', title: 'ENABLES' },
+        { from: 'ft_entra', to: 'if_mobile', arrows: 'to', dashes: true, color: '#008080', title: 'ENABLES' },
+        { from: 'ft_monitor', to: 'cap_liquid', arrows: 'to', dashes: true, color: '#008080', title: 'ENABLES' },
+
+        // ENABLES: integration enables capabilities/business
+        { from: 'int_nhs', to: 'cap_liquid', arrows: 'to', color: '#6B6B00', title: 'ENABLES (health data)' },
+        { from: 'int_dwp', to: 'bp_finance', arrows: 'to', color: '#6B6B00', title: 'ENABLES (benefits data)' },
+        { from: 'int_cqc', to: 'bp_provider', arrows: 'to', color: '#6B6B00', title: 'ENABLES (provider data)' },
+        { from: 'int_azure', to: 'cap_liquid', arrows: 'to', color: '#6B6B00', title: 'ENABLES (orchestration)' },
+        { from: 'int_azure', to: 'int_nhs', arrows: 'to', color: '#6B6B00', title: 'CONNECTS' },
+        { from: 'int_azure', to: 'int_dwp', arrows: 'to', color: '#6B6B00', title: 'CONNECTS' },
+
+        // USES: capabilities use data
+        { from: 'cap_liquid', to: 'dat_citizen', arrows: 'to', dashes: [2,4], color: '#800000', title: 'USES (read/write)' },
+        { from: 'cap_liquid', to: 'dat_llpg', arrows: 'to', dashes: [2,4], color: '#800000', title: 'USES (read)' },
+        { from: 'dat_citizen', to: 'dat_pbi', arrows: 'to', dashes: [2,4], color: '#800000', title: 'FEEDS' },
+
+        // SECURES: security secures other components
+        { from: 'sec_defender', to: 'ft_azure', arrows: 'to', color: '#CC0000', title: 'SECURES' },
+        { from: 'sec_soc', to: 'cap_liquid', arrows: 'to', color: '#CC0000', title: 'SECURES' },
+      ]);
+
+      const container = document.getElementById('asc-graph');
+      const data = { nodes: nodes, edges: edges };
+      const options = {
+        groups: {
+          channels: { color: { background: '#CC00CC', border: '#990099' } },
+          interfaces: { color: { background: '#800080', border: '#600060' } },
+          capabilities: { color: { background: '#000080', border: '#000060' } },
+          business: { color: { background: '#0000FF', border: '#0000CC' } },
+          ft: { color: { background: '#008080', border: '#006060' } },
+          integration: { color: { background: '#6B6B00', border: '#4a4a00' } },
+          security: { color: { background: '#CC0000', border: '#990000' } },
+          data: { color: { background: '#800000', border: '#600000' } },
+        },
+        nodes: {
+          font: { size: 12, face: 'GDS Transport, arial, sans-serif', color: '#0b0c0c' },
+          borderWidth: 2,
+          size: 16,
+        },
+        edges: {
+          width: 1.5,
+          smooth: { type: 'curvedCW', roundness: 0.15 },
+          font: { size: 10, align: 'middle', background: '#ffffff' },
+        },
+        layout: {
+          hierarchical: {
+            enabled: true,
+            direction: 'LR',
+            sortMethod: 'hubsize',
+            levelSeparation: 200,
+            nodeSpacing: 60,
+            treeSpacing: 80,
+            blockShifting: true,
+            edgeMinimization: true,
+            parentCentralization: true,
+          },
+          improvedLayout: true,
+        },
+        physics: {
+          enabled: true,
+          hierarchicalRepulsion: {
+            centralGravity: 0.0,
+            springLength: 150,
+            springConstant: 0.01,
+            nodeDistance: 120,
+            damping: 0.09,
+          },
+          solver: 'hierarchicalRepulsion',
+          stabilization: { iterations: 300 },
+        },
+        interaction: {
+          hover: true,
+          tooltipDelay: 100,
+        },
+      };
+
+      const network = new vis.Network(container, data, options);
+
+      // Controls
+      document.getElementById('graphFit').addEventListener('click', () => network.fit());
+
+      let physicsEnabled = true;
+      document.getElementById('graphPhysics').addEventListener('click', () => {
+        physicsEnabled = !physicsEnabled;
+        network.setOptions({ physics: { enabled: physicsEnabled } });
+      });
+    }
+</page-script>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="LGAM Template" id="lgam-template" version="3.2.0">
+  <folder name="Strategy" id="folder-strategy" type="strategy"/>
+  <folder name="Business" id="folder-business" type="business">
+    <element xsi:type="archimate:BusinessInterface" name="Online" id="bi-online"/>
+    <element xsi:type="archimate:BusinessInterface" name="Phone" id="bi-phone"/>
+    <element xsi:type="archimate:BusinessInterface" name="In person" id="bi-inperson"/>
+    <element xsi:type="archimate:BusinessInterface" name="Email" id="bi-email"/>
+    <element xsi:type="archimate:BusinessInterface" name="Letter" id="bi-letter"/>
+    <element xsi:type="archimate:BusinessInterface" name="Messaging" id="bi-messaging"/>
+    <element xsi:type="archimate:BusinessInterface" name="Social media" id="bi-social"/>
+    <element xsi:type="archimate:BusinessInterface" name="Smart devices" id="bi-smart"/>
+    <element xsi:type="archimate:BusinessInterface" name="Video" id="bi-video"/>
+    <element xsi:type="archimate:BusinessInterface" name="Third-party channels" id="bi-thirdparty"/>
+    <element xsi:type="archimate:BusinessProcess" name="Adult social care" id="bp-asc"/>
+    <element xsi:type="archimate:BusinessProcess" name="Children's social care" id="bp-csc"/>
+    <element xsi:type="archimate:BusinessProcess" name="Democratic services" id="bp-democratic"/>
+    <element xsi:type="archimate:BusinessProcess" name="Education" id="bp-education"/>
+    <element xsi:type="archimate:BusinessProcess" name="Highways and transport" id="bp-highways"/>
+    <element xsi:type="archimate:BusinessProcess" name="Housing" id="bp-housing"/>
+    <element xsi:type="archimate:BusinessProcess" name="Leisure and culture" id="bp-leisure"/>
+    <element xsi:type="archimate:BusinessProcess" name="Licensing and regulation" id="bp-licensing"/>
+    <element xsi:type="archimate:BusinessProcess" name="Planning and development" id="bp-planning"/>
+    <element xsi:type="archimate:BusinessProcess" name="Public health" id="bp-publichealth"/>
+    <element xsi:type="archimate:BusinessProcess" name="Revenues and benefits" id="bp-revsbens"/>
+    <element xsi:type="archimate:BusinessProcess" name="Waste management" id="bp-waste"/>
+    <element xsi:type="archimate:BusinessFunction" name="Business planning and performance" id="bf-planning"/>
+    <element xsi:type="archimate:BusinessFunction" name="Communications and PR" id="bf-comms"/>
+    <element xsi:type="archimate:BusinessFunction" name="Corporate governance and risk" id="bf-governance"/>
+    <element xsi:type="archimate:BusinessFunction" name="Customer relationship (B2C)" id="bf-crm"/>
+    <element xsi:type="archimate:BusinessFunction" name="Facilities" id="bf-facilities"/>
+    <element xsi:type="archimate:BusinessFunction" name="Financial" id="bf-financial"/>
+    <element xsi:type="archimate:BusinessFunction" name="Geographical" id="bf-geo"/>
+    <element xsi:type="archimate:BusinessFunction" name="Legal and compliance" id="bf-legal"/>
+    <element xsi:type="archimate:BusinessFunction" name="Human resources and workforce" id="bf-hr"/>
+    <element xsi:type="archimate:BusinessFunction" name="Procurement (B2B)" id="bf-procurement"/>
+  </folder>
+  <folder name="Application" id="folder-application" type="application">
+    <element xsi:type="archimate:ApplicationInterface" name="Website" id="ai-website"/>
+    <element xsi:type="archimate:ApplicationInterface" name="Apps" id="ai-apps"/>
+    <element xsi:type="archimate:ApplicationInterface" name="API gateways" id="ai-api"/>
+    <element xsi:type="archimate:ApplicationInterface" name="Automated phones" id="ai-autophone"/>
+    <element xsi:type="archimate:ApplicationInterface" name="Public devices" id="ai-publicdevice"/>
+    <element xsi:type="archimate:ApplicationComponent" name="Human agent" id="ac-human"/>
+    <element xsi:type="archimate:ApplicationService" name="Agentic AI" id="as-agenticai"/>
+    <element xsi:type="archimate:ApplicationService" name="Booking" id="as-booking"/>
+    <element xsi:type="archimate:ApplicationService" name="Email capability" id="as-email"/>
+    <element xsi:type="archimate:ApplicationService" name="Forms" id="as-forms"/>
+    <element xsi:type="archimate:ApplicationService" name="Identity" id="as-identity"/>
+    <element xsi:type="archimate:ApplicationService" name="Payments" id="as-payments"/>
+    <element xsi:type="archimate:ApplicationService" name="Messaging capability" id="as-messaging"/>
+    <element xsi:type="archimate:ApplicationService" name="Telephony and fax" id="as-telephony"/>
+    <element xsi:type="archimate:ApplicationService" name="Workflow" id="as-workflow"/>
+    <element xsi:type="archimate:ApplicationComponent" name="API management" id="ac-apimgmt"/>
+    <element xsi:type="archimate:ApplicationComponent" name="Integration platform" id="ac-integration"/>
+    <element xsi:type="archimate:ApplicationComponent" name="Data pipelines" id="ac-pipelines"/>
+    <element xsi:type="archimate:ApplicationComponent" name="National service connectivity" id="ac-national"/>
+    <element xsi:type="archimate:ApplicationComponent" name="Inter-authority data sharing" id="ac-interauth"/>
+    <element xsi:type="archimate:ApplicationComponent" name="Standards and protocols" id="ac-standards"/>
+  </folder>
+  <folder name="Technology &amp; Physical" id="folder-technology" type="technology">
+    <element xsi:type="archimate:Node" name="Compute, storage and network services" id="tn-compute"/>
+    <element xsi:type="archimate:Node" name="Connectivity and network hardware" id="tn-connectivity"/>
+    <element xsi:type="archimate:Node" name="Virtualisation and platform enablement" id="tn-virtualisation"/>
+    <element xsi:type="archimate:TechnologyService" name="End-user computing" id="ts-euc"/>
+    <element xsi:type="archimate:TechnologyService" name="Service management" id="ts-itsm"/>
+    <element xsi:type="archimate:TechnologyService" name="Monitoring and observability" id="ts-monitoring"/>
+    <element xsi:type="archimate:TechnologyService" name="Disaster recovery and business continuity" id="ts-dr"/>
+    <element xsi:type="archimate:TechnologyService" name="AI enablement" id="ts-ai-enable"/>
+    <element xsi:type="archimate:TechnologyService" name="Conversational AI" id="ts-ai-convo"/>
+    <element xsi:type="archimate:TechnologyService" name="Generative AI" id="ts-ai-gen"/>
+    <element xsi:type="archimate:TechnologyService" name="Intelligent automation" id="ts-ai-auto"/>
+    <element xsi:type="archimate:TechnologyService" name="Machine learning" id="ts-ai-ml"/>
+    <element xsi:type="archimate:TechnologyService" name="Release management" id="ts-devops-release"/>
+    <element xsi:type="archimate:TechnologyService" name="DevOps monitoring and observability" id="ts-devops-monitoring"/>
+    <element xsi:type="archimate:TechnologyService" name="Unified communications" id="ts-eu-comms"/>
+    <element xsi:type="archimate:TechnologyService" name="End-user devices" id="ts-eu-devices"/>
+    <element xsi:type="archimate:TechnologyService" name="Knowledge management" id="ts-eu-knowledge"/>
+    <element xsi:type="archimate:TechnologyService" name="Productivity" id="ts-eu-productivity"/>
+    <element xsi:type="archimate:TechnologyService" name="Application portfolio" id="ts-sm-portfolio"/>
+    <element xsi:type="archimate:TechnologyService" name="IT operations and service desk" id="ts-sm-ops"/>
+    <element xsi:type="archimate:TechnologyService" name="Software asset and licence" id="ts-sm-licence"/>
+    <element xsi:type="archimate:TechnologyService" name="Network and endpoint security" id="ts-sec-network"/>
+    <element xsi:type="archimate:TechnologyService" name="Identity and access management" id="ts-sec-iam"/>
+    <element xsi:type="archimate:TechnologyService" name="Security operations and monitoring" id="ts-sec-soc"/>
+    <element xsi:type="archimate:TechnologyService" name="Application and data security" id="ts-sec-appsec"/>
+    <element xsi:type="archimate:TechnologyService" name="Vulnerability and threat management" id="ts-sec-vuln"/>
+    <element xsi:type="archimate:TechnologyService" name="Physical security and access control" id="ts-sec-physical"/>
+    <element xsi:type="archimate:TechnologyService" name="Incident forensics" id="ts-sec-forensics"/>
+    <element xsi:type="archimate:DataObject" name="Business intelligence and analytics" id="do-bi"/>
+    <element xsi:type="archimate:DataObject" name="Data catalogue and metadata" id="do-catalogue"/>
+    <element xsi:type="archimate:DataObject" name="Data governance and quality" id="do-governance"/>
+    <element xsi:type="archimate:DataObject" name="Data science and predictive analytics" id="do-science"/>
+    <element xsi:type="archimate:DataObject" name="Data storage and warehousing" id="do-warehouse"/>
+    <element xsi:type="archimate:DataObject" name="Document and records management" id="do-records"/>
+    <element xsi:type="archimate:DataObject" name="Enterprise search and data indexing" id="do-search"/>
+    <element xsi:type="archimate:DataObject" name="Geospatial data" id="do-geo"/>
+  </folder>
+  <folder name="Motivation" id="folder-motivation" type="motivation"/>
+  <folder name="Implementation &amp; Migration" id="folder-impl" type="implementation_migration"/>
+  <folder name="Other" id="folder-other" type="other"/>
+  <folder name="Relations" id="folder-relations" type="relations"/>
+  <folder name="Views" id="folder-views" type="diagrams">
+    <element xsi:type="archimate:ArchimateDiagramModel" name="LGAM Layered View" id="view-lgam-layered">
+      <documentation>A layered view showing all LGAM elements grouped by layer. Use this as a starting point - replace generic elements with your council's specific systems.</documentation>
+    </element>
+  </folder>
+  <purpose>Local Government Architecture Model (LGAM) template for ArchiMate modelling.
+
+This template provides the LGAM layer structure and reference elements as a starting point for councils to model their own technology architecture.
+
+LGAM Layers mapped to ArchiMate:
+- Public Channels = Business Interface
+- Council Interfaces = Application Interface
+- Capabilities = Application Service / Component
+- Business Areas = Business Process
+- Corporate Areas = Business Function
+- Foundational Technology = Node, Technology Service
+- Integration = Application Component, Path
+- Security = Technology Service (cross-cutting)
+- Data and Information = Data Object
+
+Instructions:
+1. Duplicate elements and rename to your council's specific systems
+2. Draw relationships between elements (use Serving, Realization, Flow, Access)
+3. Create views for specific business areas or technology domains
+4. Remove elements that don't apply to your council
+
+More information: https://architecture.cddo.cabinetoffice.gov.uk/gds-local/</purpose>
+</archimate:model>

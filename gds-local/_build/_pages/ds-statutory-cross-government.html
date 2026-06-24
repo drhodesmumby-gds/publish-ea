@@ -1,0 +1,287 @@
+---
+title: Statutory cross-government sharing
+caption: LGAM Sharing Patterns
+status: draft
+parent: topic-data-sharing.html
+parent_title: Data Sharing
+---
+<style>
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .govuk-tag--green { background-color: #00703c; color: #fff; }
+    .govuk-tag--grey { background-color: #b1b4b6; color: #0b0c0c; }
+    .govuk-tag--blue { background-color: #1d70b8; color: #fff; }
+    
+    /* Mermaid diagram container */
+    .arch-diagram-container {
+        border: 1px solid #b1b4b6;
+        padding: 20px;
+        background-color: #ffffff;
+        margin-bottom: 30px;
+    }
+</style>
+
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this pattern</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#lgam-stack">LGAM technology stack</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#architecture-diagram">Target state data flow</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#the-journey">The technical and governance lifecycle</a></li>
+</nav-contents>
+
+<main-content>
+      <span class="govuk-caption-xl">LGAM Sharing Patterns</span>
+      <h1 class="govuk-heading-xl">Statutory cross-government sharing</h1>
+
+      <section id="about">
+        <p class="govuk-body govuk-!-font-size-24">The technical and governance architecture for sharing data between central and local government under explicit statutory gateways.</p>
+        <p class="govuk-body">This pattern typically relies on the <strong>Digital Economy Act 2017 (Part 5)</strong> or specific domain legislation (such as the Care Act or Children Act). These arrangements are characterised by high volumes, strict legal definitions of permitted purpose, and increasing reliance on secure B2B APIs rather than legacy bulk file transfers.</p>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="lgam-stack">
+        <h2 class="govuk-heading-l">LGAM technology stack at pattern level</h2>
+        <p class="govuk-body">Delivering this pattern requires orchestration of integration and security capabilities within the LGAM taxonomy.</p>
+        
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header govuk-!-width-one-third">LGAM Taxonomy Node</th>
+              <th scope="col" class="govuk-table__header">Pattern Specific Implementation</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">API management and gateways</th>
+              <td class="govuk-table__cell">Centralised ingress/egress points that enforce rate limiting, monitor usage, and provide audit logging for statutory compliance.</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Data integration (ETL/ELT)</th>
+              <td class="govuk-table__cell">Pipelines that ingest national data feeds, transform them to match local schemas, and load them into local operational stores or data platforms.</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Identity and access management (IAM)</th>
+              <td class="govuk-table__cell">Depending on the use case, either federated User-Level tokens (e.g. OAuth 2.0 Authorization Code flow) for interactive queries requiring individual audit trails, or Machine-to-Machine authentication (e.g. OAuth 2.0 Client Credentials flow) for automated, high-volume backend pipelines.</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Data cataloguing</th>
+              <td class="govuk-table__cell">Maintaining metadata records of data assets shared with central government to satisfy cross-government critical data asset requirements.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="architecture-diagram">
+        <h2 class="govuk-heading-l">Target state data flow</h2>
+        <p class="govuk-body">This architectural model illustrates the modernised, API-driven flow of data from a central government department into local operational systems.</p>
+        
+        <div class="arch-diagram-container">
+          <pre class="mermaid">
+flowchart LR
+    %% Styles
+    classDef public fill:#f3f2f1,stroke:#0b0c0c,stroke-width:2px,color:#0b0c0c,font-weight:bold
+    classDef boundary fill:#f8f8f8,stroke:#b1b4b6,stroke-width:2px,stroke-dasharray: 4 4,color:#505a5f,font-weight:bold
+    classDef system fill:#fff,stroke:#1d70b8,stroke-width:2px,color:#0b0c0c,font-weight:bold
+    classDef store fill:#fff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c,font-weight:bold
+    classDef config fill:#fff,stroke:#cf611c,stroke-width:2px,stroke-dasharray: 5 5,color:#0b0c0c,font-weight:bold
+
+    subgraph ConsumerZone["Consumer (e.g. Local Authority)"]
+        UserFlow["Interactive User"]:::public
+        M2MFlow["Automated Pipeline"]:::public
+        ConsumerApp["Line of Business Application"]:::store
+        ConsumeriPaaS["Integration Platform / Outbound Gateway"]:::system
+        ConsumerIdP["Identity Provider"]:::config
+        
+        UserFlow --> ConsumerApp
+        M2MFlow --> ConsumerApp
+        ConsumerApp -->|Internal Query| ConsumeriPaaS
+        ConsumerIdP -.->|Issues User or M2M Token| ConsumeriPaaS
+    end
+
+    subgraph ControllerZone["Controller (e.g. Central Gov / DWP)"]
+        ControllerGW["Inbound API Gateway"]:::system
+        AuditLog["Immutable Audit Log"]:::store
+        ControllerApp["Derived Rules Engine / Microservice"]:::system
+        CoreDB["Core Database"]:::store
+        
+        ControllerGW -->|Validated Request| ControllerApp
+        ControllerApp -->|Queries| CoreDB
+        ControllerGW -->|Access Event| AuditLog
+    end
+
+    %% External Flow
+    ConsumeriPaaS -->|OAuth 2.0 / mTLS| ControllerGW
+
+    %% Trust Relationship
+    ConsumerIdP -.->|Federated Trust Configuration| ControllerGW
+
+    class ConsumerZone,ControllerZone boundary
+          </pre>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="the-journey">
+        <h2 class="govuk-heading-l">The technical and governance lifecycle</h2>
+        <p class="govuk-body">Establishing and running a statutory cross-government data share involves several phases.</p>
+
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-journey">
+          
+          <!-- Phase 1 -->
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button"><span class="phase-number">1</span> Information Governance & Agreement</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <div class="govuk-tabs" data-module="govuk-tabs">
+                <ul class="govuk-tabs__list">
+                  <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#phase1-target">Target Architecture</a>
+                  </li>
+                  <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#phase1-anti">Legacy Anti-patterns</a>
+                  </li>
+                </ul>
+
+                <div class="govuk-tabs__panel" id="phase1-target">
+                  <div class="feature-box">
+                    <h4 class="govuk-heading-s">Target: Configuration Driven Mappings</h4>
+                    <p class="govuk-body">The Data Sharing Agreement (DSA) explicitly mandates the technical <strong>Assertion</strong> (e.g. OAuth 2.0 federation) and <strong>Role</strong> requirements. Data controllers evaluate the sharing arrangement against the seven conceptual elements to ensure the legal basis maps directly to technical controls.</p>
+                  </div>
+                </div>
+
+                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="phase1-anti">
+                  <div class="pattern-group">
+                    <span class="pattern-tag pattern-tag--anti">Anti-pattern: Build first, govern later</span>
+                    <p class="govuk-body">Building technical integration pipelines before establishing the lawful basis. Information Governance must be established before technical builds commence.</p>
+                  </div>
+                  <div class="pattern-group govuk-!-margin-top-4">
+                    <span class="pattern-tag pattern-tag--anti">Anti-pattern: Point-to-Point Justification</span>
+                    <p class="govuk-body">Drafting bespoke DPIAs and DSAs from scratch for every minor data share, rather than leveraging scalable frameworks to standardise governance.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button"><span class="phase-number">2</span> Technical Discovery & Handshake</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <div class="govuk-tabs" data-module="govuk-tabs">
+                <ul class="govuk-tabs__list">
+                  <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#phase2-target">Target Architecture</a>
+                  </li>
+                  <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#phase2-anti">Legacy Anti-patterns</a>
+                  </li>
+                </ul>
+
+                <div class="govuk-tabs__panel" id="phase2-target">
+                  <div class="feature-box">
+                    <h4 class="govuk-heading-s">Target: Directory of Standardised API Services</h4>
+                    <p class="govuk-body">Data schemas are published as machine-readable OpenAPI 3 specifications, and the data assets themselves are catalogued using DCAT v3 standards. Federation is established by registering the Consumer's Identity Provider with the Controller's API Gateway.</p>
+                  </div>
+                </div>
+
+                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="phase2-anti">
+                  <div class="pattern-group">
+                    <span class="pattern-tag pattern-tag--anti">Anti-pattern: Hardcoded Service Accounts</span>
+                    <p class="govuk-body">Using static database credentials or API keys shared via email, which are never rotated and lack identity federation.</p>
+                  </div>
+                  <div class="pattern-group govuk-!-margin-top-4">
+                    <span class="pattern-tag pattern-tag--anti">Anti-pattern: IP Whitelisting Insufficiency</span>
+                    <p class="govuk-body">Relying solely on IP whitelisting to secure the exchange, which provides no visibility into the individual user or their asserted role.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 3 -->
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button"><span class="phase-number">3</span> Execution & Audit</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <div class="govuk-tabs" data-module="govuk-tabs">
+                <ul class="govuk-tabs__list">
+                  <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#phase3-target">Target Architecture</a>
+                  </li>
+                  <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#phase3-anti">Legacy Anti-patterns</a>
+                  </li>
+                </ul>
+
+                <div class="govuk-tabs__panel" id="phase3-target">
+                  <div class="feature-box">
+                    <h4 class="govuk-heading-s">Target: Derived Data with Immutable Logs</h4>
+                    <p class="govuk-body">The Consumer queries the API passing an OAuth 2.0 access token in a cryptographically signed format (e.g. a JWT). For interactive queries, this token explicitly identifies the individual user; for automated pipelines, it identifies the consuming service. The Controller evaluates the token's signature mathematically without needing to query the issuing IdP, queries the internal Core DB, and returns only the <strong>derived data</strong> needed to satisfy the purpose (e.g. <code>isEligible: true</code>). Every access event is written to an Immutable Audit Log, allowing the Controller to respond easily to Subject Access Requests (SARs).</p>
+                  </div>
+                </div>
+
+                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="phase3-anti">
+                  <div class="pattern-group">
+                    <span class="pattern-tag pattern-tag--anti">Anti-pattern: Massive SFTP Data Dumps</span>
+                    <p class="govuk-body">Relying on batch-generated CSV files containing thousands of raw records, uploaded to a secure FTP server. This over-shares personal data, violates data minimisation principles, and relies on manual ingestion processes.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="target-standards">
+        <h2 class="govuk-heading-l">Target data and metadata standards</h2>
+        <p class="govuk-body">Statutory pipelines should adhere to strict, machine-readable standards to ensure interoperability and compliance:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><strong><a href="https://www.gov.uk/guidance/gds-api-technical-and-data-standards" class="govuk-link">OpenAPI Specification 3</a>:</strong> The GOV.UK recommended standard for describing RESTful APIs. It provides a machine-readable contract for integration.</li>
+          <li><strong><a href="https://www.gov.uk/guidance/identify-and-record-critical-data-assets" class="govuk-link">DCAT v3 / UK Cross-Government Metadata Exchange Model</a>:</strong> Data assets exchanged under statutory gateways must be properly catalogued using these standard vocabularies.</li>
+        </ul>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="platforms">
+        <h2 class="govuk-heading-l">Platforms and tools</h2>
+        <p class="govuk-body">Implementing this pattern typically involves enterprise-grade integration platforms:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><strong>API Gateways:</strong> Tools like Azure API Management, AWS API Gateway, or Kong are used to enforce rate-limiting, authentication, and logging at the boundary.</li>
+          <li><strong>Integration Platforms (iPaaS):</strong> Platforms like Dell Boomi, MuleSoft, or Azure Logic Apps orchestrate the connection to legacy line-of-business systems and handle data transformation.</li>
+          <li><strong>Identity Providers (IdP):</strong> Enterprise IdPs (like Entra ID or Okta) issue and validate the federated OAuth 2.0 or OIDC tokens securing the exchanges.</li>
+        </ul>
+      </section>
+
+</main-content>
+
+<page-script>
+</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ 
+    startOnLoad: true, 
+    theme: 'base', 
+    themeVariables: { 
+      primaryColor: '#f8f8f8', 
+      primaryBorderColor: '#b1b4b6', 
+      lineColor: '#0b0c0c', 
+      fontFamily: '"GDS Transport", Arial, sans-serif' 
+    } 
+  });
+</script>
+<script>
+</page-script>

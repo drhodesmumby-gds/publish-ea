@@ -1,0 +1,161 @@
+    // --- SHARED MODULE: MCP TENDERS (uk-tenders-mcp) ---
+    // Protocol: MCP over Streamable HTTP at tenders.run.cns.me/mcp
+    // Requires: initialize handshake → session ID → tool calls
+    // CORS note: endpoint does not currently send CORS headers, so browser
+    // fetch will fail cross-origin. Falls back to Contracts Finder link.
+
+    const MCP_ENDPOINT = 'https://tenders.run.cns.me/mcp';
+    const MCP_HEADERS = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/event-stream'
+    };
+
+    function parseSSE(text) {
+      const dataLine = text.split('\n').find(l => l.startsWith('data: '));
+      if (!dataLine) return null;
+      return JSON.parse(dataLine.slice(6));
+    }
+
+    async function mcpInitialize() {
+      const res = await fetch(MCP_ENDPOINT, {
+        method: 'POST',
+        headers: MCP_HEADERS,
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 'init-' + Date.now(),
+          method: 'initialize',
+          params: {
+            protocolVersion: '2024-11-05',
+            capabilities: {},
+            clientInfo: { name: 'lgam-browser', version: '1.0' }
+          }
+        })
+      });
+      if (!res.ok) throw new Error(`MCP init failed: ${res.status}`);
+      const sessionId = res.headers.get('mcp-session-id');
+      if (!sessionId) throw new Error('No session ID returned');
+      return sessionId;
+    }
+
+    async function mcpCall(sessionId, tool, args) {
+      const res = await fetch(MCP_ENDPOINT, {
+        method: 'POST',
+        headers: { ...MCP_HEADERS, 'Mcp-Session-Id': sessionId },
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 'call-' + Date.now(),
+          method: 'tools/call',
+          params: { name: tool, arguments: args }
+        })
+      });
+      if (!res.ok) throw new Error(`MCP call failed: ${res.status}`);
+      const text = await res.text();
+      const parsed = parseSSE(text);
+      if (!parsed || !parsed.result) throw new Error('Invalid MCP response');
+      const content = parsed.result.content?.[0]?.text;
+      if (!content) throw new Error('Empty MCP content');
+      return JSON.parse(content);
+    }
+
+    async function fetchTenders() {
+      const container = document.getElementById('tenders-container');
+      if (!container) return;
+
+      const query = container.dataset.query || 'planning system';
+      const limit = parseInt(container.dataset.limit || '5', 10);
+      const tool = container.dataset.tool || 'top_suppliers';
+
+      try {
+        const sessionId = await mcpInitialize();
+        const data = await mcpCall(sessionId, tool, {
+          query,
+          source: 'contracts_finder',
+          published_from: new Date(Date.now() - 180 * 86400000).toISOString().slice(0, 10),
+          limit
+        });
+
+        if (data.error) throw new Error(data.error.message);
+        renderTenderData(data, tool, container);
+
+      } catch (error) {
+        console.info('MCP tender fetch unavailable (likely CORS):', error.message);
+        renderFallback(query, limit, container);
+      }
+    }
+
+    function renderTenderData(data, tool, container) {
+      if (tool === 'top_suppliers' && data.results) {
+        let html = `
+          <table class="govuk-table govuk-!-font-size-16">
+            <caption class="govuk-table__caption govuk-table__caption--s">Top suppliers by awarded contract value (Contracts Finder, last 6 months)</caption>
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Supplier</th>
+                <th scope="col" class="govuk-table__header">Awarded Value</th>
+                <th scope="col" class="govuk-table__header">Contracts</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+        `;
+        data.results.forEach(r => {
+          const value = parseInt(r.value || 0);
+          const formatted = value > 0 ? '£' + value.toLocaleString('en-GB') : 'Not disclosed';
+          html += `
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell">${r.dimension}</td>
+              <td class="govuk-table__cell">${formatted}</td>
+              <td class="govuk-table__cell">${r.count}</td>
+            </tr>
+          `;
+        });
+        html += `</tbody></table>`;
+        html += `<p class="govuk-body govuk-!-font-size-14">Data: <a class="govuk-link" href="https://github.com/chrisns/uk-tenders-mcp" target="_blank">UK Tenders MCP</a> (OGL v3.0). Updated ${data.freshness?.data_current_as_of ? new Date(data.freshness.data_current_as_of).toLocaleDateString('en-GB') : 'daily'}.</p>`;
+        container.innerHTML = html;
+      } else {
+        renderFallback('', container);
+      }
+    }
+
+    function renderFallback(query, limit, container) {
+      const examples = [
+        { title: "Provision of Back Office Planning System (BOPS)", buyer: "London Borough of Southwark", value: "£850,000", status: "Active", url: "https://www.contractsfinder.service.gov.uk/" },
+        { title: "Replacement of Planning and Regulatory Services System", buyer: "Westmorland and Furness Council", value: "£450,000", status: "Awarded", url: "https://www.contractsfinder.service.gov.uk/" },
+        { title: "Rules-as-Code Planning Application Engine", buyer: "Ministry of Housing, Communities and Local Government", value: "£2,100,000", status: "Active", url: "https://www.contractsfinder.service.gov.uk/" },
+        { title: "Planning and Building Control Software Suite", buyer: "Newcastle City Council", value: "£1,100,000", status: "Closed", url: "https://www.contractsfinder.service.gov.uk/" },
+        { title: "Local Plan Digital Engagement Platform", buyer: "Surrey County Council", value: "£125,000", status: "Active", url: "https://www.contractsfinder.service.gov.uk/" }
+      ];
+
+      const tenders = examples.slice(0, limit);
+      let html = `
+        <table class="govuk-table govuk-!-font-size-16">
+          <caption class="govuk-table__caption govuk-table__caption--s">Example data — live feed requires server-side MCP proxy (<a class="govuk-link" href="https://github.com/chrisns/uk-tenders-mcp" target="_blank">UK Tenders MCP</a>)</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Opportunity</th>
+              <th scope="col" class="govuk-table__header">Buyer</th>
+              <th scope="col" class="govuk-table__header">Est. Value</th>
+              <th scope="col" class="govuk-table__header">Status</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+      `;
+
+      tenders.forEach(t => {
+        const isClosed = t.status.toLowerCase().includes('closed') || t.status.toLowerCase().includes('awarded');
+        const badgeColor = isClosed ? 'grey' : 'green';
+        html += `
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell"><a href="${t.url}" class="govuk-link" target="_blank">${t.title}</a></td>
+            <td class="govuk-table__cell">${t.buyer}</td>
+            <td class="govuk-table__cell">${t.value}</td>
+            <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--${badgeColor}">${t.status}</strong></td>
+          </tr>
+        `;
+      });
+
+      html += `</tbody></table>`;
+      html += `<p class="govuk-body govuk-!-font-size-14">The above is example data. When a CORS proxy is available, this table will show live results from <a class="govuk-link" href="https://www.contractsfinder.service.gov.uk/Search/Results?searchTerm=${encodeURIComponent(query)}" target="_blank">Contracts Finder</a> via the <a class="govuk-link" href="https://github.com/chrisns/uk-tenders-mcp" target="_blank">UK Tenders MCP</a> integration.</p>`;
+      container.innerHTML = html;
+    }
+
+    fetchTenders();

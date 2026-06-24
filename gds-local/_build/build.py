@@ -69,6 +69,7 @@ def parse_page(filepath):
         "nav_contents": extract_block("nav-contents"),
         "main_content": extract_block("main-content"),
         "page_script": extract_block("page-script"),
+        "page_modules": extract_block("page-modules"),
     }
 
     return front_matter, blocks
@@ -78,6 +79,7 @@ def build_page(filename, front_matter, blocks):
     """Assemble a full HTML page from partials and page-specific blocks."""
     head_open = read_partial("head-open.html")
     layout_css = read_partial("layout-css.html")
+    components_css = read_partial("components-css.html")
     header = read_partial("header.html")
     sidebar_lgam = read_partial("sidebar-lgam.html")
     footer = read_partial("footer.html")
@@ -85,6 +87,10 @@ def build_page(filename, front_matter, blocks):
     # Replace template variables in head
     title = front_matter.get("title", "Page")
     head_open = head_open.replace("{{ title }}", title)
+
+    # Parent page support
+    parent = front_matter.get("parent", "")
+    parent_title = front_matter.get("parent_title", "")
 
     # Assemble
     parts = []
@@ -96,8 +102,9 @@ def build_page(filename, front_matter, blocks):
         parts.append(blocks["style"])
         parts.append("\n")
 
-    # Layout CSS
+    # Layout CSS + shared component CSS
     parts.append(layout_css)
+    parts.append(components_css)
     parts.append("  </style>\n</head>\n\n")
 
     # Body: header + phase banner
@@ -107,11 +114,19 @@ def build_page(filename, front_matter, blocks):
     # Content wrapper with sidebar + main
     parts.append("  <div class=\"app-content-wrapper\">\n")
     parts.append("    <nav class=\"app-sidebar\" aria-label=\"Page navigation\">\n")
+
+    # Back-link for child pages
+    if parent:
+        back_text = f"Back to {parent_title}" if parent_title else "Back"
+        parts.append(f"      <a href=\"{parent}\" class=\"govuk-back-link govuk-!-margin-bottom-4 govuk-!-margin-top-0\">{back_text}</a>\n")
+
     parts.append("      <h2 class=\"app-navigation__heading\">Contents</h2>\n")
     parts.append("      <ul class=\"app-navigation\">\n")
     parts.append(blocks["nav_contents"])
     parts.append("\n      </ul>\n")
+
     parts.append(sidebar_lgam)
+
     parts.append("    </nav>\n\n")
     parts.append("      <main class=\"app-main-content\" id=\"main-content\" role=\"main\">\n")
     parts.append(blocks["main_content"])
@@ -126,6 +141,18 @@ def build_page(filename, front_matter, blocks):
         parts.append("\n  <script>\n")
         parts.append(blocks["page_script"])
         parts.append("\n  </script>\n")
+
+    # Optional shared script modules
+    modules = blocks.get("page_modules", "").strip()
+    if modules:
+        for module in modules.split(","):
+            module = module.strip()
+            partial_name = f"script-{module}.html"
+            partial_path = os.path.join(PARTIALS_DIR, partial_name)
+            if os.path.exists(partial_path):
+                parts.append("\n  <script>\n")
+                parts.append(read_partial(partial_name))
+                parts.append("\n  </script>\n")
 
     parts.append("</body>\n</html>\n")
 

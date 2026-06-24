@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="LGAM - Adult Social Care Architecture" id="id-lgam-asc-model" version="4.9.0">
+  <folder name="Business" id="id-business" type="business">
+    <element xsi:type="archimate:BusinessInterface" id="id-layer1-online" name="Online Portal Interface&#xA;(Public Channel)"/>
+    <element xsi:type="archimate:BusinessFunction" id="id-layer4-asc" name="Adult Social Care Operations&#xA;(Business Area)"/>
+    <element xsi:type="archimate:BusinessFunction" id="id-layer5-finance" name="Financial Payments &amp; Invoicing&#xA;(Corporate Area)"/>
+  </folder>
+  <folder name="Application" id="id-application" type="application">
+    <element xsi:type="archimate:ApplicationInterface" id="id-layer2-portal" name="ASC Web Portal&#xA;(Council Interface)"/>
+    <element xsi:type="archimate:ApplicationComponent" id="id-layer3-casemanagement" name="Case Management Workflow&#xA;(Capabilities)"/>
+    <element xsi:type="archimate:ApplicationComponent" id="id-layer6-api" name="Integration Middleware / API Gateway&#xA;(Integration)"/>
+    <element xsi:type="archimate:ApplicationComponent" id="id-layer7-iam" name="Identity &amp; Access Management&#xA;(Security)"/>
+    <element xsi:type="archimate:DataObject" id="id-layer8-data" name="Social Care Client Record&#xA;(Data and Information Technology)"/>
+  </folder>
+  <folder name="Technology" id="id-technology" type="technology">
+    <element xsi:type="archimate:Node" id="id-layer9-cloud" name="Council Cloud Hosting Environment&#xA;(Foundational Technology)"/>
+  </folder>
+  <folder name="Relations" id="id-relations" type="relations">
+    <element xsi:type="archimate:ServingRelationship" id="id-rel-1" source="id-layer2-portal" target="id-layer1-online"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-rel-2" source="id-layer6-api" target="id-layer2-portal"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-rel-3" source="id-layer3-casemanagement" target="id-layer6-api"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-rel-4" source="id-layer3-casemanagement" target="id-layer4-asc"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-rel-5" source="id-layer3-casemanagement" target="id-layer5-finance"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-rel-6" source="id-layer7-iam" target="id-layer3-casemanagement"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-rel-7" source="id-layer3-casemanagement" target="id-layer8-data" accessType="ReadWrite"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-rel-8" source="id-layer9-cloud" target="id-layer3-casemanagement"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-rel-9" source="id-layer9-cloud" target="id-layer6-api"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-rel-10" source="id-layer9-cloud" target="id-layer7-iam"/>
+  </folder>
+  <folder name="Views" id="id-views" type="diagrams">
+    <element xsi:type="archimate:ArchimateDiagramModel" id="id-view-main" name="LGAM - ASC Stack View">
+      <!-- Public Channels -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer1" textAlignment="2" archimateElement="id-layer1-online">
+        <bounds x="150" y="50" width="400" height="55"/>
+      </child>
+      <!-- Council Interfaces -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer2" textAlignment="2" archimateElement="id-layer2-portal">
+        <bounds x="150" y="140" width="400" height="55"/>
+      </child>
+      <!-- Capabilities -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer3" textAlignment="2" archimateElement="id-layer3-casemanagement">
+        <bounds x="150" y="230" width="400" height="55"/>
+      </child>
+      <!-- Business Areas -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer4" textAlignment="2" archimateElement="id-layer4-asc">
+        <bounds x="150" y="320" width="190" height="55"/>
+      </child>
+      <!-- Corporate Areas -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer5" textAlignment="2" archimateElement="id-layer5-finance">
+        <bounds x="360" y="320" width="190" height="55"/>
+      </child>
+      <!-- Integration -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer6" textAlignment="2" archimateElement="id-layer6-api">
+        <bounds x="150" y="410" width="400" height="55"/>
+      </child>
+      <!-- Security -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer7" textAlignment="2" archimateElement="id-layer7-iam">
+        <bounds x="150" y="500" width="400" height="55"/>
+      </child>
+      <!-- Data -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer8" textAlignment="2" archimateElement="id-layer8-data">
+        <bounds x="150" y="590" width="400" height="55"/>
+      </child>
+      <!-- Foundational -->
+      <child xsi:type="archimate:DiagramObject" id="id-view-obj-layer9" textAlignment="2" archimateElement="id-layer9-cloud">
+        <bounds x="600" y="230" width="150" height="415"/>
+      </child>
+      
+      <!-- Connections -->
+      <child xsi:type="archimate:DiagramObject" id="id-conn-1" source="id-view-obj-layer2" target="id-view-obj-layer1" archimateElement="id-rel-1"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-2" source="id-view-obj-layer6" target="id-view-obj-layer2" archimateElement="id-rel-2"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-3" source="id-view-obj-layer3" target="id-view-obj-layer6" archimateElement="id-rel-3"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-4" source="id-view-obj-layer3" target="id-view-obj-layer4" archimateElement="id-rel-4"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-5" source="id-view-obj-layer3" target="id-view-obj-layer5" archimateElement="id-rel-5"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-6" source="id-view-obj-layer7" target="id-view-obj-layer3" archimateElement="id-rel-6"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-7" source="id-view-obj-layer3" target="id-view-obj-layer8" archimateElement="id-rel-7"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-8" source="id-view-obj-layer9" target="id-view-obj-layer3" archimateElement="id-rel-8"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-9" source="id-view-obj-layer9" target="id-view-obj-layer6" archimateElement="id-rel-9"/>
+      <child xsi:type="archimate:DiagramObject" id="id-conn-10" source="id-view-obj-layer9" target="id-view-obj-layer7" archimateElement="id-rel-10"/>
+    </element>
+  </folder>
+</archimate:model>

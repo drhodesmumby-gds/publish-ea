@@ -1,0 +1,262 @@
+---
+title: Data Sharing
+caption: LGAM Topics
+status: draft
+---
+<style>
+    /* LGAM cards */
+    .value-stream-card {
+        background-color: #f3f2f1;
+        padding: 20px;
+        height: 100%;
+        box-sizing: border-box;
+        border-top: 4px solid #1d70b8;
+    }
+    .value-stream-card__title {
+        margin-bottom: 10px;
+    }
+    .value-stream-card__link {
+        text-decoration: none;
+    }
+    .value-stream-card__link:hover {
+        text-decoration: underline;
+    }
+    
+    /* Functions section container from Adult Social Care */
+    .lgam-functions-panel {
+      background: #f3f2f1;
+      padding: 20px;
+      border-left: 10px solid #cf611c;
+    }
+</style>
+
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this topic</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#sharing-patterns">Data sharing patterns</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#architectural-principles">Architectural principles</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#conceptual-model">The conceptual model</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#legal-context">Legal context</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#adjacent-frameworks">Adjacent frameworks</a></li>
+      </ul>
+</nav-contents>
+
+<main-content>
+      <span class="govuk-caption-xl">LGAM Topics</span>
+      <h1 class="govuk-heading-xl">Data Sharing</h1>
+
+      <section id="about">
+        <p class="govuk-body govuk-!-font-size-24">A conceptual model and common patterns for purposeful data sharing across the public sector.</p>
+        <p class="govuk-body">Local government holds and processes vast amounts of personal and non-personal data. Sharing this data effectively—while remaining lawful, proportionate, and secure—is critical to delivering joined-up services, protecting vulnerable people, and reducing administrative burdens on citizens.</p>
+        <p class="govuk-body">This topic hub draws on the principles established in the <a href="https://istanduk.org/" class="govuk-link">iStandUK Role-Based Data Sharing White Paper</a> to provide a domain-agnostic, configurable conceptual reference for data architects and information governance leads in local government.</p>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="sharing-patterns">
+        <h2 class="govuk-heading-l">Data sharing patterns</h2>
+        <p class="govuk-body">Because technical implementation varies drastically depending on the actors and purpose, data sharing is best understood by mapping it to specific sharing patterns. Select a pattern below to view detailed technical lifecycles, target architectures, and standards.</p>
+
+        <div class="govuk-grid-row govuk-!-margin-top-6">
+          <div class="govuk-grid-column-one-half govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="ds-statutory-cross-government.html" class="value-stream-card__link">Statutory cross-government sharing</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Sharing data between local and central government under specific legal gateways (e.g. DEA 2017 Part 5), relying on APIs, established national data standards, and, where mandated by legacy external systems, scheduled bulk transfers.</p>
+              <a href="ds-statutory-cross-government.html" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+
+          <div class="govuk-grid-column-one-half govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="ds-inter-authority-partner.html" class="value-stream-card__link">Inter-authority and partner sharing</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Data exchanged between local public services (e.g. Councils, NHS trusts, Police) usually driven by public task or substantial public interest, using data sharing agreements and attribute-based access controls.</p>
+              <a href="ds-inter-authority-partner.html" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-one-half govuk-!-margin-bottom-4">
+            <div class="value-stream-card" style="border-top-color: #b1b4b6;">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <span class="govuk-body govuk-!-font-weight-bold" style="color: #626a6e;">Citizen-mediated sharing (Coming soon)</span>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14" style="color: #626a6e;">Empowering residents to hold and share their own verified attributes (e.g., through digital wallets or verifiable credentials) to prove eligibility or status.</p>
+            </div>
+          </div>
+
+          <div class="govuk-grid-column-one-half govuk-!-margin-bottom-4">
+            <div class="value-stream-card" style="border-top-color: #b1b4b6;">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <span class="govuk-body govuk-!-font-weight-bold" style="color: #626a6e;">Open and published data (Coming soon)</span>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14" style="color: #626a6e;">Publishing non-personal or anonymised datasets for public consumption, transparency, and re-use by third-party innovators using open data standards.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="architectural-principles">
+        <h2 class="govuk-heading-l">Architectural principles</h2>
+        <p class="govuk-body">Local government sharing arrangements should conform to core principles, ensuring security, interoperability, and legal compliance:</p>
+        
+        <ol class="govuk-list govuk-list--number govuk-!-margin-bottom-6">
+          <li><strong>Legal basis before integration:</strong> Technical integration must not precede governance. The lawful basis must be established and documented before technical pipelines are built.</li>
+          <li><strong>Catalogue as a first-class artefact:</strong> Data cannot be shared effectively if it cannot be discovered. Data schemas and assets must be catalogued using established standards (e.g., DCAT v3, OpenAPI 3).</li>
+          <li><strong>Derived data to honour minimisation:</strong> Architectures must support querying and returning derived data (e.g., <code>isOver65: true</code>) rather than sharing full raw records, strictly fulfilling UK GDPR data minimisation principles.</li>
+          <li><strong>Standards-based identity and audit:</strong> Point-to-point IP whitelisting and hardcoded service accounts are insufficient. Federated identity (e.g., OAuth 2.0 / OIDC) must be used to ensure granular, per-request auditability tied to specific users and roles.</li>
+          <li><strong>Honour the data subject:</strong> Design architectures that respect the data subject. Allow citizens visibility into how their data is shared and processed, and consider citizen-mediated sharing patterns (e.g., verifiable credentials) where appropriate.</li>
+        </ol>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="lgam-stack">
+        <h2 class="govuk-heading-l">LGAM technology stack at hub level</h2>
+        <p class="govuk-body">Delivering robust data sharing architectures relies on several core taxonomy nodes within the LGAM. These capabilities must be provisioned and configured to support the sharing patterns detailed above.</p>
+        
+        <div class="lgam-functions-panel govuk-!-margin-top-6" style="border-left-color: #1d70b8; background-color: #f8f8f8;">
+          <table class="govuk-table govuk-!-font-size-16" style="margin-bottom: 0;">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header govuk-!-width-one-third">LGAM Taxonomy Node</th>
+                <th scope="col" class="govuk-table__header">Topic Relevance</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><strong class="govuk-tag" style="max-width: 100%; white-space: normal; text-align: left; background-color: #CC0000; color: #fff;">Identity and access management (IAM)</strong></td>
+                <td class="govuk-table__cell">Provides the federated trust mechanisms (OAuth 2.0, OIDC) needed to authenticate both workforce professionals and citizens, and securely authorise machine-to-machine B2B integration.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><strong class="govuk-tag" style="max-width: 100%; white-space: normal; text-align: left; background-color: #6B6B00; color: #fff;">Partner (B2B) Integration</strong></td>
+                <td class="govuk-table__cell">Specialised integration capabilities to connect systems across organisational boundaries, handling varying protocols and security requirements of partner agencies.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><strong class="govuk-tag" style="max-width: 100%; white-space: normal; text-align: left; background-color: #800000; color: #fff;">Data Catalogue & Metadata</strong></td>
+                <td class="govuk-table__cell">The foundational capability for making data assets discoverable across and outside the organisation, enabling stakeholders to understand what data exists and how it can be accessed.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><strong class="govuk-tag" style="max-width: 100%; white-space: normal; text-align: left; background-color: #6B6B00; color: #fff;">API Management & Gateways</strong></td>
+                <td class="govuk-table__cell">Centralised points of ingress and egress for sharing data via APIs. They enforce rate limits, authenticate consumers, and provide the critical audit logging necessary for statutory compliance.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell"><strong class="govuk-tag" style="max-width: 100%; white-space: normal; text-align: left; background-color: #CC0000; color: #fff;">Security Operations (SIEM/SOC)</strong></td>
+                <td class="govuk-table__cell">Centralised collection and monitoring of immutable audit logs generated by integration gateways and shared records to ensure data is accessed legally and proportionately.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="conceptual-model">
+        <h2 class="govuk-heading-l">The conceptual model</h2>
+        <p class="govuk-body">For personal data to be shared safely and lawfully, the data controller needs assurance. As defined by the iStandUK White Paper, the core requirement is:</p>
+        
+        <div class="govuk-inset-text">
+          A user is able to <strong>assert</strong> that they are empowered by their <strong>organisation</strong> to act in a <strong>role</strong> that has a <strong>right</strong> to a set of <strong>data items</strong> for a <strong>purpose</strong>, and agrees to the <strong>terms</strong> by which the data is to be used and handled.
+        </div>
+
+        <p class="govuk-body">These seven elements provide a structured way to configure and describe any data sharing arrangement.</p>
+
+        <div class="lgam-functions-panel govuk-!-margin-top-6">
+          <table class="govuk-table govuk-!-font-size-16">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Element</th>
+                <th scope="col" class="govuk-table__header">Definition</th>
+                <th scope="col" class="govuk-table__header">Reference Frameworks</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-font-weight-bold">Purpose</td>
+                <td class="govuk-table__cell">The objective for which data can be shared.</td>
+                <td class="govuk-table__cell">Digital Economy Act 2017 Part 5; Documented public task under UK GDPR.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-font-weight-bold">Data Items</td>
+                <td class="govuk-table__cell">The specific subset of data required to support the purpose.</td>
+                <td class="govuk-table__cell">Data Catalogues using DCAT v3; UK Cross-Government Metadata Exchange Model.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-font-weight-bold">Right</td>
+                <td class="govuk-table__cell">The legal basis for disclosure.</td>
+                <td class="govuk-table__cell">UK GDPR lawful bases; DEA 2017 gateways.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-font-weight-bold">Organisation</td>
+                <td class="govuk-table__cell">The entities that have the right to the data.</td>
+                <td class="govuk-table__cell">Specified persons in legislation, or statutory identifiers.</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-font-weight-bold">Role</td>
+                <td class="govuk-table__cell">The role a user must hold to exercise the right.</td>
+                <td class="govuk-table__cell">Role-Based Access Control (RBAC); Attribute-Based Access Control (ABAC).</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-font-weight-bold">Assertion</td>
+                <td class="govuk-table__cell">The required strength of identity verification.</td>
+                <td class="govuk-table__cell">OIDC/OAuth 2.0; UK digital identity and attributes trust framework (DUAA 2025).</td>
+              </tr>
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell govuk-!-font-weight-bold">Terms</td>
+                <td class="govuk-table__cell">Information governance undertakings.</td>
+                <td class="govuk-table__cell">Data Sharing Agreements; DPIAs; ICO code of practice.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="target-standards">
+        <h2 class="govuk-heading-l">Target data and metadata standards</h2>
+        <p class="govuk-body">Data sharing requires adherence to established data standards to ensure interoperability. Key standards include:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><strong>DCAT v3:</strong> The W3C Data Catalog Vocabulary is the standard for publishing metadata about datasets.</li>
+          <li><strong>UK Cross-Government Metadata Exchange Model:</strong> The UK extension to DCAT to enable cross-government cataloguing.</li>
+          <li><strong>OpenAPI Specification 3:</strong> The standard for describing and documenting RESTful APIs to ensure programmatic interoperability.</li>
+          <li><a href="https://www.gov.uk/guidance/identify-and-record-critical-data-assets" class="govuk-link">GOV.UK Guidance: Identify and record critical data assets</a>: National guidance on data cataloguing.</li>
+        </ul>
+        <p class="govuk-body govuk-!-margin-top-4">Additionally, for sharing data concerning vulnerable individuals, <a href="https://istanduk.org/savvi/" class="govuk-link">SAVVI</a> provides a canonical operational example and data standard for vulnerability use cases.</p>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="legal-context">
+        <h2 class="govuk-heading-l">Legal context</h2>
+        <p class="govuk-body">Public sector data sharing operates within a strict legislative environment. Key instruments include:</p>
+        
+        <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+          <li><strong>UK GDPR & Data Protection Act 2018:</strong> Establishes the comprehensive personal data protection regime, requiring a lawful basis (often "public task" Article 6(1)(e)) and adherence to principles like data minimisation and transparency.</li>
+          <li><strong>Digital Economy Act (DEA) 2017, Part 5:</strong> Provides statutory gateways for specified public bodies to share data for public service delivery, fraud prevention, debt management, research, and statistics.</li>
+          <li><strong>Data (Use and Access) Act (DUAA) 2025:</strong> Amends the UK GDPR to clarify legitimate interests and rules around automated decision making, while establishing a statutory footing for Digital Verification Services.</li>
+        </ul>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="adjacent-frameworks">
+        <h2 class="govuk-heading-l">Adjacent frameworks</h2>
+        <p class="govuk-body">Enterprise Architects should align their data sharing capabilities with established cross-government frameworks:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><a href="https://www.gov.uk/guidance/the-technology-code-of-practice" class="govuk-link">The Technology Code of Practice</a> – A set of criteria to help government design, build and buy technology.</li>
+          <li><a href="https://www.ncsc.gov.uk/collection/caf" class="govuk-link">NCSC Cyber Assessment Framework (CAF)</a> – Guidance for assessing the extent to which cyber risks are being managed.</li>
+          <li><a href="https://www.gov.uk/government/publications/algorithmic-transparency-template" class="govuk-link">The Algorithmic Transparency Recording Standard (ATRS)</a> – A framework to help public sector organisations be transparent about algorithmic tools.</li>
+          <li><a href="https://www.gov.uk/government/publications/data-ethics-framework" class="govuk-link">The Data Ethics Framework</a> – Principles to guide the design of appropriate data use in the public sector.</li>
+          <li><a href="https://istanduk.org/savvi/" class="govuk-link">SAVVI</a> – Scalable Approach to Vulnerability via Interoperability (a canonical operational example and data standard for vulnerability use cases).</li>
+          <li><a href="https://www.localdigital.gov.uk/declaration/" class="govuk-link">The Local Digital Declaration</a> – A shared ambition for the future of local public services written by a collective of local authorities and sector bodies.</li>
+        </ul>
+      </section>
+
+</main-content>
+
+<page-script>
+</page-script>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="LGAM Example - Adult Social Care" id="lgam-example-asc" version="3.2.0">
+  <folder name="Strategy" id="folder-strategy" type="strategy"/>
+  <folder name="Business" id="folder-business" type="business">
+    <folder name="Public Channels" id="folder-channels">
+      <element xsi:type="archimate:BusinessInterface" name="Council website (online)" id="ch-web"/>
+      <element xsi:type="archimate:BusinessInterface" name="Contact centre (phone)" id="ch-phone"/>
+      <element xsi:type="archimate:BusinessInterface" name="Social worker visit (in person)" id="ch-visit"/>
+    </folder>
+    <folder name="Business Areas" id="folder-business-areas">
+      <element xsi:type="archimate:BusinessProcess" name="Care needs assessment" id="bp-assess"/>
+      <element xsi:type="archimate:BusinessProcess" name="Care planning" id="bp-plan"/>
+      <element xsi:type="archimate:BusinessProcess" name="Safeguarding" id="bp-safe"/>
+      <element xsi:type="archimate:BusinessProcess" name="Financial assessment" id="bp-finance"/>
+      <element xsi:type="archimate:BusinessProcess" name="Provider management" id="bp-provider"/>
+    </folder>
+    <folder name="Corporate Areas" id="folder-corporate">
+      <element xsi:type="archimate:BusinessFunction" name="Finance (care funding)" id="bf-finance"/>
+      <element xsi:type="archimate:BusinessFunction" name="HR (social worker workforce)" id="bf-hr"/>
+      <element xsi:type="archimate:BusinessFunction" name="Legal (Mental Capacity Act)" id="bf-legal"/>
+    </folder>
+  </folder>
+  <folder name="Application" id="folder-application" type="application">
+    <folder name="Council Interfaces" id="folder-interfaces">
+      <element xsi:type="archimate:ApplicationInterface" name="Citizen self-service portal" id="if-portal"/>
+      <element xsi:type="archimate:ApplicationInterface" name="Professional portal (staff)" id="if-pro"/>
+      <element xsi:type="archimate:ApplicationComponent" name="Mobile app (social workers)" id="if-mobile"/>
+    </folder>
+    <folder name="Capabilities" id="folder-capabilities">
+      <element xsi:type="archimate:ApplicationComponent" name="Liquidlogic (case management)" id="cap-liquid"/>
+      <element xsi:type="archimate:ApplicationService" name="GOV.UK Forms (online referrals)" id="cap-forms"/>
+      <element xsi:type="archimate:ApplicationService" name="GOV.UK Pay (client contributions)" id="cap-pay"/>
+      <element xsi:type="archimate:ApplicationService" name="GOV.UK One Login (citizen identity)" id="cap-login"/>
+      <element xsi:type="archimate:ApplicationService" name="Bookings (day care and respite)" id="cap-book"/>
+    </folder>
+    <folder name="Integration" id="folder-integration">
+      <element xsi:type="archimate:ApplicationComponent" name="NHS Spine (health data)" id="int-nhs"/>
+      <element xsi:type="archimate:ApplicationComponent" name="DWP benefits API" id="int-dwp"/>
+      <element xsi:type="archimate:ApplicationComponent" name="CQC Provider API" id="int-cqc"/>
+      <element xsi:type="archimate:ApplicationComponent" name="Azure Integration Services (iPaaS)" id="int-azure"/>
+    </folder>
+  </folder>
+  <folder name="Technology &amp; Physical" id="folder-technology" type="technology">
+    <folder name="Foundational Technology" id="folder-ft">
+      <element xsi:type="archimate:Node" name="Azure UK South (cloud hosting)" id="ft-azure"/>
+      <element xsi:type="archimate:TechnologyService" name="Microsoft Entra ID (staff IAM)" id="ft-entra"/>
+      <element xsi:type="archimate:TechnologyService" name="ServiceNow (ITSM)" id="ft-snow"/>
+      <element xsi:type="archimate:TechnologyService" name="Azure Monitor (observability)" id="ft-monitor"/>
+    </folder>
+    <folder name="Security" id="folder-security">
+      <element xsi:type="archimate:TechnologyService" name="Microsoft Defender (endpoint)" id="sec-defender"/>
+      <element xsi:type="archimate:TechnologyService" name="Managed SOC (security monitoring)" id="sec-soc"/>
+      <element xsi:type="archimate:TechnologyService" name="OneTrust (DPIA and data governance)" id="sec-onetrust"/>
+    </folder>
+    <folder name="Data and Information Technology" id="folder-data">
+      <element xsi:type="archimate:DataObject" name="Citizen master record (CRM)" id="dat-citizen"/>
+      <element xsi:type="archimate:DataObject" name="LLPG / Address gazetteer" id="dat-llpg"/>
+      <element xsi:type="archimate:ApplicationComponent" name="Power BI (ASC-CLD reporting)" id="dat-pbi"/>
+      <element xsi:type="archimate:Node" name="Azure Data Lake (data warehouse)" id="dat-lake"/>
+    </folder>
+  </folder>
+  <folder name="Motivation" id="folder-motivation" type="motivation">
+    <element xsi:type="archimate:Driver" name="Care Act 2014 statutory duties" id="drv-careact"/>
+    <element xsi:type="archimate:Goal" name="Effective, safe adult social care" id="goal-asc"/>
+    <element xsi:type="archimate:Requirement" name="ASC-CLD statutory data return" id="req-cld"/>
+    <element xsi:type="archimate:Requirement" name="Safeguarding data sharing" id="req-safeguard"/>
+  </folder>
+  <folder name="Implementation &amp; Migration" id="folder-impl" type="implementation_migration"/>
+  <folder name="Other" id="folder-other" type="other"/>
+  <folder name="Relations" id="folder-relations" type="relations">
+    <!-- ROUTES TO: Channels to Interfaces -->
+    <element xsi:type="archimate:TriggeringRelationship" name="" id="rel-ch-web-portal" source="ch-web" target="if-portal"/>
+    <element xsi:type="archimate:TriggeringRelationship" name="" id="rel-ch-phone-pro" source="ch-phone" target="if-pro"/>
+    <element xsi:type="archimate:TriggeringRelationship" name="" id="rel-ch-visit-mobile" source="ch-visit" target="if-mobile"/>
+    <!-- USES: Interfaces to Capabilities -->
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-liquid-pro" source="cap-liquid" target="if-pro"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-liquid-mobile" source="cap-liquid" target="if-mobile"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-forms-portal" source="cap-forms" target="if-portal"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-login-portal" source="cap-login" target="if-portal"/>
+    <!-- SUPPORTS: Capabilities to Business Processes -->
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-liquid-assess" source="cap-liquid" target="bp-assess"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-liquid-plan" source="cap-liquid" target="bp-plan"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-liquid-safe" source="cap-liquid" target="bp-safe"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-liquid-provider" source="cap-liquid" target="bp-provider"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-forms-assess" source="cap-forms" target="bp-assess"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-pay-finance" source="cap-pay" target="bp-finance"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-book-plan" source="cap-book" target="bp-plan"/>
+    <!-- ENABLES: FT to Capabilities -->
+    <element xsi:type="archimate:RealizationRelationship" name="" id="rel-azure-liquid" source="ft-azure" target="cap-liquid"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-entra-pro" source="ft-entra" target="if-pro"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-entra-mobile" source="ft-entra" target="if-mobile"/>
+    <element xsi:type="archimate:ServingRelationship" name="" id="rel-monitor-liquid" source="ft-monitor" target="cap-liquid"/>
+    <!-- ENABLES: Integration to Capabilities/Business -->
+    <element xsi:type="archimate:FlowRelationship" name="health data" id="rel-nhs-liquid" source="int-nhs" target="cap-liquid"/>
+    <element xsi:type="archimate:FlowRelationship" name="benefits data" id="rel-dwp-finance" source="int-dwp" target="bp-finance"/>
+    <element xsi:type="archimate:FlowRelationship" name="provider data" id="rel-cqc-provider" source="int-cqc" target="bp-provider"/>
+    <element xsi:type="archimate:FlowRelationship" name="orchestration" id="rel-azure-int-liquid" source="int-azure" target="cap-liquid"/>
+    <element xsi:type="archimate:FlowRelationship" name="" id="rel-azure-int-nhs" source="int-azure" target="int-nhs"/>
+    <element xsi:type="archimate:FlowRelationship" name="" id="rel-azure-int-dwp" source="int-azure" target="int-dwp"/>
+    <!-- USES: Capabilities to Data -->
+    <element xsi:type="archimate:AccessRelationship" name="read/write" id="rel-liquid-citizen" source="cap-liquid" target="dat-citizen"/>
+    <element xsi:type="archimate:AccessRelationship" name="read" id="rel-liquid-llpg" source="cap-liquid" target="dat-llpg"/>
+    <element xsi:type="archimate:AccessRelationship" name="reads" id="rel-pbi-citizen" source="dat-pbi" target="dat-citizen"/>
+    <element xsi:type="archimate:AccessRelationship" name="stores" id="rel-lake-citizen" source="dat-lake" target="dat-citizen"/>
+    <!-- SECURES: Security to other elements (modelled as Association) -->
+    <element xsi:type="archimate:AssociationRelationship" name="protects" id="rel-defender-azure" source="sec-defender" target="ft-azure"/>
+    <element xsi:type="archimate:AssociationRelationship" name="monitors" id="rel-soc-liquid" source="sec-soc" target="cap-liquid"/>
+    <element xsi:type="archimate:AssociationRelationship" name="governs" id="rel-onetrust-citizen" source="sec-onetrust" target="dat-citizen"/>
+    <!-- Motivation -->
+    <element xsi:type="archimate:InfluenceRelationship" name="" id="rel-careact-goal" source="drv-careact" target="goal-asc"/>
+    <element xsi:type="archimate:RealizationRelationship" name="" id="rel-pbi-cld" source="dat-pbi" target="req-cld"/>
+  </folder>
+  <folder name="Views" id="folder-views" type="diagrams">
+    <element xsi:type="archimate:ArchimateDiagramModel" name="ASC Service Architecture" id="view-asc">
+      <documentation>Adult Social Care technology architecture. All elements and connections are pre-positioned. You can rearrange in Archi's canvas as needed.</documentation>
+      <!-- Channels -->
+      <child xsi:type="archimate:DiagramObject" id="v-ch-web" archimateElement="ch-web">
+        <bounds x="50" y="50" width="140" height="55"/>
+        <sourceConnection xsi:type="archimate:DiagramModelArchimateConnection" id="c01" target="v-if-portal" archimateRelationship="rel-ch-web-portal"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-ch-phone" archimateElement="ch-phone">
+        <bounds x="50" y="150" width="140" height="55"/>
+        <sourceConnection xsi:type="archimate:DiagramModelArchimateConnection" id="c02" target="v-if-pro" archimateRelationship="rel-ch-phone-pro"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-ch-visit" archimateElement="ch-visit">
+        <bounds x="50" y="250" width="140" height="55"/>
+        <sourceConnection xsi:type="archimate:DiagramModelArchimateConnection" id="c03" target="v-if-mobile" archimateRelationship="rel-ch-visit-mobile"/>
+      </child>
+      <!-- Interfaces -->
+      <child xsi:type="archimate:DiagramObject" id="v-if-portal" archimateElement="if-portal">
+        <bounds x="250" y="50" width="140" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-if-pro" archimateElement="if-pro">
+        <bounds x="250" y="150" width="140" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-if-mobile" archimateElement="if-mobile">
+        <bounds x="250" y="250" width="140" height="55"/>
+      </child>
+      <!-- Capabilities -->
+      <child xsi:type="archimate:DiagramObject" id="v-cap-liquid" archimateElement="cap-liquid">
+        <bounds x="450" y="130" width="160" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-cap-forms" archimateElement="cap-forms">
+        <bounds x="450" y="30" width="160" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-cap-pay" archimateElement="cap-pay">
+        <bounds x="450" y="350" width="160" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-cap-login" archimateElement="cap-login">
+        <bounds x="450" y="230" width="160" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-cap-book" archimateElement="cap-book">
+        <bounds x="450" y="290" width="160" height="55"/>      </child>
+      <!-- Business Processes -->
+      <child xsi:type="archimate:DiagramObject" id="v-bp-assess" archimateElement="bp-assess">
+        <bounds x="680" y="0" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-bp-plan" archimateElement="bp-plan">
+        <bounds x="680" y="80" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-bp-safe" archimateElement="bp-safe">
+        <bounds x="680" y="160" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-bp-provider" archimateElement="bp-provider">
+        <bounds x="680" y="240" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-bp-finance" archimateElement="bp-finance">
+        <bounds x="680" y="320" width="150" height="55"/>
+      </child>
+      <!-- Integration -->
+      <child xsi:type="archimate:DiagramObject" id="v-int-nhs" archimateElement="int-nhs">
+        <bounds x="900" y="0" width="160" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-int-dwp" archimateElement="int-dwp">
+        <bounds x="900" y="300" width="160" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-int-cqc" archimateElement="int-cqc">
+        <bounds x="900" y="200" width="160" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-int-azure" archimateElement="int-azure">
+        <bounds x="900" y="100" width="160" height="55"/>      </child>
+      <!-- Foundational Technology -->
+      <child xsi:type="archimate:DiagramObject" id="v-ft-azure" archimateElement="ft-azure">
+        <bounds x="1120" y="0" width="150" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-ft-entra" archimateElement="ft-entra">
+        <bounds x="1120" y="80" width="150" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-ft-monitor" archimateElement="ft-monitor">
+        <bounds x="1120" y="160" width="150" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-ft-snow" archimateElement="ft-snow">
+        <bounds x="1120" y="380" width="150" height="55"/>
+      </child>
+      <!-- Security -->
+      <child xsi:type="archimate:DiagramObject" id="v-sec-defender" archimateElement="sec-defender">
+        <bounds x="1120" y="240" width="150" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-sec-soc" archimateElement="sec-soc">
+        <bounds x="1120" y="310" width="150" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-sec-onetrust" archimateElement="sec-onetrust">
+        <bounds x="1120" y="450" width="150" height="55"/>      </child>
+      <!-- Data -->
+      <child xsi:type="archimate:DiagramObject" id="v-dat-citizen" archimateElement="dat-citizen">
+        <bounds x="1330" y="50" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-dat-llpg" archimateElement="dat-llpg">
+        <bounds x="1330" y="130" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-dat-pbi" archimateElement="dat-pbi">
+        <bounds x="1330" y="210" width="150" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-dat-lake" archimateElement="dat-lake">
+        <bounds x="1330" y="290" width="150" height="55"/>      </child>
+      <!-- Corporate -->
+      <child xsi:type="archimate:DiagramObject" id="v-bf-finance" archimateElement="bf-finance">
+        <bounds x="680" y="400" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-bf-hr" archimateElement="bf-hr">
+        <bounds x="680" y="470" width="150" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-bf-legal" archimateElement="bf-legal">
+        <bounds x="680" y="540" width="150" height="55"/>
+      </child>
+      <!-- Motivation -->
+      <child xsi:type="archimate:DiagramObject" id="v-drv-careact" archimateElement="drv-careact">
+        <bounds x="50" y="400" width="180" height="55"/>      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-goal-asc" archimateElement="goal-asc">
+        <bounds x="50" y="470" width="180" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-req-cld" archimateElement="req-cld">
+        <bounds x="250" y="400" width="180" height="55"/>
+      </child>
+      <child xsi:type="archimate:DiagramObject" id="v-req-safeguard" archimateElement="req-safeguard">
+        <bounds x="250" y="470" width="180" height="55"/>
+      </child>
+    </element>
+  </folder>
+  <purpose>Example Adult Social Care architecture modelled using LGAM layers and ArchiMate.
+
+This file demonstrates how a council might document its ASC technology estate using:
+- LGAM layers as the organising structure (folders)
+- ArchiMate element types for formal modelling
+- ArchiMate relationships between specific systems
+
+The elements represent a typical (illustrative) council's ASC technology stack:
+- Liquidlogic for case management
+- GOV.UK services (Forms, Pay, One Login)
+- Microsoft stack (Azure, Entra ID, Defender)
+- NHS Spine and DWP integration
+- Power BI for statutory reporting
+
+To use: Open in Archi, review the elements and relationships, then adapt to your council's specific systems.
+
+More information: https://architecture.cddo.cabinetoffice.gov.uk/gds-local/</purpose>
+</archimate:model>

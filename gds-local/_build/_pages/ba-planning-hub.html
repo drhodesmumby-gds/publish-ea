@@ -1,0 +1,175 @@
+---
+title: Planning Hub
+caption: LGAM Business Areas
+status: draft
+---
+<style>
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .govuk-tag--green { background-color: #00703c; color: #fff; }
+    .govuk-tag--grey { background-color: #b1b4b6; color: #0b0c0c; }
+</style>
+
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this domain</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#value-streams">Planning value streams</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#domain-principles">Domain architectural principles</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#target-data-model">The target data model</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#market-intelligence">Market intelligence</a></li>
+      </ul>
+
+      <h2 class="app-navigation__heading">Related Domains</h2>
+      <ul class="app-navigation">
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#">Geospatial Data</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#">Housing</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#">Licensing and Regulation</a></li>
+</nav-contents>
+
+<main-content>
+      <span class="govuk-caption-xl">LGAM Business Area</span>
+      <h1 class="govuk-heading-xl">Planning and Development</h1>
+
+      <section id="about">
+        <p class="govuk-body govuk-!-font-size-24">The processing of planning applications, enforcement of building regulations, and creation of local spatial plans.</p>
+        <p class="govuk-body">Planning and Development represents one of the most legally complex, highly scrutinised, and data-intensive functions of local government. Systems in this domain must handle massive volumes of unstructured data (architectural plans, public objections) whilst strictly enforcing spatial geometries and statutory deadlines.</p>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="value-streams">
+        <h2 class="govuk-heading-l">Planning value streams</h2>
+        <p class="govuk-body">Because the technological requirements vary drastically across the planning domain, target architectures are best understood by mapping them to specific business value streams. Select a journey below to view detailed technical lifecycles, target architectures, and anti-patterns.</p>
+
+        <div class="govuk-grid-row govuk-!-margin-top-6">
+          <div class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="ba-pd-development-control.html" class="value-stream-card__link">Development Control</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Processing individual planning applications. High public visibility, reliant on rules-engines, dynamic forms, and integration with public registers.</p>
+              <a href="ba-pd-development-control.html" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+
+          <div class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="#" class="value-stream-card__link">Building Control</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Enforcing structural safety. Technically intensive, heavily reliant on offline-first mobile apps for field inspections and 3D BIM data ingestion.</p>
+              <a href="#" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+
+          <div class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="#" class="value-stream-card__link">Planning Policy</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Creating local spatial plans. Data-heavy, requiring geospatial modeling, multi-criteria decision analysis, and mass public engagement platforms.</p>
+              <a href="#" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail <span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="domain-principles">
+        <h2 class="govuk-heading-l">Domain architectural principles</h2>
+        <p class="govuk-body">While the value streams above have specific needs, Enterprise Architects should enforce these core principles across all technology procured or built for the Planning and Development domain.</p>
+
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-principles">
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button">1. The Spatial Golden Thread (UPRNs/USRNs)</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <p class="govuk-body">Every planning application, building control certificate, and enforcement notice should be fundamentally anchored to a Unique Property Reference Number (UPRN) or Unique Street Reference Number (USRN). Systems that rely on free-text addresses or proprietary gazetteers should be phased out, as they break interoperability with corporate systems (like Waste and Revenues).</p>
+            </div>
+          </div>
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button">2. Separation of Document Storage from Transactional State</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <p class="govuk-body">Planning generates terabytes of unstructured data (PDFs, CAD files, photographs). Target architectures decouple this heavy document storage from the primary relational database managing the workflow state. This prevents database bloat and ensures the core workflow engine remains highly performant.</p>
+            </div>
+          </div>
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button">3. API-First Statutory Integration</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <p class="govuk-body">Interactions with statutory bodies (e.g., The Environment Agency, Historic England, the Planning Inspectorate) should transition from manual PDF exchanges to structured B2B API integrations. When procuring new back-office systems, architects should prioritise native support for external API webhooks to handle automated status updates.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="target-data-model">
+        <h2 class="govuk-heading-l">The target data model</h2>
+        <p class="govuk-body">The Ministry of Housing, Communities and Local Government (MHCLG) maintains national data standards for the planning sector at <a href="https://planning.data.gov.uk/" class="govuk-link">planning.data.gov.uk</a>. Enterprise Architects should view these not merely as reporting requirements, but as the <strong>target schema</strong> for their own internal systems.</p>
+
+        <div class="feature-box">
+          <h3 class="govuk-heading-s">Best practice for procurement</h3>
+          <p class="govuk-body govuk-!-margin-bottom-0">When drafting requirements, councils should specify that new planning software can natively export and ingest data matching these national schemas. Aligning to these standards early avoids the need to build and maintain complex, bespoke ETL (Extract, Transform, Load) pipelines later.</p>
+        </div>
+
+        <table class="govuk-table govuk-!-font-size-16">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Data Schema</th>
+              <th scope="col" class="govuk-table__header">Description &amp; Use Case</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><a href="#" class="govuk-link govuk-!-font-weight-bold">Planning applications</a></td>
+              <td class="govuk-table__cell">Standardised lifecycle records of applications, including site boundaries, proposed usage, and determination outcomes.</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><a href="#" class="govuk-link govuk-!-font-weight-bold">Local plans</a></td>
+              <td class="govuk-table__cell">Machine-readable versions of spatial planning policies, enabling automated rules-engines to check constraints before submission.</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><a href="#" class="govuk-link govuk-!-font-weight-bold">Developer contributions</a></td>
+              <td class="govuk-table__cell">Section 106 agreements and Community Infrastructure Levy (CIL) data, crucial for integrating planning with corporate financial systems.</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell"><a href="#" class="govuk-link govuk-!-font-weight-bold">Brownfield land</a></td>
+              <td class="govuk-table__cell">Registers of previously developed land suitable for housing, demonstrating open spatial data publishing.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="market-intelligence">
+        <h2 class="govuk-heading-l">Market intelligence</h2>
+        <p class="govuk-body">Reviewing live public sector tender opportunities provides valuable context when designing target architectures or drafting business cases. This data helps benchmark estimated contract values and identify active suppliers across the wider planning domain.</p>
+
+        <div class="govuk-inset-text">
+          <strong>Data Source:</strong> Live feed powered by the UK Tenders MCP integration, filtering for broad domain keywords.
+        </div>
+
+        <div id="tenders-container" class="govuk-!-margin-top-6 govuk-!-margin-bottom-8" data-query="planning system OR building control software OR local plan" data-limit="5">
+          <p class="govuk-body" id="tenders-loading">
+            <span style="display:inline-block; animation: spin 1s linear infinite;">&#x23F3;</span> Connecting to MCP tender feed...
+          </p>
+        </div>
+      </section>
+</main-content>
+
+<page-modules>tenders</page-modules>
+
+<page-script>
+</page-script>

@@ -1,0 +1,242 @@
+---
+title: Inter-authority and partner sharing
+caption: LGAM Sharing Patterns
+status: draft
+parent: topic-data-sharing.html
+parent_title: Data Sharing
+---
+<style>
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+    .govuk-tag--green { background-color: #00703c; color: #fff; }
+    .govuk-tag--grey { background-color: #b1b4b6; color: #0b0c0c; }
+    .govuk-tag--blue { background-color: #1d70b8; color: #fff; }
+    
+    /* Mermaid diagram container */
+    .arch-diagram-container {
+        border: 1px solid #b1b4b6;
+        padding: 20px;
+        background-color: #ffffff;
+        margin-bottom: 30px;
+    }
+</style>
+
+<nav-contents>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this pattern</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#lgam-stack">LGAM technology stack</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#architecture-diagram">Target state data flow</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#the-journey">The technical and governance lifecycle</a></li>
+</nav-contents>
+
+<main-content>
+      <span class="govuk-caption-xl">LGAM Sharing Patterns</span>
+      <h1 class="govuk-heading-xl">Inter-authority and partner sharing</h1>
+
+      <section id="about">
+        <p class="govuk-body govuk-!-font-size-24">The technical and governance architecture for sharing data horizontally across local multi-agency partnerships.</p>
+        <p class="govuk-body">This pattern covers data exchange between local public services—such as upper and lower-tier councils, NHS trusts, police forces, and fire services. Common use cases include Multi-Agency Safeguarding Hubs (MASH), health and social care integration, and vulnerability identification. It typically relies on the UK GDPR "public task" or "substantial public interest" lawful bases, governed by multiparty Data Sharing Agreements (DSAs).</p>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="lgam-stack">
+        <h2 class="govuk-heading-l">LGAM technology stack at pattern level</h2>
+        <p class="govuk-body">Delivering this pattern requires complex orchestration of identity, security, and master data management.</p>
+        
+        <table class="govuk-table">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header govuk-!-width-one-third">LGAM Taxonomy Node</th>
+              <th scope="col" class="govuk-table__header">Pattern Specific Implementation</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Identity and access management (IAM)</th>
+              <td class="govuk-table__cell">Federated identity allowing a professional from one agency (e.g., an NHS nurse) to securely authenticate into a shared portal or access specific data attributes based on their professional role (RBAC/ABAC).</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Master Data Management (MDM)</th>
+              <td class="govuk-table__cell">Probabilistic matching engines used to resolve identities across systems that lack a shared primary key (e.g., linking a council housing record to an NHS patient record using name, DOB, and address history).</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">API management and event brokers</th>
+              <td class="govuk-table__cell">Pub/sub messaging systems that allow one agency to subscribe to critical events published by another (e.g., alerting social care when a known vulnerable adult is admitted to A&E).</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Document and records management</th>
+              <td class="govuk-table__cell">Shared care records or multi-agency data trusts providing a unified, read-only view of a citizen's interactions across the local partnership.</td>
+            </tr>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">Audit and accountability</th>
+              <td class="govuk-table__cell">Immutable audit logging capturing every data access event tied to the specific user's identity, stored centrally to support multi-agency investigations and Subject Access Requests (SARs).</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="architecture-diagram">
+        <h2 class="govuk-heading-l">Target state data flow</h2>
+        <p class="govuk-body">This architectural model illustrates an event-driven data trust model for multi-agency safeguarding.</p>
+        
+        <div class="arch-diagram-container">
+          <pre class="mermaid">
+flowchart TD
+    %% Styles
+    classDef boundary fill:#f8f8f8,stroke:#b1b4b6,stroke-width:2px,stroke-dasharray: 4 4,color:#505a5f,font-weight:bold
+    classDef system fill:#fff,stroke:#1d70b8,stroke-width:2px,color:#0b0c0c,font-weight:bold
+    classDef store fill:#fff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c,font-weight:bold
+
+    subgraph Agency1["Local Authority"]
+        LA_App["Social Care System"]:::system
+    end
+
+    subgraph Agency2["NHS Trust"]
+        NHS_App["EPR System"]:::system
+    end
+
+    subgraph Agency3["Police Force"]
+        Pol_App["Incident System"]:::system
+    end
+
+    subgraph Shared["Multi-Agency Data Trust"]
+        Broker["Event Broker (Pub/Sub)"]:::system
+        MDM["Identity Resolution Engine"]:::system
+        SharedRecord["Shared Care Record View"]:::store
+        Audit["Immutable Audit Log"]:::store
+    end
+
+    LA_App -->|Publishes Event| Broker
+    NHS_App -->|Publishes Event| Broker
+    Pol_App -->|Publishes Event| Broker
+
+    Broker -->|Routes to| MDM
+    MDM -->|Matches & Links| SharedRecord
+
+    SharedRecord -->|Provides View| LA_App
+    SharedRecord -->|Provides View| NHS_App
+    
+    SharedRecord -.->|Logs Access Event| Audit
+    Broker -.->|Logs Message Event| Audit
+
+    class Agency1,Agency2,Agency3,Shared boundary
+          </pre>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="the-journey">
+        <h2 class="govuk-heading-l">The technical and governance lifecycle</h2>
+        <p class="govuk-body">Establishing a multi-agency sharing agreement requires careful balancing of technical integration and privacy controls.</p>
+
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-journey">
+          
+          <!-- Phase 1 -->
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button"><span class="phase-number">1</span> Information Governance</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <div class="govuk-tabs" data-module="govuk-tabs">
+                <ul class="govuk-tabs__list">
+                  <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#phase1-process">Business Process</a>
+                  </li>
+                  <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#phase1-target">Best Practice</a>
+                  </li>
+                </ul>
+
+                <div class="govuk-tabs__panel" id="phase1-process">
+                  <p class="govuk-body"><strong>The process:</strong> Negotiating and signing a multi-party Data Sharing Agreement (DSA) that defines the purpose, the roles allowed access, and the specific data attributes to be shared.</p>
+                </div>
+
+                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="phase1-target">
+                  <div class="feature-box">
+                    <h4 class="govuk-heading-s">Best Practice: Derived Data</h4>
+                    <p class="govuk-body">As outlined in the iStandUK white paper, partners should default to sharing <strong>derived data</strong> rather than raw data to satisfy data minimisation principles. For example, instead of sharing a complete medical record, an NHS system might expose a binary flag: <code>"Unfit to drive"</code> or <code>"Requires ground-floor accommodation"</code>.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="govuk-accordion__section">
+            <div class="govuk-accordion__section-header">
+              <h3 class="govuk-accordion__section-heading">
+                <span class="govuk-accordion__section-button"><span class="phase-number">2</span> Identity Resolution</span>
+              </h3>
+            </div>
+            <div class="govuk-accordion__section-content">
+              <div class="govuk-tabs" data-module="govuk-tabs">
+                <ul class="govuk-tabs__list">
+                  <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#phase2-target">Target Architecture</a>
+                  </li>
+                  <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#phase2-anti">Anti-patterns</a>
+                  </li>
+                </ul>
+
+                <div class="govuk-tabs__panel" id="phase2-target">
+                  <p class="govuk-body">When bringing together data from the NHS (using NHS Number), the Council (using UPRN/internal ID), and Police (using PNC), a Master Data Management (MDM) solution uses probabilistic matching algorithms on name variations, dates of birth, and historical addresses to create a "Golden Record" without permanently merging the source databases.</p>
+                </div>
+
+                <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="phase2-anti">
+                  <div class="pattern-group">
+                    <span class="pattern-tag pattern-tag--anti">Anti-pattern: Deterministic Exact Matching</span>
+                    <p class="govuk-body">Relying on exact string matches for First Name, Last Name, and Date of Birth across databases. This approach fails to account for typos, nicknames, name changes, or slight date errors, resulting in high rates of missed linkages (false negatives) for vulnerable people.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="target-standards">
+        <h2 class="govuk-heading-l">Target data and metadata standards</h2>
+        <p class="govuk-body">Effective multi-agency sharing relies on common terminology and structured metadata:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><strong><a href="https://www.gov.uk/guidance/identify-and-record-critical-data-assets" class="govuk-link">DCAT v3 / UK Cross-Government Metadata Exchange Model</a>:</strong> For cataloguing the data assets available across the partnership.</li>
+          <li><strong>Domain Standards:</strong> e.g., FHIR (Fast Healthcare Interoperability Resources) for NHS integration, or specific Police/Home Office schema formats.</li>
+        </ul>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="platforms">
+        <h2 class="govuk-heading-l">Platforms and tools</h2>
+        <p class="govuk-body">Implementing this pattern usually relies on a mix of identity and integration engines:</p>
+        <ul class="govuk-list govuk-list--bullet">
+          <li><strong>Master Data Management (MDM):</strong> Tools like IBM InfoSphere, Informatica, or specialized public sector MDMs for identity resolution and golden record creation.</li>
+          <li><strong>Event Brokers:</strong> Event streaming platforms like Apache Kafka, Azure Event Grid, or RabbitMQ to route critical safeguarding events in real-time.</li>
+          <li><strong>Federated Identity Providers:</strong> Platforms that support SSO and attribute-sharing across different domains (e.g., Entra ID, Auth0).</li>
+        </ul>
+      </section>
+
+</main-content>
+
+<page-script>
+</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ 
+    startOnLoad: true, 
+    theme: 'base', 
+    themeVariables: { 
+      primaryColor: '#f8f8f8', 
+      primaryBorderColor: '#b1b4b6', 
+      lineColor: '#0b0c0c', 
+      fontFamily: '"GDS Transport", Arial, sans-serif' 
+    } 
+  });
+</script>
+<script>
+</page-script>
