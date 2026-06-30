@@ -6,25 +6,32 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.css">
 <style>
   .directory-desc { color: #505a5f; font-size: 16px; }
-  .directory-section { margin-bottom: 40px; }
-  .directory-subsection { margin-left: 20px; margin-bottom: 30px; }
+  .directory-section { margin-bottom: 40px; padding: 20px; background: #f3f2f1; border-left: 10px solid #b1b4b6; }
+  .directory-subsection { margin-top: 20px; }
   .directory-page-name { font-family: monospace; font-size: 14px; color: #505a5f; }
+  .govuk-details { background: #fff; padding: 15px; border: 1px solid #b1b4b6; }
 </style>
 </head><body class="govuk-template__body">
-<div class="govuk-width-container" style="padding: 30px 0;">
+<script type="module" src="https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.js"></script>
+<script type="module">import { initAll } from "https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.js"; initAll();</script>
+<div class="govuk-width-container" style="max-width: 90%; padding: 30px 0;">
 <h1 class="govuk-heading-l">LGAM Preview Pages</h1>
 <p class="govuk-body">These pages are drafts or have unapproved modifications. They are not linked from the live site.</p>
-<div class="directory-section">
+<div class="directory-section" style="border-left-color: #0b0c0c;">
 <h2 class="govuk-heading-m">Hand-authored pages</h2>
 <ul class="govuk-list govuk-list--bullet">
 <li><a class="govuk-link" href="index.html">index.html</a> <strong class="govuk-tag govuk-tag--yellow">modified</strong></li>
 <li><a class="govuk-link" href="gds-local-alt.html">gds-local-alt.html</a> <strong class="govuk-tag govuk-tag--green">published</strong></li>
 </ul>
 </div>
-<div class="directory-section">
-<h2 class="govuk-heading-m">Business Area</h2>
+<div class="directory-section" style="border-left-color: #0000FF;">
+<details class="govuk-details" data-module="govuk-details" open>
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">Business Area</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-4">
 <div class="directory-subsection">
-<h3 class="govuk-heading-s">Adult Social Care</h3>
+<details class="govuk-details" data-module="govuk-details">
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-s govuk-!-margin-bottom-0">Adult Social Care</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-2">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -37,24 +44,26 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/adult-social-care/index.html">Adult social care</a><br><span class="directory-page-name">index.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Business area overview utilizing a single-column accordion layout with live-filtered service lists from an API, followed by categorized bullet points detailing capabilities and key data sources."</td>
+<td class="govuk-table__cell">Business area overview utilizing a single-column accordion layout with live-filtered service lists from an API, followed by categorized bullet points detailing capabilities and key data sources.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/adult-social-care/viewpoints/dependency.html">Architecture view - Adult Social Care</a><br><span class="directory-page-name">dependency.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Interactive architecture visualization featuring a physics-driven, color-coded node graph of dependencies mapped to LGAM layers, paired with structured data tables providing formal translation mapping into ArchiMate terminology."</td>
+<td class="govuk-table__cell">Interactive architecture visualization featuring a physics-driven, color-coded node graph of dependencies mapped to LGAM layers, paired with structured data tables providing formal translation mapping into ArchiMate terminology.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/adult-social-care/viewpoints/service-trace.html">Example architecture - Adult Social Care</a><br><span class="directory-page-name">service-trace.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Alternative architectural visualizations using pure CSS grid layouts to present systems structurally: a spatial zone layout indicating flow, and a radiating hub-and-spoke diagram emphasizing non-hierarchical relationships."</td>
+<td class="govuk-table__cell">Alternative architectural visualizations using pure CSS grid layouts to present systems structurally: a spatial zone layout indicating flow, and a radiating hub-and-spoke diagram emphasizing non-hierarchical relationships.</td>
 </tr>
 </tbody></table>
-</div>
+</div></details></div>
 <div class="directory-subsection">
-<h3 class="govuk-heading-s">Planning And Development</h3>
+<details class="govuk-details" data-module="govuk-details">
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-s govuk-!-margin-bottom-0">Planning And Development</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-2">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -67,19 +76,19 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/planning-and-development/building-control.html">Building Control</a><br><span class="directory-page-name">building-control.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Explores the technical lifecycle of building regulations enforcement. Uses interactive accordion tabs to contrast legacy anti-patterns with target architectures, featuring detailed SVG flowcharts that illustrate offline mobile fieldwork and complex BIM data integration."</td>
+<td class="govuk-table__cell">Explores the technical lifecycle of building regulations enforcement. Uses interactive accordion tabs to contrast legacy anti-patterns with target architectures, featuring detailed SVG flowcharts that illustrate offline mobile fieldwork and complex BIM data integration.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/planning-and-development/development-control.html">Development control</a><br><span class="directory-page-name">development-control.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Details the architecture for processing planning applications. Features a central API-first data flow diagram, followed by phased accordion sections contrasting legacy bottlenecks with target state solutions like ML data extraction and decoupled edge registers."</td>
+<td class="govuk-table__cell">Details the architecture for processing planning applications. Features a central API-first data flow diagram, followed by phased accordion sections contrasting legacy bottlenecks with target state solutions like ML data extraction and decoupled edge registers.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/planning-and-development/hub.html">Planning Hub</a><br><span class="directory-page-name">hub.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Domain hub outlining planning value streams via a card-based navigation concept. Establishes overarching architectural principles using accordions, and sets data modeling expectations before routing users to detailed technical lifecycles."</td>
+<td class="govuk-table__cell">Domain hub outlining planning value streams via a card-based navigation concept. Establishes overarching architectural principles using accordions, and sets data modeling expectations before routing users to detailed technical lifecycles.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/planning-and-development/index-v2.html">Planning & Development</a><br><span class="directory-page-name">index-v2.html</span></td>
@@ -97,13 +106,15 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="business-area/planning-and-development/planning-policy.html">Planning Policy</a><br><span class="directory-page-name">planning-policy.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Describes architectures for spatial evidence gathering and mass citizen engagement. Employs tabbed breakdowns to contrast manual legacy workflows with data-driven pipelines, supported by comparative SVG diagrams illustrating reproducible analytics and geospatial platforms."</td>
+<td class="govuk-table__cell">Describes architectures for spatial evidence gathering and mass citizen engagement. Employs tabbed breakdowns to contrast manual legacy workflows with data-driven pipelines, supported by comparative SVG diagrams illustrating reproducible analytics and geospatial platforms.</td>
 </tr>
 </tbody></table>
-</div>
-</div>
-<div class="directory-section">
-<h2 class="govuk-heading-m">Data And Information</h2>
+</div></details></div>
+</div></details></div>
+<div class="directory-section" style="border-left-color: #800000;">
+<details class="govuk-details" data-module="govuk-details" open>
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">Data And Information</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-4">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -116,24 +127,14 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="data-and-information/data-analytics.html">Data & Analytics</a><br><span class="directory-page-name">data-analytics.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"High-level domain overview explaining the council context and capabilities. Structurally uses an interactive accordion for core capabilities, a highlighted feature box for strategic considerations, and bulleted lists for tools and standards."</td>
-</tr>
-<tr class="govuk-table__row">
-<td class="govuk-table__cell"><a class="govuk-link" href="data-and-information/inter-authority-partner.html">Inter-authority and partner sharing</a><br><span class="directory-page-name">inter-authority-partner.html</span></td>
-<td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
-<td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Technical pattern guide detailing horizontal multi-agency sharing. Visually centers around an interactive Mermaid data flow diagram and utilizes a phase-based accordion with nested tabs to contrast target architectures against legacy anti-patterns."</td>
-</tr>
-<tr class="govuk-table__row">
-<td class="govuk-table__cell"><a class="govuk-link" href="data-and-information/statutory-cross-government.html">Statutory cross-government sharing</a><br><span class="directory-page-name">statutory-cross-government.html</span></td>
-<td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
-<td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Architectural specification for central-to-local API integration. Employs an interactive Mermaid flowchart and a complex tabbed accordion structure to compare target data flows with legacy anti-patterns across different lifecycle phases."</td>
+<td class="govuk-table__cell">High-level domain overview explaining the council context and capabilities. Structurally uses an interactive accordion for core capabilities, a highlighted feature box for strategic considerations, and bulleted lists for tools and standards.</td>
 </tr>
 </tbody></table>
-</div>
-<div class="directory-section">
-<h2 class="govuk-heading-m">Foundational Technology</h2>
+</div></details></div>
+<div class="directory-section" style="border-left-color: #008080;">
+<details class="govuk-details" data-module="govuk-details" open>
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">Foundational Technology</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-4">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -146,18 +147,20 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="foundational-technology/ai-automation.html">AI & Automation</a><br><span class="directory-page-name">ai-automation.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Employs a sequential GOV.UK-style narrative, utilizing `<nav-contents>` for quick navigation and `govuk-accordion` for progressive disclosure of capabilities. A custom `.feature-box` highlights strategic considerations, creating a scannable reference for council leaders."</td>
+<td class="govuk-table__cell">Employs a sequential GOV.UK-style narrative, utilizing `<nav-contents>` for quick navigation and `govuk-accordion` for progressive disclosure of capabilities. A custom `.feature-box` highlights strategic considerations, creating a scannable reference for council leaders.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="foundational-technology/platform-infrastructure.html">Platform & Infrastructure</a><br><span class="directory-page-name">platform-infrastructure.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Replicates the standardized GOV.UK blueprint with structured `<main-content>` sections and `govuk-list` enumerations. It presents foundational IT concepts through expandable accordions and highlighted feature boxes, ensuring complex infrastructure strategies remain easily digestible."</td>
+<td class="govuk-table__cell">Replicates the standardized GOV.UK blueprint with structured `<main-content>` sections and `govuk-list` enumerations. It presents foundational IT concepts through expandable accordions and highlighted feature boxes, ensuring complex infrastructure strategies remain easily digestible.</td>
 </tr>
 </tbody></table>
-</div>
-<div class="directory-section">
-<h2 class="govuk-heading-m">Integration</h2>
+</div></details></div>
+<div class="directory-section" style="border-left-color: #6B6B00;">
+<details class="govuk-details" data-module="govuk-details" open>
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">Integration</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-4">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -170,36 +173,38 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="integration/asynchronous-messaging.html">Asynchronous Messaging</a><br><span class="directory-page-name">asynchronous-messaging.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Details async messaging patterns using a sequential GOV.UK layout. It relies on text structures like bulleted lists, inset text, and simple tables to present use cases, architectural components, and standards, completely avoiding visual diagrams."</td>
+<td class="govuk-table__cell">Details async messaging patterns using a sequential GOV.UK layout. It relies on text structures like bulleted lists, inset text, and simple tables to present use cases, architectural components, and standards, completely avoiding visual diagrams.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="integration/bulk-data-movement.html">Bulk Data Movement</a><br><span class="directory-page-name">bulk-data-movement.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Describes bulk data movement concepts through a structured, text-first GOV.UK layout. It conveys architectural models sequentially using bulleted use cases, a prominent warning block, and a comparative table of tools rather than visual flowcharts."</td>
+<td class="govuk-table__cell">Describes bulk data movement concepts through a structured, text-first GOV.UK layout. It conveys architectural models sequentially using bulleted use cases, a prominent warning block, and a comparative table of tools rather than visual flowcharts.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="integration/index.html">Integration & Interoperability</a><br><span class="directory-page-name">index.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Serves as the domain hub, utilizing a feature box and expandable accordion panels for key capabilities. Its narrative flows sequentially from domain context to practical considerations, functioning as a structured textual index without complex graphics."</td>
+<td class="govuk-table__cell">Serves as the domain hub, utilizing a feature box and expandable accordion panels for key capabilities. Its narrative flows sequentially from domain context to practical considerations, functioning as a structured textual index without complex graphics.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="integration/synchronous-api.html">Synchronous API Integration</a><br><span class="directory-page-name">synchronous-api.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Outlines synchronous API integration using a text-heavy, accessible GOV.UK template. It explains architectural models and tool examples via descriptive lists, warning banners, and a categorized data table instead of using visual architectural diagrams."</td>
+<td class="govuk-table__cell">Outlines synchronous API integration using a text-heavy, accessible GOV.UK template. It explains architectural models and tool examples via descriptive lists, warning banners, and a categorized data table instead of using visual architectural diagrams.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="integration/topic.html">Integration & Interoperability</a><br><span class="directory-page-name">topic.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Acts as a topic overview utilizing a dashboard-style layout with custom grid cards linking to specific patterns. It blends narrative context with a highlighted taxonomy table to visually map the enabling technology stack."</td>
+<td class="govuk-table__cell">Acts as a topic overview utilizing a dashboard-style layout with custom grid cards linking to specific patterns. It blends narrative context with a highlighted taxonomy table to visually map the enabling technology stack.</td>
 </tr>
 </tbody></table>
-</div>
-<div class="directory-section">
-<h2 class="govuk-heading-m">General</h2>
+</div></details></div>
+<div class="directory-section" style="border-left-color: #b1b4b6;">
+<details class="govuk-details" data-module="govuk-details" open>
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">General</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-4">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -212,18 +217,20 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="payments.html">Payments</a><br><span class="directory-page-name">payments.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Explains payment capability integration. The layout follows a linear instructional paradigm, prominently featuring a primary call-to-action button. It leverages a feature-box for assessment questions and a govuk-accordion to condense technical API patterns, prioritizing practical actionability."</td>
+<td class="govuk-table__cell">Explains payment capability integration. The layout follows a linear instructional paradigm, prominently featuring a primary call-to-action button. It leverages a feature-box for assessment questions and a govuk-accordion to condense technical API patterns, prioritizing practical actionability.</td>
 </tr>
 <tr class="govuk-table__row">
 <td class="govuk-table__cell"><a class="govuk-link" href="planning-and-development.html">Planning and development</a><br><span class="directory-page-name">planning-and-development.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Maps planning functions and open datasets. Conceptually data-dense, it employs a custom, filterable lgam-accordion and multi-column lists with color-coded govuk-tag typologies. Uniquely, it blends static layout with client-side JavaScript to fetch live taxonomy data."</td>
+<td class="govuk-table__cell">Maps planning functions and open datasets. Conceptually data-dense, it employs a custom, filterable lgam-accordion and multi-column lists with color-coded govuk-tag typologies. Uniquely, it blends static layout with client-side JavaScript to fetch live taxonomy data.</td>
 </tr>
 </tbody></table>
-</div>
-<div class="directory-section">
-<h2 class="govuk-heading-m">Security</h2>
+</div></details></div>
+<div class="directory-section" style="border-left-color: #CC0000;">
+<details class="govuk-details" data-module="govuk-details" open>
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">Security</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-4">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -236,12 +243,18 @@
 <td class="govuk-table__cell"><a class="govuk-link" href="security/cyber-security.html">Cyber Security</a><br><span class="directory-page-name">cyber-security.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Acts as a capability guide for councils. Structurally, it utilizes standard GOV.UK hierarchies, employing a govuk-accordion for capability breakdowns and a styled feature-box for key considerations, delivering a categorized, scannable narrative without relying on diagrams."</td>
+<td class="govuk-table__cell">Acts as a capability guide for councils. Structurally, it utilizes standard GOV.UK hierarchies, employing a govuk-accordion for capability breakdowns and a styled feature-box for key considerations, delivering a categorized, scannable narrative without relying on diagrams.</td>
 </tr>
 </tbody></table>
-</div>
-<div class="directory-section">
-<h2 class="govuk-heading-m">Topics</h2>
+</div></details></div>
+<div class="directory-section" style="border-left-color: #626a6e;">
+<details class="govuk-details" data-module="govuk-details" open>
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">Topics</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-4">
+<div class="directory-subsection">
+<details class="govuk-details" data-module="govuk-details">
+<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-s govuk-!-margin-bottom-0">Data Sharing</span></summary>
+<div class="govuk-details__text govuk-!-padding-top-2">
 <table class="govuk-table">
 <thead class="govuk-table__header"><tr>
 <th class="govuk-table__header" style="width:30%">Page</th>
@@ -251,11 +264,24 @@
 </tr></thead>
 <tbody class="govuk-table__body">
 <tr class="govuk-table__row">
-<td class="govuk-table__cell"><a class="govuk-link" href="topics/data-sharing.html">Data Sharing</a><br><span class="directory-page-name">data-sharing.html</span></td>
+<td class="govuk-table__cell"><a class="govuk-link" href="topics/data-sharing/index.html">Data Sharing</a><br><span class="directory-page-name">index.html</span></td>
 <td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
 <td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
-<td class="govuk-table__cell">"Conceptual topic hub that routes users to specific sharing patterns via a grid of custom cards. Features an inset text model definition and a custom-styled taxonomy table with colored capability tags."</td>
+<td class="govuk-table__cell">Conceptual topic hub that routes users to specific sharing patterns via a grid of custom cards. Features an inset text model definition and a custom-styled taxonomy table with colored capability tags.</td>
+</tr>
+<tr class="govuk-table__row">
+<td class="govuk-table__cell"><a class="govuk-link" href="topics/data-sharing/inter-authority-partner.html">Inter-authority and partner sharing</a><br><span class="directory-page-name">inter-authority-partner.html</span></td>
+<td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
+<td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
+<td class="govuk-table__cell">Technical pattern guide detailing horizontal multi-agency sharing. Visually centers around an interactive Mermaid data flow diagram and utilizes a phase-based accordion with nested tabs to contrast target architectures against legacy anti-patterns.</td>
+</tr>
+<tr class="govuk-table__row">
+<td class="govuk-table__cell"><a class="govuk-link" href="topics/data-sharing/statutory-cross-government.html">Statutory cross-government sharing</a><br><span class="directory-page-name">statutory-cross-government.html</span></td>
+<td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--grey">draft</strong></td>
+<td class="govuk-table__cell"><span class="directory-desc">30 Jun 2026</span></td>
+<td class="govuk-table__cell">Architectural specification for central-to-local API integration. Employs an interactive Mermaid flowchart and a complex tabbed accordion structure to compare target data flows with legacy anti-patterns across different lifecycle phases.</td>
 </tr>
 </tbody></table>
-</div>
+</div></details></div>
+</div></details></div>
 </div></body></html>

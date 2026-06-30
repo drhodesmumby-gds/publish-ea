@@ -57,7 +57,7 @@ def parse_page(filepath):
     for line in fm_block.splitlines():
         if ":" in line:
             key, val = line.split(":", 1)
-            front_matter[key.strip()] = val.strip()
+            front_matter[key.strip()] = val.strip().strip('"').strip("'")
 
     # Extract tagged blocks
     def extract_block(tag):
@@ -297,6 +297,19 @@ def generate_preview_index(pages_meta):
             lines.append("</tr>")
 
         lines.append("</tbody></table>")
+    # Top-level folder colors for LGAM
+    lgam_colors = {
+        "public-channels": "#CC00CC",
+        "council-interfaces": "#800080",
+        "capabilities": "#000080",
+        "business-area": "#0000FF",
+        "corporate-areas": "#696969",
+        "foundational-technology": "#008080",
+        "integration": "#6B6B00",
+        "security": "#CC0000",
+        "data-and-information": "#800000",
+        "topics": "#626a6e"
+    }
 
     # --- Build the HTML ---
     lines = []
@@ -308,17 +321,20 @@ def generate_preview_index(pages_meta):
     lines.append('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.css">')
     lines.append('<style>')
     lines.append('  .directory-desc { color: #505a5f; font-size: 16px; }')
-    lines.append('  .directory-section { margin-bottom: 40px; }')
-    lines.append('  .directory-subsection { margin-left: 20px; margin-bottom: 30px; }')
+    lines.append('  .directory-section { margin-bottom: 40px; padding: 20px; background: #f3f2f1; border-left: 10px solid #b1b4b6; }')
+    lines.append('  .directory-subsection { margin-top: 20px; }')
     lines.append('  .directory-page-name { font-family: monospace; font-size: 14px; color: #505a5f; }')
+    lines.append('  .govuk-details { background: #fff; padding: 15px; border: 1px solid #b1b4b6; }')
     lines.append('</style>')
     lines.append('</head><body class="govuk-template__body">')
-    lines.append('<div class="govuk-width-container" style="padding: 30px 0;">')
+    lines.append('<script type="module" src="https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.js"></script>')
+    lines.append('<script type="module">import { initAll } from "https://cdn.jsdelivr.net/npm/govuk-frontend@5.13.0/dist/govuk/govuk-frontend.min.js"; initAll();</script>')
+    lines.append('<div class="govuk-width-container" style="max-width: 90%; padding: 30px 0;">')
     lines.append('<h1 class="govuk-heading-l">LGAM Preview Pages</h1>')
     lines.append('<p class="govuk-body">These pages are drafts or have unapproved modifications. They are not linked from the live site.</p>')
 
     # Hand-authored pages
-    lines.append('<div class="directory-section">')
+    lines.append('<div class="directory-section" style="border-left-color: #0b0c0c;">')
     lines.append('<h2 class="govuk-heading-m">Hand-authored pages</h2>')
     lines.append('<ul class="govuk-list govuk-list--bullet">')
     for filename in HAND_AUTHORED_FILES:
@@ -334,18 +350,23 @@ def generate_preview_index(pages_meta):
     for top_folder, sub_groups in hierarchy.items():
         top_label = _folder_label(top_folder) if top_folder else "General"
         has_sub_sections = any(sub for sub in sub_groups.keys() if sub)
+        color = lgam_colors.get(top_folder, "#b1b4b6")
 
-        lines.append('<div class="directory-section">')
-        lines.append(f'<h2 class="govuk-heading-m">{top_label}</h2>')
+        lines.append(f'<div class="directory-section" style="border-left-color: {color};">')
+        lines.append(f'<details class="govuk-details" data-module="govuk-details" open>')
+        lines.append(f'<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-m govuk-!-margin-bottom-0">{top_label}</span></summary>')
+        lines.append('<div class="govuk-details__text govuk-!-padding-top-4">')
 
         if has_sub_sections:
             for sub_folder, pages in sub_groups.items():
                 if sub_folder:
                     sub_label = _folder_label(sub_folder)
                     lines.append('<div class="directory-subsection">')
-                    lines.append(f'<h3 class="govuk-heading-s">{sub_label}</h3>')
+                    lines.append('<details class="govuk-details" data-module="govuk-details">')
+                    lines.append(f'<summary class="govuk-details__summary"><span class="govuk-details__summary-text govuk-heading-s govuk-!-margin-bottom-0">{sub_label}</span></summary>')
+                    lines.append('<div class="govuk-details__text govuk-!-padding-top-2">')
                     _render_page_table(pages, lines)
-                    lines.append("</div>")
+                    lines.append("</div></details></div>")
                 else:
                     # Pages directly under the top folder (no sub-folder)
                     _render_page_table(pages, lines)
@@ -356,7 +377,7 @@ def generate_preview_index(pages_meta):
                 all_pages.extend(pages)
             _render_page_table(all_pages, lines)
 
-        lines.append("</div>")
+        lines.append("</div></details></div>")
 
     lines.append("</div></body></html>")
 
