@@ -72,6 +72,7 @@ Resources can be **reused and adapted by teams across government services and pr
 | `AI-Technology-Enablement/` | AI technology guidance, strategy, governance, and implementation frameworks   |
 | `citizen-architecture/`     | Citizen-centric architecture guidance and supporting content                  |
 | `digital-capability-model/` | Digital capability framework and maturity assessment resources                |
+| `gds-local/`                | Local Government Architecture Model (LGAM) resources and reference architecture|
 | `downloads/`                | Templates, documents, and downloadable artefacts                              |
 | `images/`                   | Visual assets including diagrams, icons, and illustrations                    |
 
