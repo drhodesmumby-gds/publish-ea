@@ -1,6 +1,4 @@
 .DS_Store
 docs/superpowers/
 node_modules/
-gds-local/css/
-gds-local/js/
-gds-local/assets/
+
