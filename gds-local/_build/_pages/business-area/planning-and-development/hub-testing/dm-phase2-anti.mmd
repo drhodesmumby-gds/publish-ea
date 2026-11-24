@@ -1,0 +1,52 @@
+---
+config:
+  layout: dagre
+  theme: base
+  markdownAutoWrap: true
+  flowchart:
+    curve: monotoneX
+  themeVariables:
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+
+flowchart LR
+    subgraph intake["From submission"]
+        documents["`**Document store**`"]
+    end
+
+    subgraph validation["Validation"]
+        manual["`**Manual validation**
+        Officer re-keys data by hand`"]
+    end
+
+    subgraph supporting["Council systems"]
+        geo["`**Geospatial system**`"]
+        case["`**Case management**`"]
+    end
+
+    subgraph user["User"]
+        applicant["`**Applicant or agent**`"]
+    end
+
+    documents -->|"Unstructured data"| manual
+    manual -->|"Redraws site boundary"| geo
+    manual -->|"Re-keys details"| case
+    manual -->|"Chases missing information"| applicant
+
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef anti fill:#d4351c,stroke:#d4351c,stroke-width:2px,color:#ffffff
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class applicant person
+    class manual anti
+    class documents,geo,case system
+
+    linkStyle 0 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 1 stroke:#d4351c,stroke-width:3px
+    linkStyle 2 stroke:#d4351c,stroke-width:3px
+    linkStyle 3 stroke:#d4351c,stroke-width:3px

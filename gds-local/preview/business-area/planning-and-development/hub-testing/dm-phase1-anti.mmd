@@ -1,0 +1,47 @@
+---
+title: "Anti-patterns: generic e-forms and free-text addresses"
+config:
+  layout: dagre
+  theme: base
+  markdownAutoWrap: true
+  flowchart:
+    curve: monotoneX
+    straightEdges: true
+  themeVariables:
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+flowchart LR
+
+  subgraph user["User"]
+          applicant["`**Applicant or agent**`"]
+      end
+
+      subgraph service["Service"]
+          form["`**Generic e-form**
+          Same questions for everyone`"]
+      end
+
+      subgraph supporting["Supporting systems"]
+          documents["`**Document store**`"]
+          workflow["`**Workflow system**`"]
+      end
+
+      applicant -->|"Free-text answers and address"| form
+      form -->|"Flat PDF or similar"| documents
+      form -->|"Basic metadata"| workflow
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef anti fill:#d4351c,stroke:#d4351c,stroke-width:2px,color:#ffffff
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class applicant person
+    class form anti
+    class documents,workflow system
+
+    linkStyle 0 stroke:#d4351c,stroke-width:3px
+    linkStyle 1 stroke:#d4351c,stroke-width:3px
+    linkStyle 2 stroke:#505a5f,stroke-width:2px

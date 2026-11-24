@@ -1,0 +1,51 @@
+---
+config:
+  layout: dagre
+  theme: base
+  markdownAutoWrap: true
+  flowchart:
+    curve: monotoneX
+  themeVariables:
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+
+flowchart LR
+    subgraph council["Council"]
+        officer["`**Case officer**
+        Assembles by hand`"]
+        case["`**Case management**`"]
+    end
+
+    subgraph outputs["Outputs"]
+        notice["`**Decision notice**
+        Flat file only`"]
+        bundle["`**Appeal bundle**
+        Re-assembled documents`"]
+    end
+
+    subgraph external["External"]
+        pins["`**Planning Inspectorate**`"]
+    end
+
+    case -->|"Reports and emails"| officer
+    officer -->|"Copies conditions"| notice
+    officer -->|"If appealed"| bundle
+    bundle -->|"Sent separately"| pins
+
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef anti fill:#d4351c,stroke:#d4351c,stroke-width:2px,color:#ffffff
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class pins person
+    class officer anti
+    class case,notice,bundle system
+
+    linkStyle 0 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 1 stroke:#d4351c,stroke-width:3px
+    linkStyle 2 stroke:#d4351c,stroke-width:3px
+    linkStyle 3 stroke:#d4351c,stroke-width:3px

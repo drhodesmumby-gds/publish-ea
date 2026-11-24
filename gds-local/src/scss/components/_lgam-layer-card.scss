@@ -1,0 +1,135 @@
+/* ==========================================================================
+   LGAM - LAYER CARD
+   A vertical linked definition card in the LGAM visual family, pairing a
+   solid layer-coloured header band (layer name + right-aligned arrow) with a
+   crisp white body carrying the canonical layer definition.
+   The whole card is wrapped in an <a> tag using phrasing-only elements.
+
+   Usage:
+     <a href="#capabilities" class="lgam-layer-card lgam-layer-card--capabilities">
+       <span class="lgam-layer-card__header">
+         <span class="lgam-layer-card__title">Capabilities</span>
+         <span class="lgam-layer-card__arrow" aria-hidden="true">&#8594;</span>
+       </span>
+       <span class="govuk-visually-hidden">: </span>
+       <span class="lgam-layer-card__body">Capabilities used by council's interfaces to help them meet the needs of their service users.</span>
+     </a>
+
+   Modifiers:
+     .lgam-layer-card--[layer] — sets outer border and header band colour
+   ========================================================================== */
+
+.lgam-layer-card {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #1d70b8;
+  border-radius: 0;
+  background: #ffffff;
+  text-decoration: none;
+  font-family: "GDS Transport", arial, sans-serif;
+  color: #0b0c0c;
+
+  &:hover {
+    .lgam-layer-card__title {
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .lgam-layer-card__body {
+      background: #f8f8f8;
+    }
+  }
+}
+
+.lgam-layer-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: #1d70b8;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.lgam-layer-card__title {
+  min-width: 0;
+}
+
+.lgam-layer-card__arrow {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.lgam-layer-card__body {
+  display: block;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: #0b0c0c;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+/* Beat .govuk-template__body a:focus specificity in _index.scss */
+.lgam-layer-card:focus,
+.lgam-layer-card:focus-visible,
+.govuk-template__body a.lgam-layer-card:focus,
+.govuk-template__body a.lgam-layer-card:focus-visible {
+  outline: 3px solid #ffdd00 !important;
+  outline-offset: 0 !important;
+  box-shadow: inset 0 0 0 2px #0b0c0c !important;
+  background: #ffffff !important;
+  color: #0b0c0c !important;
+}
+
+/* Layer colour modifiers — using canonical LGAM taxonomy colours */
+.lgam-layer-card--public-channels {
+  border-color: #CC00CC;
+  .lgam-layer-card__header { background-color: #CC00CC; }
+}
+
+.lgam-layer-card--council-interfaces {
+  border-color: #800080;
+  .lgam-layer-card__header { background-color: #800080; }
+}
+
+.lgam-layer-card--capabilities {
+  border-color: #000080;
+  .lgam-layer-card__header { background-color: #000080; }
+}
+
+.lgam-layer-card--business-areas {
+  border-color: #0000FF;
+  .lgam-layer-card__header { background-color: #0000FF; }
+}
+
+.lgam-layer-card--corporate-areas {
+  border-color: #696969;
+  .lgam-layer-card__header { background-color: #696969; }
+}
+
+.lgam-layer-card--foundational-technology {
+  border-color: #008080;
+  .lgam-layer-card__header { background-color: #008080; }
+}
+
+.lgam-layer-card--integration {
+  border-color: #6B6B00;
+  .lgam-layer-card__header { background-color: #6B6B00; }
+}
+
+.lgam-layer-card--security {
+  border-color: #CC0000;
+  .lgam-layer-card__header { background-color: #CC0000; }
+}
+
+.lgam-layer-card--data {
+  border-color: #800000;
+  .lgam-layer-card__header { background-color: #800000; }
+}

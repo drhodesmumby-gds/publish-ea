@@ -1,0 +1,55 @@
+---
+config:
+  layout: dagre
+  theme: base
+  markdownAutoWrap: true
+  flowchart:
+    curve: monotoneX
+  themeVariables:
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+
+flowchart LR
+    subgraph intake["From submission"]
+        data["`**Structured application**`"]
+    end
+
+    subgraph validation["Validate and register"]
+        checks["`**Automated checks**
+        Validation requirements`"]
+        case["`**Case management**
+        Registered and acknowledged`"]
+    end
+
+    subgraph supporting["Supporting systems"]
+        geo["`**Geospatial system**`"]
+        tech["`**Technical support**
+        Judgement and exceptions`"]
+    end
+
+
+
+    data -->|"Site boundary"| geo
+    data --> checks
+    checks -->|"Needs judgement"| tech
+    checks -->|"Passes checks"| case
+    tech -->|"Confirmed valid"| case
+
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef better fill:#00703c,stroke:#00703c,stroke-width:2px,color:#ffffff
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class tech,lead person
+    class checks better
+    class data,geo,case system
+
+    linkStyle 0 stroke:#00703c,stroke-width:3px
+    linkStyle 1 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 2 stroke:#0b0c0c,stroke-width:2px
+    linkStyle 3 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 4 stroke:#0b0c0c,stroke-width:2px

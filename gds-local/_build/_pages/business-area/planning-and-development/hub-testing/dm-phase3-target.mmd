@@ -1,0 +1,77 @@
+---
+config:
+  layout: dagre
+  theme: base
+  markdownAutoWrap: true
+  flowchart:
+    curve: monotoneX
+    rankSpacing: 40
+    nodeSpacing: 25
+    padding: 12
+    wrappingWidth: 250
+    minNodeWidth: 85
+  themeVariables:
+    fontSize: 16px
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+
+flowchart LR
+    subgraph people["Actors"]
+        public["`**The public**`"]
+        officer["`**Case officer**`"]
+    end
+
+    subgraph access["Public access"]
+        register["`**Public register**`"]
+        comments["`**Comment service**
+        Validates and queues submissions
+        Manages engagement spikes`"]
+        subgraph published["Published data"]
+          copy["`**Case data**
+          Cache or read-only copy`"]
+        end
+    end
+
+    subgraph council["Officers' system"]
+        workflow["`**Workflow system**
+        Protected from public demand`"]
+    end
+
+    
+
+    subgraph external["External"]
+        consultees["`**Statutory consultees**`"]
+    end
+
+    officer --> workflow
+    public -->|"`Views applications`"| register
+    register -->|"`Reads from`"| copy
+    workflow -->|"`Copies updates`"| copy
+    public -->|"`Submits comments`"| comments
+    comments -->|"`Structured submissions`"| workflow
+    workflow -->|"`Structured requests`"| consultees
+    consultees -->|"`Structured responses`"| workflow
+
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef external fill:#ffffff,stroke:#0b0c0c,stroke-width:3px,color:#0b0c0c
+    classDef better fill:#00703c,stroke:#00703c,stroke-width:2px,color:#ffffff
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class public,officer person
+    class consultees external
+    class copy,comments better
+    class register,workflow system
+
+    linkStyle 0 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 1 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 2 stroke:#505a5f,stroke-width:2px
+    linkStyle 3 stroke:#505a5f,stroke-width:2px
+    linkStyle 4 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 5 stroke:#505a5f,stroke-width:2px
+    linkStyle 6 stroke:#00703c,stroke-width:3px
+    linkStyle 7 stroke:#00703c,stroke-width:3px

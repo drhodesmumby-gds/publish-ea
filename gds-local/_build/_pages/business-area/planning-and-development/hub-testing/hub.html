@@ -1,0 +1,136 @@
+---
+title: Planning Hub
+caption: LGAM Business Area
+status: draft
+parent: "../../../../index.html#business-areas"
+parent_title: Planning and Development
+description: Reconstructed hub-testing Planning Hub overview with modernised LGAM component styling and GOV.UK layout alignment.
+---
+<style>
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+
+    .flex-row > .govuk-grid-column-one-third {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .value-stream-card {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #b1b4b6;
+      border-top: 4px solid #1d70b8;
+      border-radius: 0;
+      padding: 20px;
+      background-color: #ffffff;
+    }
+
+    .value-stream-card:hover {
+      background-color: #f8f8f8;
+      border-color: #0b0c0c;
+      border-top-color: #1d70b8;
+      box-shadow: none;
+    }
+
+    .value-stream-card:focus-within {
+      outline: 3px solid #ffdd00;
+      outline-offset: 0;
+      box-shadow: inset 0 0 0 2px #0b0c0c;
+    }
+
+    #tenders-container th:first-child,
+    #tenders-container td:first-child {
+      padding-left: 0;
+    }
+
+    #tenders-container th:last-child,
+    #tenders-container td:last-child {
+      padding-right: 0;
+    }
+</style>
+
+<nav-contents>
+<li class="app-navigation__item"><a class="app-navigation__link" href="#about">About this domain</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#value-streams">Planning and development areas</a></li>
+        <li class="app-navigation__item"><a class="app-navigation__link" href="#market-intelligence">Market intelligence</a></li>
+</nav-contents>
+
+<main-content>
+
+
+      <span class="govuk-caption-xl">LGAM Business Area</span>
+      <h1 class="govuk-heading-xl">Planning and Development</h1>
+
+      <section id="about">
+        <p class="govuk-body govuk-!-font-size-24">The processing of planning applications, enforcement of building regulations, and creation of spatial plans.</p>
+        <p class="govuk-body">Planning and Development represents one of the most legally complex, highly scrutinised, and data-intensive functions of local government. Systems in this domain must handle massive volumes of unstructured data (architectural plans, public objections) whilst strictly enforcing spatial geometries and statutory deadlines.</p>
+
+        <div class="govuk-inset-text">
+          <p class="govuk-body">For more on modernising this domain, see the <a href="https://opendigitalplanning.org/" class="govuk-link" target="_blank" rel="noopener">Open Digital Planning</a> initiative — a community of forward-thinking Local Planning Authorities working together to shape a more efficient, data-driven planning system, supported by the Ministry of Housing, Communities and Local Government.</p>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="value-streams">
+        <h2 class="govuk-heading-l">Planning value streams</h2>
+        <p class="govuk-body">Because the technological requirements vary drastically across the planning domain, target architectures are best understood by mapping them to specific business value streams. Select a journey below to view detailed technical lifecycles, target architectures, and anti-patterns.</p>
+
+        <div class="govuk-grid-row govuk-!-margin-top-6 flex-row">
+          <div class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="development-management.html" class="value-stream-card__link">Development Management</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Processing individual planning applications. High public visibility, reliant on rules-engines, dynamic forms, and integration with public registers.</p>
+              <a href="development-management.html" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail&nbsp;<span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+
+          <div class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="building-control.html" class="value-stream-card__link">Building Control</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Enforcing structural safety. Technically intensive, heavily reliant on offline-first mobile apps for field inspections and 3D BIM data ingestion.</p>
+              <a href="building-control.html" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail&nbsp;<span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+
+          <div class="govuk-grid-column-one-third govuk-!-margin-bottom-4">
+            <div class="value-stream-card">
+              <h3 class="govuk-heading-m value-stream-card__title">
+                <a href="planning-policy.html" class="value-stream-card__link">Planning Policy</a>
+              </h3>
+              <p class="govuk-body govuk-!-font-size-14">Creating spatial plans. Data-heavy, requiring geospatial modeling, multi-criteria decision analysis, and mass public engagement platforms.</p>
+              <a href="planning-policy.html" class="govuk-link govuk-!-font-size-14 govuk-!-font-weight-bold">View detail&nbsp;<span aria-hidden="true">&rarr;</span></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+
+      <section id="market-intelligence">
+        <h2 class="govuk-heading-l">Market intelligence</h2>
+        <p class="govuk-body">Reviewing live public sector tender opportunities provides valuable context when designing target architectures or drafting business cases. This data helps benchmark estimated contract values and identify active suppliers across the wider planning domain.</p>
+<!--
+        <div class="govuk-inset-text">
+          <strong>Data Source:</strong> Live feed powered by the UK Tenders MCP integration, filtering for broad domain keywords.
+        </div>
+-->
+        <div id="tenders-container" class="govuk-!-margin-top-6 govuk-!-margin-bottom-8" data-query="planning system OR building control software OR local plan" data-limit="5">
+          <p class="govuk-body" id="tenders-loading">
+            <span style="display:inline-block; animation: spin 1s linear infinite;">&#x23F3;</span> Connecting to MCP tender feed...
+          </p>
+        </div>
+      </section>
+</main-content>
+
+<page-modules>tenders</page-modules>

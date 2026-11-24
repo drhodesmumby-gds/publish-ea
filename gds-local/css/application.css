@@ -7657,6 +7657,921 @@
 }
 
 /* ==========================================================================
+   LGAM - SHARED GEOMETRY & TYPOGRAPHY TOKENS
+   Shared across .lgam-domain-link, .lgam-domain-card, .lgam-constraint-link,
+   and .lgam-entity-link so left rails, padding, font sizes, and borders align.
+   ========================================================================== */
+:root {
+  --lgam-rail-std: 6.75rem;
+  --lgam-rail-sm: 6rem;
+  --lgam-rail-inline: 6.5rem;
+  --lgam-body-min-std: 9rem;
+  --lgam-body-min-sm: 7.5rem;
+  --lgam-font-std: 14px;
+  --lgam-font-sm: 12px;
+  --lgam-lh-std: 1.25;
+  --lgam-lh-sm: 1.25;
+  --lgam-pad-left-std: 6px 8px;
+  --lgam-pad-right-std: 6px 10px;
+  --lgam-pad-left-sm: 4px 6px;
+  --lgam-pad-right-sm: 5px 8px;
+  --lgam-radius: 0;
+}
+
+/* ==========================================================================
+   LGAM - DOMAIN LINK
+   A compact linked element showing an LGAM layer label + domain name
+   (and optional specific component name).
+   The layer label uses the LGAM taxonomy colour. The domain name is
+   a clickable link. The whole element is wrapped in an <a> tag.
+
+   Usage (single-line domain link):
+     <a href="#capabilities" class="lgam-domain-link lgam-domain-link--capabilities">
+       <span class="lgam-domain-link__layer">Capabilities</span>
+       <span class="lgam-domain-link__domain">Payments</span>
+     </a>
+
+   Usage (two-line domain + component link):
+     <a href="#capabilities-payments-card" class="lgam-domain-link lgam-domain-link--capabilities">
+       <span class="lgam-domain-link__layer">Capabilities</span>
+       <span class="lgam-domain-link__content">
+         <span class="lgam-domain-link__row lgam-domain-link__row--domain">
+           <span class="lgam-domain-link__domain-name">Payments</span>
+           <span class="lgam-domain-link__chevron" aria-hidden="true">&#8250;</span>
+         </span>
+         <span class="lgam-domain-link__row lgam-domain-link__row--component">
+           <span class="lgam-domain-link__component-name">Card processing</span>
+           <span class="lgam-domain-link__arrow" aria-hidden="true">&#8594;</span>
+         </span>
+       </span>
+     </a>
+
+   Modifiers:
+     .lgam-domain-link--sm         — smaller variant (12px bold / 12px regular)
+     .lgam-domain-link--clamp      — fluid container-proportional grid layout
+     .lgam-domain-link--contextual — context-aware 5px stripe card in scoped grids
+     .lgam-domain-link--[layer]    — layer colour (see list below)
+   ========================================================================== */
+.lgam-domain-link {
+  display: inline-flex;
+  align-items: stretch;
+  border: 2px solid;
+  border-radius: var(--lgam-radius);
+  text-decoration: none;
+  line-height: 1;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.lgam-domain-link:hover .lgam-domain-link__domain,
+.lgam-domain-link:hover .lgam-domain-link__component-name,
+.lgam-domain-link:hover .lgam-domain-link__domain-name {
+  text-decoration: underline;
+}
+.lgam-domain-link:focus {
+  outline: 3px solid #ffdd00;
+  outline-offset: 0;
+}
+
+.lgam-domain-link__layer {
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: var(--lgam-font-std);
+  font-weight: 700;
+  line-height: var(--lgam-lh-std);
+  color: #fff;
+  padding: var(--lgam-pad-left-std);
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.lgam-domain-link__domain {
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: var(--lgam-font-std);
+  line-height: var(--lgam-lh-std);
+  padding: var(--lgam-pad-right-std);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0b0c0c;
+}
+.lgam-domain-link__domain::after {
+  content: "→";
+  font-size: var(--lgam-font-std);
+  line-height: var(--lgam-lh-std);
+  color: #505a5f;
+}
+
+/* Two-line component extension */
+.lgam-domain-link__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  background: #fff;
+}
+
+.lgam-domain-link__row {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.lgam-domain-link__row--domain {
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #0b0c0c;
+  padding: 4px 10px;
+  gap: 6px;
+  border-bottom: 1px solid #e2e4e5;
+}
+
+.lgam-domain-link__row--component {
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0b0c0c;
+  padding: 4px 10px;
+  gap: 6px;
+}
+
+.lgam-domain-link__chevron {
+  font-weight: 700;
+  font-size: 13px;
+  color: #505a5f;
+  line-height: 1;
+}
+
+.lgam-domain-link__arrow {
+  font-size: 14px;
+  color: #505a5f;
+  font-weight: 400;
+}
+
+/* Small variant */
+.lgam-domain-link--sm .lgam-domain-link__layer {
+  font-size: var(--lgam-font-sm);
+  line-height: var(--lgam-lh-sm);
+  padding: var(--lgam-pad-left-sm);
+}
+.lgam-domain-link--sm .lgam-domain-link__domain {
+  font-size: var(--lgam-font-sm);
+  line-height: var(--lgam-lh-sm);
+  padding: var(--lgam-pad-right-sm);
+}
+.lgam-domain-link--sm .lgam-domain-link__domain::after {
+  font-size: var(--lgam-font-sm);
+  line-height: var(--lgam-lh-sm);
+}
+.lgam-domain-link--sm .lgam-domain-link__row--domain {
+  font-size: 11px;
+  padding: 3px 8px;
+  gap: 4px;
+}
+.lgam-domain-link--sm .lgam-domain-link__row--component {
+  font-size: 12px;
+  padding: 3px 8px;
+  gap: 4px;
+}
+.lgam-domain-link--sm .lgam-domain-link__chevron,
+.lgam-domain-link--sm .lgam-domain-link__arrow {
+  font-size: 11px;
+}
+
+/* Layer colour modifiers — using LGAM taxonomy colours */
+.lgam-domain-link--capabilities {
+  border-color: #000080;
+}
+.lgam-domain-link--capabilities .lgam-domain-link__layer {
+  background-color: #000080;
+}
+
+.lgam-domain-link--business-areas {
+  border-color: #0000FF;
+}
+.lgam-domain-link--business-areas .lgam-domain-link__layer {
+  background-color: #0000FF;
+}
+
+.lgam-domain-link--data {
+  border-color: #800000;
+}
+.lgam-domain-link--data .lgam-domain-link__layer {
+  background-color: #800000;
+}
+
+.lgam-domain-link--integration {
+  border-color: #6B6B00;
+}
+.lgam-domain-link--integration .lgam-domain-link__layer {
+  background-color: #6B6B00;
+}
+
+.lgam-domain-link--security {
+  border-color: #CC0000;
+}
+.lgam-domain-link--security .lgam-domain-link__layer {
+  background-color: #CC0000;
+}
+
+.lgam-domain-link--foundational-technology {
+  border-color: #008080;
+}
+.lgam-domain-link--foundational-technology .lgam-domain-link__layer {
+  background-color: #008080;
+}
+
+.lgam-domain-link--public-channels {
+  border-color: #CC00CC;
+}
+.lgam-domain-link--public-channels .lgam-domain-link__layer {
+  background-color: #CC00CC;
+}
+
+.lgam-domain-link--council-interfaces {
+  border-color: #800080;
+}
+.lgam-domain-link--council-interfaces .lgam-domain-link__layer {
+  background-color: #800080;
+}
+
+.lgam-domain-link--corporate-areas {
+  border-color: #696969;
+}
+.lgam-domain-link--corporate-areas .lgam-domain-link__layer {
+  background-color: #696969;
+}
+
+/* ==========================================================================
+   Design 1A: Fluid container-proportional .lgam-domain-link--clamp
+   ========================================================================== */
+.lgam-domain-link--clamp {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  width: clamp(14rem, 100%, 26rem) !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  text-decoration: none !important;
+  background: #ffffff;
+  border-radius: var(--lgam-radius);
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm {
+  width: clamp(12rem, 100%, 22rem) !important;
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__layer {
+  flex: 1 0 var(--lgam-rail-sm) !important;
+  padding: var(--lgam-pad-left-sm) !important;
+  font-size: var(--lgam-font-sm) !important;
+  line-height: var(--lgam-lh-sm) !important;
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__domain,
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__content {
+  flex: 9999 1 var(--lgam-body-min-sm) !important;
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__row {
+  padding: 3px 8px !important;
+  gap: 4px !important;
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__domain {
+  padding: var(--lgam-pad-right-sm) !important;
+  font-size: var(--lgam-font-sm) !important;
+  line-height: var(--lgam-lh-sm) !important;
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__domain::after {
+  font-size: var(--lgam-font-sm) !important;
+  line-height: var(--lgam-lh-sm) !important;
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__row--domain {
+  font-size: 11px !important;
+}
+.lgam-domain-link--clamp.lgam-domain-link--sm .lgam-domain-link__row--component {
+  font-size: 12px !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__layer {
+  flex: 1 0 var(--lgam-rail-std) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: var(--lgam-pad-left-std) !important;
+  font-size: var(--lgam-font-std) !important;
+  line-height: var(--lgam-lh-std) !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__content {
+  flex: 9999 1 var(--lgam-body-min-std) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  background: #ffffff !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  padding: 4px 10px !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__domain-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lgam-domain-link--clamp .lgam-domain-link__component-name {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  line-height: 1.25;
+}
+.lgam-domain-link--clamp .lgam-domain-link__domain {
+  flex: 9999 1 var(--lgam-body-min-std) !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  background: #ffffff !important;
+  font-size: var(--lgam-font-std) !important;
+  line-height: var(--lgam-lh-std) !important;
+  padding: var(--lgam-pad-right-std) !important;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+.lgam-domain-link--clamp .lgam-domain-link__domain::after {
+  font-size: var(--lgam-font-std) !important;
+  line-height: var(--lgam-lh-std) !important;
+  margin-left: auto !important;
+  padding-left: 8px !important;
+  flex-shrink: 0 !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__row--domain {
+  font-size: 13px !important;
+  border-bottom: 1px solid #e2e4e5 !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__row--component {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__arrow {
+  margin-left: auto !important;
+  padding-left: 8px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  flex-shrink: 0 !important;
+}
+.lgam-domain-link--clamp .lgam-domain-link__chevron {
+  margin-left: auto !important;
+  padding-left: 6px !important;
+  color: #505a5f !important;
+  flex-shrink: 0 !important;
+}
+
+/* ==========================================================================
+   Design 1B: 2-column grid & context-aware .lgam-domain-link--contextual
+   ========================================================================== */
+.dm-chip-grid-2col {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  align-items: stretch;
+}
+.dm-chip-grid-2col > :last-child:nth-child(odd) {
+  grid-column: 1/-1;
+}
+
+@media (max-width: 768px) {
+  .dm-chip-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+.lgam-domain-link--contextual {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding: 7px 10px !important;
+  text-decoration: none !important;
+  background: #ffffff !important;
+  border: 1px solid #d8dde0 !important;
+  border-left-width: 5px !important;
+  border-radius: 0 4px 4px 0 !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 48px !important;
+  font-family: "GDS Transport", arial, sans-serif;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+.lgam-domain-link--contextual:hover {
+  background: #f8f8f8 !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08) !important;
+}
+.lgam-domain-link--contextual:hover .contextual-comp {
+  text-decoration: underline;
+}
+.lgam-domain-link--contextual.lgam-domain-link--public-channels {
+  border-left-color: #CC00CC !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--council-interfaces {
+  border-left-color: #800080 !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--capabilities {
+  border-left-color: #000080 !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--business-areas {
+  border-left-color: #0000FF !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--corporate-areas {
+  border-left-color: #696969 !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--data {
+  border-left-color: #800000 !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--integration {
+  border-left-color: #6B6B00 !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--security {
+  border-left-color: #CC0000 !important;
+}
+.lgam-domain-link--contextual.lgam-domain-link--foundational-technology {
+  border-left-color: #008080 !important;
+}
+.lgam-domain-link--contextual .contextual-domain {
+  font-size: 11px;
+  font-weight: 600;
+  color: #505a5f;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.lgam-domain-link--contextual .contextual-comp {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0b0c0c;
+  line-height: 1.3;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+.lgam-domain-link--contextual .contextual-comp:first-child {
+  margin-top: 0;
+}
+.lgam-domain-link--contextual .contextual-arrow {
+  display: inline-block;
+  text-decoration: none;
+  color: #1d70b8;
+  font-size: 14px;
+  font-weight: 700;
+  margin-left: 6px;
+  flex-shrink: 0;
+}
+
+/* Beat .govuk-template__body a:focus (0,2,1) in _index.scss imported later */
+.lgam-domain-link--contextual:focus,
+.lgam-domain-link--contextual:focus-visible,
+.govuk-template__body a.lgam-domain-link--contextual:focus,
+.govuk-template__body a.lgam-domain-link--contextual:focus-visible {
+  outline: 3px solid #ffdd00 !important;
+  outline-offset: 0 !important;
+  background: #ffffff !important;
+  color: #0b0c0c !important;
+  box-shadow: inset 0 0 0 2px #0b0c0c !important;
+}
+
+/* ==========================================================================
+   LGAM - DOMAIN CARD (Combo A full-height layer rail & Combo B contextual)
+   Pairs a navigable <a class="lgam-domain-card__domain"> with either a
+   sibling collapsible <details class="lgam-domain-card__details"> canonical
+   LGAM node definition or an always-visible (no-toggle)
+   <div class="lgam-domain-card__definition"> (pair with
+   .lgam-domain-card--static on full-rail cards) inside one sharp 2px
+   layer-coloured border.
+   ========================================================================== */
+.lgam-domain-card {
+  background: #ffffff;
+  border: 2px solid #000080;
+  border-radius: var(--lgam-radius);
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: "GDS Transport", arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.lgam-domain-card:not(.lgam-domain-card--contextual) {
+  display: grid;
+  grid-template-columns: var(--lgam-rail-std) minmax(0, 1fr);
+  align-items: stretch;
+}
+
+.lgam-domain-card--contextual {
+  border-left-width: 6px;
+}
+
+.lgam-domain-card__layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  padding: var(--lgam-pad-left-std);
+  background-color: #000080;
+  color: #ffffff;
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: var(--lgam-font-std);
+  font-weight: 700;
+  line-height: var(--lgam-lh-std);
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.lgam-domain-card__content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: #ffffff;
+}
+
+.lgam-domain-card__domain,
+.govuk-template__body a.lgam-domain-card__domain,
+.govuk-template__body a.lgam-domain-card__domain:visited {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: var(--lgam-pad-right-std);
+  background: #ffffff;
+  color: #0b0c0c;
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: var(--lgam-font-std);
+  font-weight: 700;
+  line-height: var(--lgam-lh-std);
+  text-decoration: none;
+}
+
+.lgam-domain-card__domain--contextual,
+.govuk-template__body a.lgam-domain-card__domain--contextual,
+.govuk-template__body a.lgam-domain-card__domain--contextual:visited {
+  background: #f8f8f8;
+}
+
+.lgam-domain-card__domain-text {
+  min-width: 0;
+  overflow-wrap: break-word;
+}
+
+.lgam-domain-card__arrow {
+  color: #505a5f;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.lgam-domain-card__domain:hover,
+.govuk-template__body a.lgam-domain-card__domain:hover {
+  background: #f8f8f8;
+  color: #0b0c0c;
+}
+
+.lgam-domain-card__domain--contextual:hover,
+.govuk-template__body a.lgam-domain-card__domain--contextual:hover {
+  background: #f0f0f0;
+  color: #0b0c0c;
+}
+
+.lgam-domain-card__domain:hover .lgam-domain-card__domain-text {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.lgam-domain-card__domain:focus,
+.lgam-domain-card__domain:focus-visible,
+.govuk-template__body a.lgam-domain-card__domain:focus,
+.govuk-template__body a.lgam-domain-card__domain:focus-visible {
+  outline: 3px solid #ffdd00 !important;
+  outline-offset: -3px !important;
+  box-shadow: inset 0 0 0 2px #0b0c0c !important;
+  background: #ffffff !important;
+  color: #0b0c0c !important;
+}
+
+.lgam-domain-card__details {
+  margin: 0;
+  border-top: 1px solid #e2e4e5;
+  background: #ffffff;
+}
+
+.lgam-domain-card__summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.35;
+  color: #1d70b8;
+  cursor: pointer;
+  user-select: none;
+}
+.lgam-domain-card__summary::-webkit-details-marker {
+  display: none;
+}
+.lgam-domain-card__summary::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4.5px 0 4.5px 7px;
+  border-color: transparent transparent transparent #1d70b8;
+  flex-shrink: 0;
+  transition: transform 0.12s ease;
+}
+.lgam-domain-card__summary:hover {
+  color: #003078;
+  background: #f8f8f8;
+}
+.lgam-domain-card__summary:hover span {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.lgam-domain-card__summary:focus-visible {
+  outline: 3px solid #ffdd00;
+  outline-offset: -3px;
+  background: #ffdd00;
+  color: #0b0c0c;
+  box-shadow: inset 0 0 0 2px #0b0c0c;
+}
+.lgam-domain-card__summary:focus-visible::before {
+  border-left-color: #0b0c0c;
+}
+
+.lgam-domain-card__details[open] > .lgam-domain-card__summary::before {
+  transform: rotate(90deg);
+}
+
+.lgam-domain-card__body {
+  padding: 2px 10px 10px 24px;
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #383f43;
+}
+
+.lgam-domain-card__definition {
+  margin: 0;
+  border-top: 1px solid #e2e4e5;
+  padding: 6px 10px 8px;
+  background: #ffffff;
+  font-family: "GDS Transport", arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #383f43;
+}
+
+.lgam-domain-card--static .lgam-domain-card__definition {
+  flex: 1 0 auto;
+}
+
+/* Layer colour modifiers — canonical LGAM taxonomy colours */
+.lgam-domain-card--public-channels {
+  border-color: #CC00CC;
+}
+.lgam-domain-card--public-channels .lgam-domain-card__layer {
+  background-color: #CC00CC;
+}
+
+.lgam-domain-card--council-interfaces {
+  border-color: #800080;
+}
+.lgam-domain-card--council-interfaces .lgam-domain-card__layer {
+  background-color: #800080;
+}
+
+.lgam-domain-card--capabilities {
+  border-color: #000080;
+}
+.lgam-domain-card--capabilities .lgam-domain-card__layer {
+  background-color: #000080;
+}
+
+.lgam-domain-card--business-areas {
+  border-color: #0000FF;
+}
+.lgam-domain-card--business-areas .lgam-domain-card__layer {
+  background-color: #0000FF;
+}
+
+.lgam-domain-card--corporate-areas {
+  border-color: #696969;
+}
+.lgam-domain-card--corporate-areas .lgam-domain-card__layer {
+  background-color: #696969;
+}
+
+.lgam-domain-card--foundational-technology {
+  border-color: #008080;
+}
+.lgam-domain-card--foundational-technology .lgam-domain-card__layer {
+  background-color: #008080;
+}
+
+.lgam-domain-card--integration {
+  border-color: #6B6B00;
+}
+.lgam-domain-card--integration .lgam-domain-card__layer {
+  background-color: #6B6B00;
+}
+
+.lgam-domain-card--security {
+  border-color: #CC0000;
+}
+.lgam-domain-card--security .lgam-domain-card__layer {
+  background-color: #CC0000;
+}
+
+.lgam-domain-card--data {
+  border-color: #800000;
+}
+.lgam-domain-card--data .lgam-domain-card__layer {
+  background-color: #800000;
+}
+
+/* ==========================================================================
+   LGAM - LAYER CARD
+   A vertical linked definition card in the LGAM visual family, pairing a
+   solid layer-coloured header band (layer name + right-aligned arrow) with a
+   crisp white body carrying the canonical layer definition.
+   The whole card is wrapped in an <a> tag using phrasing-only elements.
+
+   Usage:
+     <a href="#capabilities" class="lgam-layer-card lgam-layer-card--capabilities">
+       <span class="lgam-layer-card__header">
+         <span class="lgam-layer-card__title">Capabilities</span>
+         <span class="lgam-layer-card__arrow" aria-hidden="true">&#8594;</span>
+       </span>
+       <span class="govuk-visually-hidden">: </span>
+       <span class="lgam-layer-card__body">Capabilities used by council's interfaces to help them meet the needs of their service users.</span>
+     </a>
+
+   Modifiers:
+     .lgam-layer-card--[layer] — sets outer border and header band colour
+   ========================================================================== */
+.lgam-layer-card {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid #1d70b8;
+  border-radius: 0;
+  background: #ffffff;
+  text-decoration: none;
+  font-family: "GDS Transport", arial, sans-serif;
+  color: #0b0c0c;
+}
+.lgam-layer-card:hover .lgam-layer-card__title {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.lgam-layer-card:hover .lgam-layer-card__body {
+  background: #f8f8f8;
+}
+
+.lgam-layer-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: #1d70b8;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.lgam-layer-card__title {
+  min-width: 0;
+}
+
+.lgam-layer-card__arrow {
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.lgam-layer-card__body {
+  display: block;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: #0b0c0c;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+/* Beat .govuk-template__body a:focus specificity in _index.scss */
+.lgam-layer-card:focus,
+.lgam-layer-card:focus-visible,
+.govuk-template__body a.lgam-layer-card:focus,
+.govuk-template__body a.lgam-layer-card:focus-visible {
+  outline: 3px solid #ffdd00 !important;
+  outline-offset: 0 !important;
+  box-shadow: inset 0 0 0 2px #0b0c0c !important;
+  background: #ffffff !important;
+  color: #0b0c0c !important;
+}
+
+/* Layer colour modifiers — using canonical LGAM taxonomy colours */
+.lgam-layer-card--public-channels {
+  border-color: #CC00CC;
+}
+.lgam-layer-card--public-channels .lgam-layer-card__header {
+  background-color: #CC00CC;
+}
+
+.lgam-layer-card--council-interfaces {
+  border-color: #800080;
+}
+.lgam-layer-card--council-interfaces .lgam-layer-card__header {
+  background-color: #800080;
+}
+
+.lgam-layer-card--capabilities {
+  border-color: #000080;
+}
+.lgam-layer-card--capabilities .lgam-layer-card__header {
+  background-color: #000080;
+}
+
+.lgam-layer-card--business-areas {
+  border-color: #0000FF;
+}
+.lgam-layer-card--business-areas .lgam-layer-card__header {
+  background-color: #0000FF;
+}
+
+.lgam-layer-card--corporate-areas {
+  border-color: #696969;
+}
+.lgam-layer-card--corporate-areas .lgam-layer-card__header {
+  background-color: #696969;
+}
+
+.lgam-layer-card--foundational-technology {
+  border-color: #008080;
+}
+.lgam-layer-card--foundational-technology .lgam-layer-card__header {
+  background-color: #008080;
+}
+
+.lgam-layer-card--integration {
+  border-color: #6B6B00;
+}
+.lgam-layer-card--integration .lgam-layer-card__header {
+  background-color: #6B6B00;
+}
+
+.lgam-layer-card--security {
+  border-color: #CC0000;
+}
+.lgam-layer-card--security .lgam-layer-card__header {
+  background-color: #CC0000;
+}
+
+.lgam-layer-card--data {
+  border-color: #800000;
+}
+.lgam-layer-card--data .lgam-layer-card__header {
+  background-color: #800000;
+}
+
+/* ==========================================================================
        MAIN PRODUCT HEADER
        Full Width Blue Banner
        ========================================================================== */

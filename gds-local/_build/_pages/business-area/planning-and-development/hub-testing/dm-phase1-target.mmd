@@ -1,0 +1,57 @@
+---
+title: "Best practice: composable rules-as-code frontend"
+config:
+  layout: dagre
+  theme: base
+  flowchart:
+    curve: monotoneX
+  themeVariables:
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+
+flowchart LR
+    subgraph user["User"]
+        applicant["`**Applicant or agent**`"]
+    end
+
+    subgraph service["Submission"]
+        submission["`**Rules-as-code submission**
+        Questions adapt to answers`"]
+    end
+
+    subgraph supporting["Supporting services"]
+        address["`**Address gazetteer**`"]
+        geo["`**Geospatial service**`"]
+        payment["`**Payment service**`"]
+    end
+
+    subgraph council["Service"]
+        workflow["`**Workflow system**`"]
+    end
+
+    applicant --> submission
+    submission -.->|"Matches address to UPRN"| address
+    submission -.->|"Shows site constraints"| geo
+    submission -.->|"Calculates and takes fee"| payment
+    submission -->|"Structured data"| workflow
+
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef better fill:#00703c,stroke:#00703c,stroke-width:2px,color:#ffffff
+    classDef live fill:#d2e2f1,stroke:#1d70b8,stroke-width:2px,color:#0b0c0c
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class applicant person
+    class submission better
+    class address,geo,payment live
+    class workflow system
+
+    linkStyle 0 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 1 stroke:#1d70b8,stroke-width:2px
+    linkStyle 2 stroke:#1d70b8,stroke-width:2px
+    linkStyle 3 stroke:#1d70b8,stroke-width:2px
+    linkStyle 4 stroke:#00703c,stroke-width:3px

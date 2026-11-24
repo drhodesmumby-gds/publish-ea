@@ -1,0 +1,59 @@
+---
+config:
+  layout: dagre
+  theme: base
+  markdownAutoWrap: true
+  flowchart:
+    curve: monotoneX
+  themeVariables:
+
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+
+flowchart LR
+    subgraph council["Council"]
+        officer["`**Case officer**`"]
+        case["`**Case management**
+        Decision recorded as data`"]
+    end
+
+    subgraph outputs["Triggered by the decision"]
+        notice["`**Decision notice**
+        Generated from the record`"]
+        notify["`**Notifications**
+        Applicant and interested parties`"]
+        register["`**Public register**`"]
+    end
+
+    subgraph external["External"]
+        pdp["`**Planning Data Platform**`"]
+        pins["`**Planning Inspectorate**
+        If appealed`"]
+    end
+
+    officer -->|"Records decision"| case
+    case --> notice
+    case --> notify
+    case --> register
+    case -->|"Decision data to national standard"| pdp
+    pins -.->|"Retrieves case record (planned)"| case
+
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef better fill:#00703c,stroke:#00703c,stroke-width:2px,color:#ffffff
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class officer,pins,pdp person
+    class case better
+    class notice,notify,register system
+
+    linkStyle 0 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 1 stroke:#00703c,stroke-width:3px
+    linkStyle 2 stroke:#00703c,stroke-width:3px
+    linkStyle 3 stroke:#00703c,stroke-width:3px
+    linkStyle 4 stroke:#00703c,stroke-width:3px
+    linkStyle 5 stroke:#1d70b8,stroke-width:2px

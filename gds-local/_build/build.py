@@ -501,12 +501,16 @@ def main():
         sys.exit(1)
 
     page_files = []
+    mmd_files = []
     for root_dir, _, files in os.walk(PAGES_DIR):
         for f in files:
+            rel_path = os.path.relpath(os.path.join(root_dir, f), PAGES_DIR)
             if f.endswith(".html"):
-                rel_path = os.path.relpath(os.path.join(root_dir, f), PAGES_DIR)
                 page_files.append(rel_path)
+            elif f.endswith(".mmd"):
+                mmd_files.append(rel_path)
     page_files = sorted(page_files)
+    mmd_files = sorted(mmd_files)
 
     if not page_files:
         print("No page sources found in _pages/")
@@ -520,7 +524,8 @@ def main():
     pages_meta = []
 
     published_targets = {}
-    
+    published_dirs = {}
+
     for filename in page_files:
         filepath = os.path.join(PAGES_DIR, filename)
         fm, blocks = parse_page(filepath)
@@ -548,6 +553,7 @@ def main():
                 print(f"\nERROR: Multiple published files target '{target}': {published_targets[target]} and {filename}", file=sys.stderr)
                 sys.exit(1)
             published_targets[target] = filename
+            published_dirs.setdefault(os.path.dirname(filename), set()).add(os.path.dirname(target))
 
             os.makedirs(os.path.dirname(root_path), exist_ok=True)
             with open(root_path, "w", encoding="utf-8") as f:
@@ -593,6 +599,21 @@ def main():
                         f.write(redirect_html)
 
         pages_meta.append((filename, fm))
+
+    # Copy sibling Mermaid diagram files (.mmd) to preview (and to published target dirs)
+    if mmd_files:
+        print("\nDiagrams:")
+    for mmd_rel in mmd_files:
+        mmd_src = os.path.join(PAGES_DIR, mmd_rel)
+        mmd_preview = os.path.join(PREVIEW_DIR, mmd_rel)
+        os.makedirs(os.path.dirname(mmd_preview), exist_ok=True)
+        shutil.copy2(mmd_src, mmd_preview)
+        src_dir = os.path.dirname(mmd_rel)
+        for target_dir in sorted(published_dirs.get(src_dir, ())):
+            mmd_root = os.path.join(GDS_LOCAL_DIR, target_dir, os.path.basename(mmd_rel))
+            os.makedirs(os.path.dirname(mmd_root), exist_ok=True)
+            shutil.copy2(mmd_src, mmd_root)
+        print(f"  [diagram]    {mmd_rel}")
 
     # Update index.html links (published + modified get links, draft doesn't)
     print("\nUpdating index.html links...")

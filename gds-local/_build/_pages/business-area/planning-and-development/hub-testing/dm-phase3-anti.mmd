@@ -1,0 +1,57 @@
+---
+config:
+  layout: dagre
+  theme: base
+  markdownAutoWrap: true
+  flowchart:
+    curve: monotoneX
+    rankSpacing: 30
+    nodeSpacing: 30
+    padding: 10
+    wrappingWidth: 120
+  themeVariables:
+    primaryTextColor: "#0b0c0c"
+    lineColor: "#0b0c0c"
+    edgeLabelBackground: "#ffffff"
+    clusterBkg: "#f3f2f1"
+    clusterBorder: "#f3f2f1"
+    titleColor: "#0b0c0c"
+---
+
+flowchart LR
+    subgraph people["Actors"]
+        officer["`**Case officer**`"]
+        public["`**The public**`"]
+    end
+
+    subgraph council["Council systems"]
+        register["`**Public register**`"]
+        workflow["`**Workflow system**
+        Shared by public and officers`"]
+    end
+
+    subgraph external["External"]
+        consultees["`**Statutory consultees**`"]
+    end
+
+    workflow -->|"`Requests by email`"| consultees
+    consultees -->|"`Responses by email`"| officer
+    public --> register
+    register -->|"`High demand`"| workflow
+    officer -->|"`Re-keys responses and conditions`"| workflow
+
+    classDef person fill:#0b0c0c,stroke:#0b0c0c,stroke-width:2px,color:#ffffff
+    classDef external fill:#ffffff,stroke:#0b0c0c,stroke-width:3px,color:#0b0c0c
+    classDef anti fill:#d4351c,stroke:#d4351c,stroke-width:2px,color:#ffffff
+    classDef system fill:#ffffff,stroke:#505a5f,stroke-width:2px,color:#0b0c0c
+
+    class public,officer person
+    class consultees external
+    class workflow anti
+    class register system
+
+    linkStyle 0 stroke:#d4351c,stroke-width:3px
+    linkStyle 1 stroke:#d4351c,stroke-width:3px
+    linkStyle 2 stroke:#0b0c0c,stroke-width:3px
+    linkStyle 3 stroke:#d4351c,stroke-width:3px
+    linkStyle 4 stroke:#d4351c,stroke-width:3px
